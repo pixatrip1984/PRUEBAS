@@ -5,7 +5,13 @@ import os
 import sys
 import time
 
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+if hasattr(sys.stderr, "reconfigure"):
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+
 import numpy as np
+import pandas  # noqa: F401 — must import before sklearn to prevent pyarrow access-violation on Windows
 import torch
 import torch.nn as nn
 from sklearn.metrics import accuracy_score, classification_report, f1_score
