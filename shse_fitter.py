@@ -71,6 +71,11 @@ class SHSEFitter(nn.Module):
         self.B = nn.Parameter(torch.zeros(value_dim))
         self.reset_parameters()
 
+        # Persistent Adam for W and B so moment estimates accumulate across batches.
+        # Created lazily on the first training call to fit().
+        self._wb_optimizer: Optional[torch.optim.Adam] = None
+
+
     def reset_parameters(self):
         nn.init.xavier_uniform_(self.W)
         nn.init.zeros_(self.B)
@@ -163,16 +168,31 @@ class SHSEFitter(nn.Module):
             embeddings = nn.Parameter(torch.zeros(num_nodes, self.latent_dim, device=targets.device, dtype=targets.dtype))
             nn.init.normal_(embeddings, mean=0.0, std=0.02)
 
-            optimizer = torch.optim.Adam([self.W, self.B, embeddings], lr=lr)
+            # W/B use a persistent optimizer so Adam's moment estimates accumulate
+            # across batches — a fresh optimizer each batch would reset the moments
+            # and effectively reduce Adam to noisy SGD for the shared weights.
+            if self.training:
+                if self._wb_optimizer is None:
+                    self._wb_optimizer = torch.optim.Adam([self.W, self.B], lr=lr)
+                wb_opt = self._wb_optimizer
+            else:
+                wb_opt = None
+
+            emb_opt = torch.optim.Adam([embeddings], lr=lr)
             final_loss = torch.tensor(float("inf"), device=targets.device, dtype=targets.dtype)
-            pred = targets
 
             for step_idx in range(1, max_steps + 1):
-                optimizer.zero_grad(set_to_none=True)
+                if wb_opt is not None:
+                    wb_opt.zero_grad(set_to_none=True)
+                emb_opt.zero_grad(set_to_none=True)
+
                 pred = self.predict_node(targets, edge_index, embeddings)
                 final_loss = F.mse_loss(pred[mask], targets[mask])
                 final_loss.backward()
-                optimizer.step()
+
+                if wb_opt is not None:
+                    wb_opt.step()
+                emb_opt.step()
 
                 if float(final_loss.detach().cpu()) < threshold:
                     break
@@ -212,7 +232,15 @@ def generate_random_mask(batch, mask_ratio: float = 0.25) -> torch.Tensor:
 def build_shse_gnn_features(batch, fitted: SHSEFitResult, value_dim: int = 9) -> torch.Tensor:
     """
     Compose v2 GNN node features:
-      reconstructed values | uncertainty | SHSE embeddings | fixed sphere xyz
+      raw market values | uncertainty | SHSE embeddings | fixed sphere xyz
+
+    The Fibonacci sphere places consecutive timesteps at ~137.5° apart (golden
+    angle), so sphere-nearest-neighbours are NOT temporally adjacent.  Using the
+    sphere-reconstructed values (attention-weighted average of temporally random
+    neighbours) as primary node features destroys the temporal patterns the GNN
+    needs.  We keep the raw IQR-normalised values and add SHSE uncertainty and
+    embeddings as auxiliary relational context on top.
     """
+    raw_values = batch.x[:, :value_dim]               # actual market features
     sphere_xyz = batch.x[:, value_dim : value_dim + 3]
-    return torch.cat([fitted.values, fitted.uncertainty, fitted.embeddings, sphere_xyz], dim=-1)
+    return torch.cat([raw_values, fitted.uncertainty, fitted.embeddings, sphere_xyz], dim=-1)
