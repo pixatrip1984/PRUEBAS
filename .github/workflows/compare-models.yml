@@ -1,0 +1,89 @@
+name: Compare models experiment
+
+on:
+  workflow_dispatch:
+    inputs:
+      epochs:
+        description: "Training epochs"
+        required: true
+        default: "15"
+      step:
+        description: "Dataset stride in minutes"
+        required: true
+        default: "10"
+      batch_size:
+        description: "Batch size"
+        required: true
+        default: "32"
+      max_train:
+        description: "Max train samples; use none for full train split"
+        required: true
+        default: "none"
+      shse_steps:
+        description: "SHSE inner max steps"
+        required: true
+        default: "50"
+      shse_lr:
+        description: "SHSE inner learning rate"
+        required: true
+        default: "0.01"
+      shse_threshold:
+        description: "SHSE convergence threshold"
+        required: true
+        default: "0.001"
+      no_download:
+        description: "Skip data download if data is already present in runner"
+        type: boolean
+        required: true
+        default: false
+
+jobs:
+  compare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Cache BTC data
+        uses: actions/cache@v4
+        with:
+          path: data/btc_3m
+          key: btc-3m-oct-dec-2024-v1
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+          pip install torch_geometric pyarrow pandas numpy scikit-learn requests tqdm
+
+      - name: Compile Python files
+        run: |
+          python -m py_compile shse_fitter.py shse_encoder.py btc_gnn_dataset.py btc_gnn_model.py compare_models.py train_btc.py btc_transformer_dataset.py btc_transformer_model.py
+
+      - name: Run compare_models.py
+        shell: bash
+        run: |
+          set -o pipefail
+          CMD="python -u compare_models.py --epochs ${{ inputs.epochs }} --step ${{ inputs.step }} --batch-size ${{ inputs.batch_size }} --shse-steps ${{ inputs.shse_steps }} --shse-lr ${{ inputs.shse_lr }} --shse-threshold ${{ inputs.shse_threshold }}"
+          if [ "${{ inputs.no_download }}" = "true" ]; then
+            CMD="$CMD --no-download"
+          fi
+          if [ "${{ inputs.max_train }}" != "none" ]; then
+            CMD="$CMD --max-train ${{ inputs.max_train }}"
+          fi
+          echo "$CMD" | tee compare_models_run.log
+          eval "$CMD" 2>&1 | tee -a compare_models_run.log
+
+      - name: Upload compare log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: compare-models-log
+          path: compare_models_run.log
