@@ -1,0 +1,47 @@
+# Data files (heavy)
+data/
+*.parquet
+*.zip
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Checkpoints
+checkpoints/
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/
+
+# HTML files
+*.html
+aproximador_latente_predictivo.html
+modos_vibracion_tcq.html
+preview (1).html
+
+# Node.js
+node_modules/
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+temp/
+tmp/
