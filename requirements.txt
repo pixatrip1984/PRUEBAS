@@ -1,0 +1,12 @@
+numpy
+scipy
+pandas
+scikit-learn
+statsmodels
+nolds
+matplotlib
+torch
+torch_geometric
+pyarrow
+requests
+tqdm
