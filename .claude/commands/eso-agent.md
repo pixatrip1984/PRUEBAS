@@ -327,27 +327,102 @@ Luego decide qué área del backlog (§4) atacar esta sesión.
 
 ---
 
-## 9. Notas de contexto histórico
+## 9. Conocimiento acumulado sobre BTC — estado al 2026-05-12
 
-- El proyecto viene de **SHSE** (Spherical Harmonic Space Encoder), que asumía geometría esférica fija.
-- ESO generaliza SHSE: primero diagnostica, luego prueba geometrías candidatas.
-- La transición SHSE → ESO fue motivada por la observación de que los vecinos angulares k-NN en una esfera no preservan vecindad temporal en datos de mercado.
-- Los datos en `data/` incluyen BTCUSDT en múltiples timeframes (1h confirmado, posiblemente 15m, 5m).
-- El registry en `experiments/eso_registry.csv` ya tiene runs de BTCUSDT_1h_reduced con cylinder ganando (reconstruction_error ≈ 0.017).
-- Los módulos en `legacy/` son el código SHSE original; no tocar sin justificación.
+### Datos disponibles
+- `data/BTCUSDT_1h.csv`: 46,570 filas, 2021-01-01 → 2026-04-25, columnas ricas: OHLCV + vwap, n_trades, taker_buy_volume, taker_sell_volume, delta
+- `data/btc_3m/splits/train.parquet`: 92,736 filas, formato Binance Klines (usar `--klines-format`)
+
+### Hallazgos geométricos validados (features compactas: log_return + vol_20 + vwap_dev + volume_imbalance)
+
+**Capa 1 — proyección lineal (SVD):**
+- Todos los manifolds curvos son peores que flat
+- Mejor curved en ambient=3: `klein_bottle` (1.78x flat) — estable en 3 regímenes
+- Mejor curved en ambient=2: `hyperbolic` (2.36x flat) — mejor que torus, circle, cone
+- `s1_r2`, `s2_r` son muy malos bajo SVD (>18x) — el constraint circular destruye vecindad
+
+**Capa 2 — proyección no-lineal (UMAP):**
+- `s1_r2` mejora de 20x→2.1x (stable 2.0-2.4x en los 3 regímenes: 2021/2022/2024)
+- `s2_r` mejora de 19x→2.2x (pero variable: 1.86x early, 3.68x late)
+- `torus2`, `cone`, `hyperbolic` empeoran con UMAP (SVD es mejor para ellos)
+- Ningún manifold ha superado el baseline plano (< 1.0x) todavía
+
+**Hallazgo clave — el anillo:**
+- UMAP-2D sobre los 4 features compactos: **radius CV = 0.279** (< 0.3 = estructura anular)
+- SVD-2D: radius CV = 0.823 (sin anillo visible)
+- Conclusión: BTC tiene un S¹ no-lineal que SVD aplasta
+
+**UMAP-3D descompone los features limpiamente:**
+- Dim 0: log_return (-0.81) + vwap_dev (-0.78) + volume_imbalance (-0.66) → **dirección**
+- Dim 1: vol_20 (0.83) → **volatilidad**
+- Dim 2: volume_imbalance (-0.79) → **flujo de órdenes**
+
+### Comandos de survey estándar
+
+```bash
+# Survey completo (17 manifolds, 3 métodos):
+python -m eso.cli explore data/BTCUSDT_1h.csv \
+  --feature-mode compact --skip-rows 36000 --max-rows 10000 \
+  --manifolds circle sphere2 sphere3 torus2 cylinder cone klein_bottle \
+             mobius hyperbolic h2_r s1_r2 s2_r t2_r s2_s1 plane2d plane3d plane4d \
+  --k 8 --n-masks 5 --seed 123 \
+  --projection-method umap --proj-neighbors 15 \
+  --output reports/survey_umap_late
+
+# Diagnóstico rápido de anillo:
+python -c "
+import pandas as pd, numpy as np, warnings; warnings.filterwarnings('ignore')
+from eso.data.features import build_financial_features, feature_column_groups
+from eso.data.preprocess import normalize
+import umap
+raw = pd.read_csv('data/BTCUSDT_1h.csv').tail(10000).reset_index(drop=True)
+feat = build_financial_features(raw)
+cols = [c for c in feature_column_groups()['compact'] if c in feat.columns]
+data = normalize(feat[cols].dropna().to_numpy(dtype=float), method='robust')
+r2 = umap.UMAP(n_components=2, n_neighbors=15, min_dist=0.1, random_state=42).fit_transform(data)
+r = np.sqrt(r2[:,0]**2 + r2[:,1]**2)
+print(f'UMAP-2D ring CV={np.std(r)/np.mean(r):.3f}  (< 0.3 = anillo = S1 presente)')
+"
+```
+
+### Contexto histórico
+- Origen: **SHSE** (esfera fija) → ESO (geometría libre)
+- SVD proyección lineal es ciego a geometría no-lineal
+- `legacy/` = código SHSE original, no tocar sin justificación
 
 ---
 
-## 10. Próximo experimento sugerido para empezar
+## 10. Próximos experimentos sugeridos
 
-**Hipótesis de arranque:**
-> "BTCUSDT 1h con features de retornos (log_return, volatility, volume_imbalance) muestra una geometría más estable y de menor dimensión intrínseca que con OHLCV crudo, porque los retornos son aproximadamente estacionarios mientras el precio tiene tendencia."
+### Prioridad alta: extraer el anillo como feature de ciclo
+
+**Hipótesis:**
+> "El ángulo θ del embedding UMAP-2D es una coordenada de fase del ciclo de mercado BTC. Si lo usamos como feature explícita, los modelos predictivos mejoran en precisión de timing."
+
+**Rama:** `feat/cycle-feature-extraction`
 
 **Pasos:**
-1. Crear `eso/data/features.py` con `build_financial_features(df)`
-2. Añadir test en `tests/test_features.py`
-3. Correr ESO sobre BTCUSDT 1h con features derivadas
-4. Comparar `reconstruction_error` y `consensus_dimension` contra el run base en el registry
-5. Documentar hallazgo
+1. Crear `eso/signals/cycle.py` con `extract_cycle_phase(df, n_neighbors=15, seed=42) -> pd.Series`
+   - Aplica UMAP-2D sobre compact features
+   - Calcula θ = arctan2(y, x) como coordenada de fase
+   - Devuelve serie temporal de θ con timestamps
+2. Validar que θ es periódico: FFT sobre θ, identificar frecuencias dominantes
+3. Correlacionar θ con price action futura (sin data leakage)
+4. Guardar fase + confianza en `reports/*/cycle_phase.csv`
 
-**Rama:** `feat/data-financial-features`
+### Prioridad media: ¿qué periodo tiene el anillo?
+
+**Hipótesis:**
+> "El ciclo S¹ en BTC features corresponde a un periodo de mercado conocido (semanal / mensual / ciclo de 4 años)."
+
+**Rama:** `exp/cycle-period-analysis`
+
+**Pasos:**
+1. Calcular θ(t) sobre el dataset completo (46k filas)
+2. Calcular velocidad angular dθ/dt
+3. Estimar periodo: T = 2π / mean(|dθ/dt|)
+4. Comparar con periodos conocidos (24h, 7d, 28d, ~4 años)
+
+### Prioridad baja: ¿puede s1_r2-UMAP llegar a < 1.0x?
+
+Actualmente s1_r2-UMAP = 2.0-2.4x. Para < 1.0x necesitamos features que expongan el ciclo explícitamente. Usar la fase θ como feature y re-evaluar.
