@@ -79,6 +79,35 @@ def build_financial_features(
     return out
 
 
+def prepare_btc_klines(df: pd.DataFrame) -> pd.DataFrame:
+    """Normalise Binance Klines DataFrames (1m/3m/5m/15m) to the column schema
+    expected by build_financial_features().
+
+    Maps: taker_buy_base_asset_volume -> taker_buy_volume,
+          derives taker_sell_volume = volume - taker_buy,
+          derives vwap = quote_asset_volume / volume,
+          derives delta = taker_buy - taker_sell,
+          renames number_of_trades -> n_trades.
+    """
+    out = df.copy()
+    rename = {
+        "taker_buy_base_asset_volume": "taker_buy_volume",
+        "number_of_trades": "n_trades",
+        "quote_asset_volume": "volume_usd",
+    }
+    out = out.rename(columns={k: v for k, v in rename.items() if k in out.columns})
+
+    if "taker_buy_volume" in out.columns and "volume" in out.columns:
+        out["taker_sell_volume"] = out["volume"] - out["taker_buy_volume"]
+        out["delta"] = out["taker_buy_volume"] - out["taker_sell_volume"]
+
+    if "vwap" not in out.columns and "volume_usd" in out.columns and "volume" in out.columns:
+        eps = 1e-9
+        out["vwap"] = out["volume_usd"] / (out["volume"] + eps)
+
+    return out
+
+
 def feature_column_groups() -> dict[str, list[str]]:
     """Return named column groups for focused ESO experiments."""
     return {

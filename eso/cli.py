@@ -7,7 +7,7 @@ import json
 import sys
 from pathlib import Path
 
-from eso.data.features import build_financial_features, feature_column_groups
+from eso.data.features import build_financial_features, feature_column_groups, prepare_btc_klines
 from eso.data.loader import load_dataset, read_table
 from eso.data.validation import validate_dataframe
 from eso.diagnostics.report import run_diagnosis
@@ -46,10 +46,25 @@ def cmd_inspect(args) -> int:
     return 0
 
 
+def _maybe_klines(df, klines_format: bool) -> "pd.DataFrame":
+    import pandas as pd
+    if klines_format:
+        return prepare_btc_klines(df)
+    return df
+
+
+def _slice_rows(df, skip_rows, max_rows):
+    if skip_rows:
+        df = df.iloc[int(skip_rows):]
+    if max_rows:
+        df = df.head(int(max_rows))
+    return df.reset_index(drop=True)
+
+
 def cmd_diagnose(args) -> int:
     raw = read_table(args.path)
-    if args.max_rows:
-        raw = raw.head(args.max_rows)
+    raw = _maybe_klines(raw, getattr(args, "klines_format", False))
+    raw = _slice_rows(raw, getattr(args, "skip_rows", None), args.max_rows)
     raw, cols = _apply_feature_mode(raw, getattr(args, "feature_mode", None), _columns(args.columns))
     loaded = load_dataset(
         raw,
@@ -72,8 +87,8 @@ def cmd_diagnose(args) -> int:
 def cmd_explore(args) -> int:
     explorer = ESOExplorer(registry_path=args.registry)
     raw = read_table(args.path)
-    if args.max_rows:
-        raw = raw.head(args.max_rows)
+    raw = _maybe_klines(raw, getattr(args, "klines_format", False))
+    raw = _slice_rows(raw, getattr(args, "skip_rows", None), args.max_rows)
     raw, cols = _apply_feature_mode(raw, getattr(args, "feature_mode", None), _columns(args.columns))
     loaded = load_dataset(
         raw,
@@ -121,7 +136,10 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("path")
     p.add_argument("--columns", nargs="+")
     p.add_argument("--normalize", default="robust", choices=["none", "robust", "standard", "minmax"])
+    p.add_argument("--skip-rows", type=int, help="Skip first N rows (for temporal windowing)")
     p.add_argument("--max-rows", type=int)
+    p.add_argument("--klines-format", action="store_true",
+                   help="Normalise Binance Klines column names before feature engineering")
     p.add_argument("--window-size", type=int)
     p.add_argument("--window-step", type=int, default=1)
     p.add_argument("--window-mode", default="last", choices=["last", "mean", "flat"])
@@ -135,7 +153,10 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--dataset-id")
     p.add_argument("--columns", nargs="+")
     p.add_argument("--normalize", default="robust", choices=["none", "robust", "standard", "minmax"])
+    p.add_argument("--skip-rows", type=int, help="Skip first N rows (for temporal windowing)")
     p.add_argument("--max-rows", type=int)
+    p.add_argument("--klines-format", action="store_true",
+                   help="Normalise Binance Klines column names before feature engineering")
     p.add_argument("--window-size", type=int)
     p.add_argument("--window-step", type=int, default=1)
     p.add_argument("--window-mode", default="last", choices=["last", "mean", "flat"])

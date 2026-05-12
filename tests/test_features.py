@@ -80,3 +80,52 @@ def test_no_inf_values():
     df = _make_ohlcv(200)
     feat = build_financial_features(df)
     assert not np.isinf(feat.values).any(), "Infinite values found in features"
+
+
+# ── prepare_btc_klines ───────────────────────────────────────────────────────
+
+def _make_klines(n: int = 100) -> "pd.DataFrame":
+    """Simulate Binance Klines format (as in data/btc_3m/)."""
+    rng = np.random.default_rng(0)
+    close = 50000 * np.exp(np.cumsum(rng.normal(0, 0.001, n)))
+    volume = rng.uniform(10, 200, n)
+    taker_buy = volume * rng.uniform(0.4, 0.6, n)
+    return pd.DataFrame({
+        "open": close * (1 + rng.normal(0, 0.001, n)),
+        "high": close * 1.002,
+        "low": close * 0.998,
+        "close": close,
+        "volume": volume,
+        "quote_asset_volume": close * volume,
+        "number_of_trades": rng.integers(100, 2000, n).astype(float),
+        "taker_buy_base_asset_volume": taker_buy,
+        "taker_buy_quote_asset_volume": close * taker_buy,
+    })
+
+
+def test_prepare_btc_klines_renames_columns():
+    from eso.data.features import prepare_btc_klines
+    df = _make_klines(100)
+    out = prepare_btc_klines(df)
+    assert "taker_buy_volume" in out.columns
+    assert "taker_sell_volume" in out.columns
+    assert "delta" in out.columns
+    assert "vwap" in out.columns
+    assert "n_trades" in out.columns
+
+
+def test_prepare_btc_klines_taker_sell_sum_equals_volume():
+    from eso.data.features import prepare_btc_klines
+    df = _make_klines(100)
+    out = prepare_btc_klines(df)
+    diff = (out["taker_buy_volume"] + out["taker_sell_volume"] - out["volume"]).abs()
+    assert diff.max() < 1e-9, f"taker_buy + taker_sell != volume: max diff={diff.max()}"
+
+
+def test_klines_then_build_features_works():
+    from eso.data.features import prepare_btc_klines
+    df = _make_klines(200)
+    normed = prepare_btc_klines(df)
+    feat = build_financial_features(normed)
+    required = {"log_return", "vol_20", "vwap_dev", "volume_imbalance"}
+    assert required.issubset(set(feat.columns)), f"Missing: {required - set(feat.columns)}"
