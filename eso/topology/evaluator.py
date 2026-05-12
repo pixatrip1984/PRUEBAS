@@ -5,7 +5,6 @@ from __future__ import annotations
 from dataclasses import asdict, dataclass
 
 import numpy as np
-from sklearn.neighbors import NearestNeighbors
 
 from .manifolds import Manifold, get_manifold
 from .reconstruction import masked_neighbor_reconstruction, project_data_to_manifold
@@ -14,9 +13,13 @@ from .reconstruction import masked_neighbor_reconstruction, project_data_to_mani
 @dataclass
 class ManifoldEvaluation:
     manifold: str
+    manifold_dim: int
+    ambient_dim: int
     reconstruction_error: float
     smoothness: float
     latent_utilization: float
+    complexity_penalty: float
+    score: float
     n_points: int
     k: int
     mask_ratio: float
@@ -52,16 +55,34 @@ def latent_utilization(latent_points, bins: int = 12) -> float:
     return float(occupied / max(possible, 1))
 
 
-def evaluate_manifold(data, manifold: str | Manifold, k: int = 8, mask_ratio: float = 0.25, seed: int | None = None) -> dict:
+def _score(error: float, manifold_dim: int, ambient_dim: int, complexity_weight: float) -> tuple[float, float]:
+    penalty = complexity_weight * (float(manifold_dim) + 0.25 * float(ambient_dim))
+    base = error if np.isfinite(error) else np.inf
+    return float(base + penalty), float(penalty)
+
+
+def evaluate_manifold(
+    data,
+    manifold: str | Manifold,
+    k: int = 8,
+    mask_ratio: float = 0.25,
+    seed: int | None = None,
+    complexity_weight: float = 1e-8,
+) -> dict:
     mani = get_manifold(manifold) if isinstance(manifold, str) else manifold
     x = np.asarray(data, dtype=float)
     latent = project_data_to_manifold(x, mani)
     result = masked_neighbor_reconstruction(x, latent, mani, k=k, mask_ratio=mask_ratio, seed=seed)
+    score, penalty = _score(result.reconstruction_error, mani.dim, mani.ambient_dim, complexity_weight)
     eval_result = ManifoldEvaluation(
         manifold=mani.name,
+        manifold_dim=int(mani.dim),
+        ambient_dim=int(mani.ambient_dim),
         reconstruction_error=result.reconstruction_error,
         smoothness=graph_smoothness(x, result.edge_index),
         latent_utilization=latent_utilization(latent),
+        complexity_penalty=penalty,
+        score=score,
         n_points=int(len(x)),
         k=int(k),
         mask_ratio=float(mask_ratio),
@@ -71,6 +92,16 @@ def evaluate_manifold(data, manifold: str | Manifold, k: int = 8, mask_ratio: fl
     return out
 
 
-def rank_manifolds(data, manifolds: list[str], k: int = 8, mask_ratio: float = 0.25, seed: int | None = None) -> list[dict]:
-    results = [evaluate_manifold(data, m, k=k, mask_ratio=mask_ratio, seed=seed) for m in manifolds]
-    return sorted(results, key=lambda r: r["reconstruction_error"] if np.isfinite(r["reconstruction_error"]) else np.inf)
+def rank_manifolds(
+    data,
+    manifolds: list[str],
+    k: int = 8,
+    mask_ratio: float = 0.25,
+    seed: int | None = None,
+    complexity_weight: float = 1e-8,
+) -> list[dict]:
+    results = [
+        evaluate_manifold(data, m, k=k, mask_ratio=mask_ratio, seed=seed, complexity_weight=complexity_weight)
+        for m in manifolds
+    ]
+    return sorted(results, key=lambda r: r["score"] if np.isfinite(r["score"]) else np.inf)
