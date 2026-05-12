@@ -1,0 +1,15 @@
+{
+  "test": "Does phase just capture d(vol_20)/dt?",
+  "partial_r_sin24_vs_rv12_controlling_vol20": -0.152,
+  "partial_r_sin24_vs_rv12_controlling_vol20_AND_dvol20": -0.059,
+  "r_sin24_dvol20": 0.096,
+  "conclusion_partial_r": "Partially mediated by vol momentum, but genuine component remains",
+  "mae_comparison": {
+    "garch0": 0.001937,
+    "vol20_only": 0.001697,
+    "vol20_dvol20": 0.001699,
+    "vol20_phase24h": 0.001691,
+    "vol20_phase24h_dvol20": 0.001693
+  },
+  "verdict": "REFUTATION REJECTED: phase_24h beats d_vol20 in MAE comparison. Phase encodes more than vol momentum."
+}

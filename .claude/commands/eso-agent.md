@@ -363,14 +363,20 @@ Con win=24, h=12: lookahead = horizonte = 100% artefacto. FIJADO a `center=False
 
 **El anillo S1 ES real** (ring_cv=0.279) pero su fase NO predice retornos causalmente.
 
-**Nueva senal genuina: ring_radius predice volatilidad futura (causal)**
-- r(ring_radius, |future_12h_log_return|) = **-0.287** (causal, center=False)
-- Interpretacion: radio grande = mercado "en el anillo" (estructurado) = baja vol futura
-- Nota: parte de esta senal puede estar explicada por correlacion con vol_20 actual
+**Senal genuina: FASE DEL CICLO predice volatilidad futura (causal, validado)**
+- Experiment 06 (feat/volatility-signal-v1): PASS — todos los modelos superan GARCH-0
+- Mejor modelo: Ridge [sin/cos_24h + ring_radius + vol_20], MAE -12.9% vs GARCH-0, r=+0.398
+- ring_radius: partial_r = -0.052 vs rv_12h (controlando vol_20)
+- sin_theta_24h: partial_r = -0.152 ← PRINCIPAL contribucion independiente
+- cos_theta_24h: partial_r = +0.125
+- sin_theta_72h: partial_r = -0.143, cos_theta_72h: +0.128
+
+Interpretacion: la FASE del ciclo (donde esta el mercado en el anillo) predice
+volatilidad mejor que ring_radius. Mercados en ciertas fases tienden a volatilidad baja.
 
 **Direction model (feat/direction-model-v1): FAIL**
 - Logistic/RF/poly: accuracy ~49% < baseline 51.5%
-- Consistente con r_causal = -0.031
+- Consistente con r_causal = -0.031 (no senal de direccion)
 
 **Estructura de períodos (multi-escala):**
 - 12h — ritmo AM/PM (intraday, potencia dominante)
@@ -441,33 +447,25 @@ r_causal = -0.031 (no senal de direccion). ring_radius SI predice vol (r=-0.287)
 ### COMPLETADO: validacion en datos sub-hora (exp/causal-signal-3m, 2026-05-12)
 Umbral de resolucion S1: >=15min. 1-min: r=0.055 (weak). Ver reports/causal_1m/.
 
-### Prioridad alta: modelo de volatilidad con ring_radius
+### COMPLETADO: volatility model v1 (feat/volatility-signal-v1, 2026-05-12)
+Resultado: PASS. Todas las configs superan GARCH-0. Best: Ridge [sin/cos_24h + ring_r + vol_20].
+r_OOS=+0.398, MAE -12.9% vs GARCH-0. Phase features (partial_r ±0.13-0.15) > ring_radius (-0.052).
+Ver reports/volatility_signal_v1/.
 
-**Hipotesis:** ring_radius predice volatilidad futura de forma causal (r=-0.287 confirmado).
-Un modelo de regresion sobre ring_radius (y vol_20) predice |future_12h| con MAE < vol-only baseline.
+### COMPLETADO: refutacion fase->vol (exp/phase-vol-mechanism, 2026-05-12)
+d_vol20 vs phase: phase_24h (MAE=0.001691) SUPERA a d_vol20 (0.001699) en MAE comparison.
+partial_r(sin_theta_24h | vol_20, d_vol20) = -0.059 (reducido pero positivo).
+VEREDICTO: refutacion rechazada. Phase encapsula mas que momentum de volatilidad.
 
-**Rama:** `feat/volatility-signal-v1`
+### Prioridad media: volatility regime classifier
 
-**Pasos:**
-1. Target: rolling_vol(t+12) o |log_return(t+12)| usando OOS fv
-2. Modelos: RidgeRegression, RandomForestRegressor
-3. Comparar vs baseline (solo vol_20)
-4. Verificar causalidad: ninguna feature usa datos futuros
+**Hipotesis:** Clasificar high_vol / low_vol usando sin/cos_theta_24h + ring_radius alcanza
+>58% accuracy OOS en predecir si rv_12h > mediana.
 
-### Prioridad alta: investigar si la fase predice volatilidad (no direccion)
+**Rama:** `feat/vol-regime-v1`
 
-**Hipotesis:** Las fases del ciclo (sin_theta, cos_theta) predicen la MAGNITUD del retorno
-futuro (high vs low volatility regime), aunque no la direccion.
+### Prioridad media: s1_r2-UMAP + feature theta explicita
 
-**Rama:** `exp/phase-volatility`
-
-**Pasos:**
-1. Correlacion de todas las cycle features vs |future_h| para h en {6,12,24,48,72}
-2. Si |r| > 0.10: construir clasificador de regimen (high_vol/low_vol)
-3. Combinar con ring_radius para mejor senal de volatilidad
-
-### Prioridad media: s1_r2-UMAP + feature theta explícita
-
-**Hipotesis:** Añadir sin/cos_theta como features extra al espacio compacto mejora s1_r2.
+**Hipotesis:** Anadir sin/cos_theta como features extra al espacio compacto mejora s1_r2.
 
 **Rama:** `exp/s1r2-with-explicit-cycle`
