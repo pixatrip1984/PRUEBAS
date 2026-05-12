@@ -99,8 +99,14 @@ def cmd_explore(args) -> int:
         window_mode=args.window_mode,
     )
     feature_mode = getattr(args, "feature_mode", "raw") or "raw"
+    proj_method = getattr(args, "projection_method", "linear") or "linear"
+    proj_nbrs = getattr(args, "proj_neighbors", 15) or 15
     stem = Path(args.path).stem
-    dataset_id = args.dataset_id or (f"{stem}_{feature_mode}" if feature_mode != "raw" else stem)
+    proj_tag = f"_{proj_method}" if proj_method != "linear" else ""
+    dataset_id = args.dataset_id or (
+        f"{stem}_{feature_mode}{proj_tag}" if (feature_mode != "raw" or proj_method != "linear")
+        else stem
+    )
     report = explorer.explore(
         loaded.data,
         dataset_id=dataset_id,
@@ -111,9 +117,12 @@ def cmd_explore(args) -> int:
         seed=args.seed,
         save=not args.no_registry,
         validate=True,
+        projection_method=proj_method,
+        proj_neighbors=proj_nbrs,
     )
     report["dataset"] = loaded.info()
     report["feature_mode"] = feature_mode
+    report["projection_method"] = proj_method
     artifacts = write_report_bundle(report, loaded.data, args.output)
     print(json.dumps({"best": report.get("best"), "artifacts": artifacts}, indent=2, sort_keys=True))
     return 0
@@ -167,6 +176,11 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--mask-ratio", type=float, default=0.25)
     p.add_argument("--n-masks", type=int, default=5)
     p.add_argument("--seed", type=int, default=123)
+    p.add_argument("--projection-method", default="linear",
+                   choices=["linear", "umap", "isomap"],
+                   help="Embedding method before manifold projection (linear=SVD, umap, isomap)")
+    p.add_argument("--proj-neighbors", type=int, default=15,
+                   help="n_neighbors for UMAP/Isomap projection")
     p.add_argument("--output", default="reports/eso_run")
     p.add_argument("--registry", default="experiments/eso_registry.csv")
     p.add_argument("--no-registry", action="store_true")

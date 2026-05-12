@@ -39,8 +39,12 @@ class ESOExplorer:
     def suggest_manifolds(self, diagnosis: dict, candidates: list[str] | None = None) -> list[str]:
         return self.recommender.recommend(diagnosis, candidates or self.default_manifolds)
 
-    def test_manifold(self, data, manifold: str, k: int = 8, mask_ratio: float = 0.25, seed: int | None = None) -> dict:
-        return evaluate_manifold(data, manifold, k=k, mask_ratio=mask_ratio, seed=seed)
+    def test_manifold(
+        self, data, manifold: str, k: int = 8, mask_ratio: float = 0.25,
+        seed: int | None = None, projection_method: str = "linear",
+    ) -> dict:
+        return evaluate_manifold(data, manifold, k=k, mask_ratio=mask_ratio,
+                                 seed=seed, projection_method=projection_method)
 
     def explore(
         self,
@@ -53,13 +57,21 @@ class ESOExplorer:
         seed: int | None = None,
         save: bool = True,
         validate: bool = True,
+        projection_method: str = "linear",
+        proj_neighbors: int = 15,
     ) -> dict:
         diagnosis = self.diagnose(data)
         ordered = self.suggest_manifolds(diagnosis, manifolds)
         if validate:
-            evaluations = validate_manifolds(data, ordered, k=k, mask_ratio=mask_ratio, n_masks=n_masks, seed=seed)
+            evaluations = validate_manifolds(
+                data, ordered, k=k, mask_ratio=mask_ratio, n_masks=n_masks, seed=seed,
+                projection_method=projection_method, proj_neighbors=proj_neighbors,
+            )
         else:
-            evaluations = rank_manifolds(data, ordered, k=k, mask_ratio=mask_ratio, seed=seed)
+            evaluations = rank_manifolds(
+                data, ordered, k=k, mask_ratio=mask_ratio, seed=seed,
+                projection_method=projection_method, proj_neighbors=proj_neighbors,
+            )
 
         for rank, evaluation in enumerate(evaluations, start=1):
             evaluation["rank"] = rank
@@ -76,7 +88,11 @@ class ESOExplorer:
             "suggested_manifolds": ordered,
             "evaluations": evaluations,
             "best": best,
-            "config": {"k": k, "mask_ratio": mask_ratio, "n_masks": n_masks, "validate": validate},
+            "config": {
+                "k": k, "mask_ratio": mask_ratio, "n_masks": n_masks,
+                "validate": validate, "projection_method": projection_method,
+                "proj_neighbors": proj_neighbors,
+            },
         }
         self._last_report = report
         return report
