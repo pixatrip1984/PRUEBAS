@@ -1,5 +1,5 @@
-# Data files (heavy)
-data/
+# Data files (heavy) — only root-level /data/, not eso/data/ source code
+/data/
 *.parquet
 *.zip
 

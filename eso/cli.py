@@ -7,6 +7,7 @@ import json
 import sys
 from pathlib import Path
 
+from eso.data.features import build_financial_features, feature_column_groups
 from eso.data.loader import load_dataset, read_table
 from eso.data.validation import validate_dataframe
 from eso.diagnostics.report import run_diagnosis
@@ -16,6 +17,21 @@ from eso.reporting import write_report_bundle
 
 def _columns(values):
     return values if values else None
+
+
+def _apply_feature_mode(df, feature_mode: str | None, columns: list[str] | None):
+    """Optionally transform df using financial features before ESO processing."""
+    if not feature_mode or feature_mode == "raw":
+        return df, columns
+    feat = build_financial_features(df)
+    groups = feature_column_groups()
+    if feature_mode in groups:
+        cols = [c for c in groups[feature_mode] if c in feat.columns]
+    elif feature_mode == "full":
+        cols = [c for c in feat.columns]
+    else:
+        raise ValueError(f"Unknown feature-mode '{feature_mode}'. Choose: raw, " + ", ".join(groups))
+    return feat, cols
 
 
 def cmd_inspect(args) -> int:
@@ -31,17 +47,20 @@ def cmd_inspect(args) -> int:
 
 
 def cmd_diagnose(args) -> int:
+    raw = read_table(args.path)
+    if args.max_rows:
+        raw = raw.head(args.max_rows)
+    raw, cols = _apply_feature_mode(raw, getattr(args, "feature_mode", None), _columns(args.columns))
     loaded = load_dataset(
-        args.path,
-        columns=_columns(args.columns),
+        raw,
+        columns=cols,
         normalize_method=args.normalize,
-        max_rows=args.max_rows,
         window_size=args.window_size,
         window_step=args.window_step,
         window_mode=args.window_mode,
     )
     report = run_diagnosis(loaded.data)
-    out = {"dataset": loaded.info(), "diagnosis": report}
+    out = {"dataset": loaded.info(), "diagnosis": report, "feature_mode": getattr(args, "feature_mode", "raw")}
     print(report.get("summary", "diagnosis complete"))
     print(json.dumps(out, indent=2, sort_keys=True))
     if args.output:
@@ -52,16 +71,21 @@ def cmd_diagnose(args) -> int:
 
 def cmd_explore(args) -> int:
     explorer = ESOExplorer(registry_path=args.registry)
+    raw = read_table(args.path)
+    if args.max_rows:
+        raw = raw.head(args.max_rows)
+    raw, cols = _apply_feature_mode(raw, getattr(args, "feature_mode", None), _columns(args.columns))
     loaded = load_dataset(
-        args.path,
-        columns=_columns(args.columns),
+        raw,
+        columns=cols,
         normalize_method=args.normalize,
-        max_rows=args.max_rows,
         window_size=args.window_size,
         window_step=args.window_step,
         window_mode=args.window_mode,
     )
-    dataset_id = args.dataset_id or Path(args.path).stem
+    feature_mode = getattr(args, "feature_mode", "raw") or "raw"
+    stem = Path(args.path).stem
+    dataset_id = args.dataset_id or (f"{stem}_{feature_mode}" if feature_mode != "raw" else stem)
     report = explorer.explore(
         loaded.data,
         dataset_id=dataset_id,
@@ -74,6 +98,7 @@ def cmd_explore(args) -> int:
         validate=True,
     )
     report["dataset"] = loaded.info()
+    report["feature_mode"] = feature_mode
     artifacts = write_report_bundle(report, loaded.data, args.output)
     print(json.dumps({"best": report.get("best"), "artifacts": artifacts}, indent=2, sort_keys=True))
     return 0
@@ -90,6 +115,8 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--output")
     p.set_defaults(func=cmd_inspect)
 
+    _FEATURE_MODES = ["raw", "returns_only", "returns_vol", "microstructure", "compact", "full"]
+
     p = sub.add_parser("diagnose", help="Run blind diagnostics only")
     p.add_argument("path")
     p.add_argument("--columns", nargs="+")
@@ -98,6 +125,8 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--window-size", type=int)
     p.add_argument("--window-step", type=int, default=1)
     p.add_argument("--window-mode", default="last", choices=["last", "mean", "flat"])
+    p.add_argument("--feature-mode", default="raw", choices=_FEATURE_MODES,
+                   help="Transform input to financial features before diagnosing")
     p.add_argument("--output")
     p.set_defaults(func=cmd_diagnose)
 
@@ -110,6 +139,8 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--window-size", type=int)
     p.add_argument("--window-step", type=int, default=1)
     p.add_argument("--window-mode", default="last", choices=["last", "mean", "flat"])
+    p.add_argument("--feature-mode", default="raw", choices=_FEATURE_MODES,
+                   help="Transform input to financial features before exploring")
     p.add_argument("--manifolds", nargs="+", default=["circle", "sphere2", "torus2", "cylinder"])
     p.add_argument("--k", type=int, default=8)
     p.add_argument("--mask-ratio", type=float, default=0.25)

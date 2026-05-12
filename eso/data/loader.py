@@ -69,7 +69,7 @@ def make_windows(data, lookback: int, step: int = 1) -> np.ndarray:
 
 
 def load_dataset(
-    path: str,
+    path: "str | pd.DataFrame",
     columns: list[str] | None = None,
     normalize_method: str = "robust",
     max_rows: int | None = None,
@@ -77,7 +77,12 @@ def load_dataset(
     window_step: int = 1,
     window_mode: str = "last",
 ) -> LoadedDataset:
-    df = read_table(path)
+    if isinstance(path, pd.DataFrame):
+        df = path.reset_index(drop=True)
+        source_path = "<dataframe>"
+    else:
+        df = read_table(path)
+        source_path = str(path)
     if max_rows is not None:
         df = df.head(int(max_rows))
     validation = validate_dataframe(df, columns=columns)
@@ -90,7 +95,7 @@ def load_dataset(
     return LoadedDataset(
         data=data,
         validation=validation,
-        source_path=path,
+        source_path=source_path,
         columns=selected,
         normalized=normalize_method,
         window_size=window_size,
