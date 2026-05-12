@@ -1,0 +1,175 @@
+{
+  "experiment": "06_volatility_signal_v1",
+  "data": "data\\BTCUSDT_1h.csv",
+  "umap_train_size": 27000,
+  "ml_train_size": 15000,
+  "horizon_bars": 12,
+  "baselines": {
+    "mean_mae": 0.0018612118528709982,
+    "garch0_mae": 0.0019528115218470157
+  },
+  "models": {
+    "RIDGE: vol_20 only": {
+      "model_type": "ridge",
+      "feature_cols": [
+        "vol_20"
+      ],
+      "mae": 0.001711460205014735,
+      "rmse": 0.002300393584731262,
+      "pearson_r": 0.3820330545883378,
+      "mae_vs_mean": -0.00014975164785626326,
+      "mae_vs_garch0": -0.0002413513168322808,
+      "partial_r_vs_vol20": NaN,
+      "pass_garch0": true
+    },
+    "RIDGE: ring_radius + vol_20": {
+      "model_type": "ridge",
+      "feature_cols": [
+        "ring_radius",
+        "vol_20"
+      ],
+      "mae": 0.0017105099357777522,
+      "rmse": 0.00229725470318667,
+      "pearson_r": 0.38495877017154667,
+      "mae_vs_mean": -0.000150701917093246,
+      "mae_vs_garch0": -0.00024230158606926354,
+      "partial_r_vs_vol20": -0.051732079516092065,
+      "pass_garch0": true
+    },
+    "RIDGE: sin/cos_24h + vol_20": {
+      "model_type": "ridge",
+      "feature_cols": [
+        "sin_theta_24h",
+        "cos_theta_24h",
+        "vol_20"
+      ],
+      "mae": 0.0017058825952508325,
+      "rmse": 0.0022876291074480286,
+      "pearson_r": 0.3920287858018353,
+      "mae_vs_mean": -0.0001553292576201657,
+      "mae_vs_garch0": -0.00024692892659618324,
+      "partial_r_vs_vol20": NaN,
+      "pass_garch0": true
+    },
+    "RIDGE: sin/cos_24h + ring_radius + vol_20": {
+      "model_type": "ridge",
+      "feature_cols": [
+        "sin_theta_24h",
+        "cos_theta_24h",
+        "ring_radius",
+        "vol_20"
+      ],
+      "mae": 0.0017019855199698593,
+      "rmse": 0.002280277025512941,
+      "pearson_r": 0.3984402638530508,
+      "mae_vs_mean": -0.0001592263329011389,
+      "mae_vs_garch0": -0.0002508260018771564,
+      "partial_r_vs_vol20": -0.051732079516092065,
+      "pass_garch0": true
+    },
+    "RIDGE: all features": {
+      "model_type": "ridge",
+      "feature_cols": [
+        "ring_radius",
+        "vol_20",
+        "sin_theta_24h",
+        "cos_theta_24h",
+        "sin_theta_6h",
+        "cos_theta_6h",
+        "sin_theta_72h",
+        "cos_theta_72h",
+        "lr_z20"
+      ],
+      "mae": 0.0017112105382623987,
+      "rmse": 0.0022831998395599173,
+      "pearson_r": 0.40174077849064604,
+      "mae_vs_mean": -0.00015000131460859946,
+      "mae_vs_garch0": -0.00024160098358461698,
+      "partial_r_vs_vol20": -0.051732079516092065,
+      "pass_garch0": true
+    },
+    "RF:    sin/cos_24h + ring_radius + vol_20": {
+      "model_type": "rf",
+      "feature_cols": [
+        "sin_theta_24h",
+        "cos_theta_24h",
+        "ring_radius",
+        "vol_20"
+      ],
+      "mae": 0.0017029475116174674,
+      "rmse": 0.002300625215261631,
+      "pearson_r": 0.38967194352238704,
+      "mae_vs_mean": -0.00015826434125353083,
+      "mae_vs_garch0": -0.00024986401022954836,
+      "partial_r_vs_vol20": -0.051732079516092065,
+      "pass_garch0": true
+    },
+    "RF:    all features": {
+      "model_type": "rf",
+      "feature_cols": [
+        "ring_radius",
+        "vol_20",
+        "sin_theta_24h",
+        "cos_theta_24h",
+        "sin_theta_6h",
+        "cos_theta_6h",
+        "sin_theta_72h",
+        "cos_theta_72h",
+        "lr_z20"
+      ],
+      "mae": 0.0017061070838024783,
+      "rmse": 0.002308090014705802,
+      "pearson_r": 0.3797921979908941,
+      "mae_vs_mean": -0.0001551047690685199,
+      "mae_vs_garch0": -0.0002467044380445374,
+      "partial_r_vs_vol20": -0.051732079516092065,
+      "pass_garch0": true
+    }
+  },
+  "partial_correlations_vs_rv12h": {
+    "ring_radius": {
+      "raw_r": -0.204,
+      "partial_r_vs_vol20": -0.0517
+    },
+    "sin_theta_24h": {
+      "raw_r": -0.2631,
+      "partial_r_vs_vol20": -0.1524
+    },
+    "cos_theta_24h": {
+      "raw_r": 0.2242,
+      "partial_r_vs_vol20": 0.1251
+    },
+    "sin_theta_6h": {
+      "raw_r": -0.1707,
+      "partial_r_vs_vol20": -0.0737
+    },
+    "cos_theta_6h": {
+      "raw_r": 0.1223,
+      "partial_r_vs_vol20": 0.046
+    },
+    "sin_theta_72h": {
+      "raw_r": -0.2706,
+      "partial_r_vs_vol20": -0.1432
+    },
+    "cos_theta_72h": {
+      "raw_r": 0.2475,
+      "partial_r_vs_vol20": 0.1278
+    },
+    "lr_z20": {
+      "raw_r": -0.007,
+      "partial_r_vs_vol20": -0.0103
+    }
+  },
+  "stability": {
+    "first_half_mae": 0.0017702420892167,
+    "first_half_r": 0.30560652870246097,
+    "second_half_mae": 0.0016337289507230184,
+    "second_half_r": 0.45274073444230506,
+    "stable": false
+  },
+  "conclusion": {
+    "best_model": "RIDGE: sin/cos_24h + ring_radius + vol_20",
+    "beats_garch0": true,
+    "improvement_mae": -0.0002508260018771564
+  }
+}
