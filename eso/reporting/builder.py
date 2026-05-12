@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
+import html
 import json
+import re
 from pathlib import Path
 
 import pandas as pd
@@ -104,15 +106,64 @@ def write_markdown(report: dict, figures: dict, output_dir: Path) -> str:
     return str(path)
 
 
+def _inline_markup(text: str) -> str:
+    text = html.escape(text)
+    text = re.sub(r"\*\*(.*?)\*\*", r"<strong>\1</strong>", text)
+    text = re.sub(r"`([^`]*)`", r"<code>\1</code>", text)
+    return text
+
+
+def _markdown_table(lines: list[str]) -> str:
+    rows = []
+    for line in lines:
+        cells = [c.strip() for c in line.strip().strip("|").split("|")]
+        if all(set(c) <= {"-", ":", " "} for c in cells):
+            continue
+        tag = "th" if not rows else "td"
+        rows.append("<tr>" + "".join(f"<{tag}>{_inline_markup(c)}</{tag}>" for c in cells) + "</tr>")
+    return "<table>" + "".join(rows) + "</table>"
+
+
 def write_html(markdown_path: str, output_dir: Path) -> str:
-    md = Path(markdown_path).read_text(encoding="utf-8")
-    html = "<html><head><meta charset='utf-8'><title>ESO Report</title>"
-    html += "<style>body{font-family:Arial,sans-serif;max-width:1100px;margin:40px auto;line-height:1.5}img{max-width:100%;border:1px solid #ddd}table{border-collapse:collapse}td,th{border:1px solid #ddd;padding:6px}</style>"
-    html += "</head><body><pre style='white-space:pre-wrap'>"
-    html += md.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
-    html += "</pre></body></html>"
+    lines = Path(markdown_path).read_text(encoding="utf-8").splitlines()
+    body = []
+    i = 0
+    while i < len(lines):
+        line = lines[i]
+        if line.startswith("# "):
+            body.append(f"<h1>{_inline_markup(line[2:])}</h1>")
+        elif line.startswith("## "):
+            body.append(f"<h2>{_inline_markup(line[3:])}</h2>")
+        elif line.startswith("### "):
+            body.append(f"<h3>{_inline_markup(line[4:])}</h3>")
+        elif line.startswith("- "):
+            items = []
+            while i < len(lines) and lines[i].startswith("- "):
+                items.append(f"<li>{_inline_markup(lines[i][2:])}</li>")
+                i += 1
+            body.append("<ul>" + "".join(items) + "</ul>")
+            continue
+        elif line.startswith("| "):
+            tbl = []
+            while i < len(lines) and lines[i].startswith("|"):
+                tbl.append(lines[i])
+                i += 1
+            body.append(_markdown_table(tbl))
+            continue
+        elif line.startswith("!["):
+            match = re.match(r"!\[(.*?)\]\((.*?)\)", line)
+            if match:
+                alt, src = match.groups()
+                body.append(f"<figure><img src='{html.escape(src)}' alt='{html.escape(alt)}'><figcaption>{html.escape(alt)}</figcaption></figure>")
+        elif line.strip():
+            body.append(f"<p>{_inline_markup(line)}</p>")
+        i += 1
+
+    page = "<html><head><meta charset='utf-8'><title>ESO Report</title>"
+    page += "<style>body{font-family:Arial,sans-serif;max-width:1100px;margin:40px auto;line-height:1.5;color:#222}img{max-width:100%;border:1px solid #ddd;border-radius:8px}table{border-collapse:collapse;width:100%;margin:16px 0}td,th{border:1px solid #ddd;padding:8px;text-align:left}th{background:#f4f4f4}code{background:#f4f4f4;padding:2px 4px;border-radius:4px}figure{margin:24px 0}</style>"
+    page += "</head><body>" + "\n".join(body) + "</body></html>"
     path = output_dir / "report.html"
-    path.write_text(html, encoding="utf-8")
+    path.write_text(page, encoding="utf-8")
     return str(path)
 
 
