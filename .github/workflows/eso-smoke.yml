@@ -1,0 +1,50 @@
+name: ESO smoke test
+
+on:
+  push:
+    branches:
+      - eso-restructure
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install numpy scipy pandas scikit-learn statsmodels nolds matplotlib pyarrow
+          pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+          pip install torch_geometric
+
+      - name: Compile ESO
+        run: |
+          python -m py_compile \
+            eso/__init__.py \
+            eso/pipeline.py \
+            eso/diagnostics/*.py \
+            eso/topology/*.py \
+            eso/meta/*.py \
+            experiments/01_diagnose_btc.py \
+            experiments/02_test_manifolds.py
+
+      - name: Run diagnosis smoke
+        run: |
+          python -u experiments/01_diagnose_btc.py --n 256
+
+      - name: Run manifold smoke
+        run: |
+          python -u experiments/02_test_manifolds.py --dataset harmonic --n 256 --manifolds circle sphere2 torus2 --k 6
