@@ -363,20 +363,31 @@ Con win=24, h=12: lookahead = horizonte = 100% artefacto. FIJADO a `center=False
 
 **El anillo S1 ES real** (ring_cv=0.279) pero su fase NO predice retornos causalmente.
 
-**Senal genuina: FASE DEL CICLO predice volatilidad futura (causal, validado)**
-- Experiment 06 (feat/volatility-signal-v1): PASS — todos los modelos superan GARCH-0
-- Mejor modelo: Ridge [sin/cos_24h + ring_radius + vol_20], MAE -12.9% vs GARCH-0, r=+0.398
-- ring_radius: partial_r = -0.052 vs rv_12h (controlando vol_20)
-- sin_theta_24h: partial_r = -0.152 ← PRINCIPAL contribucion independiente
-- cos_theta_24h: partial_r = +0.125
-- sin_theta_72h: partial_r = -0.143, cos_theta_72h: +0.128
+**MECANISMO DEL ANILLO DESCUBIERTO (exp09, 2026-05-12):**
+- r(cos(theta_raw), volume_imbalance) = -0.822 -- anillo = ORDER FLOW encoder
+- r(sin(theta_raw), log_return)       = +0.680 -- secundario: momentum  
+- r(theta_raw,      vol_20)           = -0.068 -- vol es SECUNDARIO
+- El anillo NO es un ciclo de precio. Es un mapa polar de microestructura actual.
 
-Interpretacion: la FASE del ciclo (donde esta el mercado en el anillo) predice
-volatilidad mejor que ring_radius. Mercados en ciertas fases tienden a volatilidad baja.
+**Senal genuina: FASE predice volatilidad futura (causal, validado)**
+- Experiment 06 (feat/volatility-signal-v1): PASS — Ridge r=+0.398, MAE -12.9% vs GARCH-0
+- sin_theta_24h partial_r = -0.152 (principal contribucion, mayor que ring_radius -0.052)
+- UMAP agrega valor real vs raw smooth: MAE 0.001706 vs 0.001731 (captura interacciones 4D)
 
-**Direction model (feat/direction-model-v1): FAIL**
-- Logistic/RF/poly: accuracy ~49% < baseline 51.5%
-- Consistente con r_causal = -0.031 (no senal de direccion)
+**Señal vol regime (feat/vol-regime-v1): 62-63% accuracy — CONFIRMADO**
+- RF [sin/cos_24h + ring_r + vol_20]: 62.4% vs baseline 55.3% (+7.1pp)
+- Regression->Binary 63.3% (mejor enfoque practico)
+
+**Senales de DIRECCION: TODAS AUSENTES (confirmado con 4 tests causales)**
+- Lookahead #1: center=True en fit_and_evaluate (r=0.320 era artefacto)
+- Lookahead #2: forward vol como filtro de regimen (r=-0.133 en "low-vol" era artefacto)
+- Lookahead #3: vol_20 < percentil como condicional (accuracy 59% inestable)
+- Lookahead #4: feat.iloc vs feat.index (r=0.286 para lr_now era artefacto de 20-barra)
+- Resultado correcto: r(cualquier feature, future_lr12) ~ -0.01 a +0.01 (ruido)
+- NO es que la senal sea debil: es genuinamente AUSENTE en horizonte 1h->12h
+
+**Watchout**: siempre verificar alineacion feat.index y close_oos — usar mismo
+DataFrame original sin reset_index cuando se computan forward returns manualmente.
 
 **Estructura de períodos (multi-escala):**
 - 12h — ritmo AM/PM (intraday, potencia dominante)
@@ -466,26 +477,32 @@ SEGUNDO LOOKAHEAD DETECTADO: r=-0.133 en low-vol usaba vol FUTURA como filtro.
 r causal real (usando vol_20 actual) = +0.032 en Q25. Senal condicional DEBIL.
 Accuracy 56-59% en bajo vol = parcialmente sesgo de direccion, no senal pura.
 
-### Estado del instrumento — resumen actualizado al 2026-05-12
+### COMPLETADO: ring sector decode + direction v2 (exp/ring-sector-decode, 2026-05-12)
+Mecanismo: ring = order flow encoder (r=-0.822). No non-linear direction signal.
+4to lookahead capturado (feat.iloc vs feat.index = misalign 20 barras).
+Senales de DIRECCION GENUINAMENTE AUSENTES. Ver exp 09 y 10.
 
-| Senal | Tipo | Target | r_OOS/accuracy | Estado |
-|---|---|---|---|---|
-| ring_cv < 0.30 | Diagnostico | — | estructura real | CONFIRMADO |
-| fase->direccion | Prediccion | sign(lr_12h) | r=-0.031 | FAIL |
-| ring_radius->vol | Prediccion | rv_12h | r=-0.275 | CONFIRMADO |
-| fase->vol | Prediccion | rv_12h | r=+0.398, MAE-12.9% | CONFIRMADO |
-| vol_regime | Clasificacion | high/low vol | 62-63% accuracy | CONFIRMADO |
-| dir condicional | Prediccion | sign(lr_12h) en bajo vol | ~59% acc (inestable) | DEBIL |
+### Estado del instrumento — resumen FINAL al 2026-05-12
 
-### Proxima prioridad: consolidar el pipeline de produccion
+| Senal | Target | r_OOS/acc | Estado |
+|---|---|---|---|
+| ring (S1 geometry) | — | ring_cv=0.279 | CONFIRMADO geometricamente |
+| fase->direccion (12h) | sign(lr_12h) | r~0.00 | AUSENTE (4 tests causales) |
+| UMAP fase->vol | rv_12h | r=+0.398 | CONFIRMADO (exp06) |
+| vol regime | high/low vol | 62-63% acc | CONFIRMADO (exp07) |
+| dir condicional | sign en low-vol | ~49% acc causal | AUSENTE (exp08, corregido) |
+| ring mechanism | order flow | r(cos_theta,vi)=-0.822 | DESCUBIERTO (exp09) |
 
-Tenemos senales de volatilidad confirmadas. El siguiente paso natural:
-1. Construir `VolatilityPipeline` que integre `build_feature_vector` + `VolatilityModel`
-   con interfaz simple para produccion
-2. Conectar ESO topology (manifold regime) a los modelos de senales
+### Proxima prioridad: investigar horizontes alternativos para direccion
+
+**Hipotesis:** si el horizonte 12h es impredecible, ¿hay un horizonte CORTO donde
+la fase o el order flow SI predicen? Probar h=1h, h=2h, h=3h con features causales.
+
+**Rama:** `exp/short-horizon-direction`
+
+### Prioridad media: construir pipeline de produccion de volatilidad
+
+Tenemos la senal de volatilidad confirmada. Construir `VolatilityPipeline` que
+integre `build_feature_vector` + `VolatilityModel` con interfaz limpia.
 
 **Rama:** `feat/volatility-pipeline`
-
-### Prioridad media: s1_r2-UMAP + feature theta explicita
-
-**Rama:** `exp/s1r2-with-explicit-cycle`
