@@ -6,8 +6,12 @@ from dataclasses import asdict, dataclass
 
 import numpy as np
 
-from .manifolds import Manifold, get_manifold
+from .manifolds import Manifold, Plane, get_manifold
 from .reconstruction import masked_neighbor_reconstruction, project_data_to_manifold
+
+# Cache flat-baseline errors per (data_hash, ambient_dim, k, mask_ratio, seed)
+# to avoid re-running plane baselines for every manifold in a batch.
+_plane_baseline_cache: dict = {}
 
 
 @dataclass
@@ -61,6 +65,26 @@ def _score(error: float, manifold_dim: int, ambient_dim: int, complexity_weight:
     return float(base + penalty), float(penalty)
 
 
+def _flat_baseline_error(
+    data: np.ndarray,
+    ambient_dim: int,
+    k: int,
+    mask_ratio: float,
+    seed: int | None,
+) -> float:
+    """Reconstruction error of a flat Plane(ambient_dim) on the same data+seed.
+
+    Cached so repeated calls within a batch are free.
+    """
+    cache_key = (id(data), data.shape, ambient_dim, k, mask_ratio, seed)
+    if cache_key not in _plane_baseline_cache:
+        plane = Plane(ambient_dim)
+        latent = project_data_to_manifold(data, plane)
+        result = masked_neighbor_reconstruction(data, latent, plane, k=k, mask_ratio=mask_ratio, seed=seed)
+        _plane_baseline_cache[cache_key] = result.reconstruction_error
+    return _plane_baseline_cache[cache_key]
+
+
 def evaluate_manifold(
     data,
     manifold: str | Manifold,
@@ -74,6 +98,15 @@ def evaluate_manifold(
     latent = project_data_to_manifold(x, mani)
     result = masked_neighbor_reconstruction(x, latent, mani, k=k, mask_ratio=mask_ratio, seed=seed)
     score, penalty = _score(result.reconstruction_error, mani.dim, mani.ambient_dim, complexity_weight)
+
+    # Normalised metric: how much worse (or better) than a flat space of the
+    # same ambient dimension on the same data?  Values < 1.0 mean the curved
+    # manifold beats flat — genuine geometric structure.
+    flat_err = _flat_baseline_error(x, mani.ambient_dim, k, mask_ratio, seed)
+    relative_to_flat = (
+        float(result.reconstruction_error / flat_err) if flat_err > 0 else float("nan")
+    )
+
     eval_result = ManifoldEvaluation(
         manifold=mani.name,
         manifold_dim=int(mani.dim),
@@ -89,6 +122,8 @@ def evaluate_manifold(
     )
     out = eval_result.to_dict()
     out["latent_shape"] = list(latent.shape)
+    out["flat_baseline_error"] = float(flat_err)
+    out["relative_to_flat"] = relative_to_flat
     return out
 
 
