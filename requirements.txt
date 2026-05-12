@@ -10,3 +10,4 @@ torch_geometric
 pyarrow
 requests
 tqdm
+umap-learn
