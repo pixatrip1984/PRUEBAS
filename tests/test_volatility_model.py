@@ -7,7 +7,9 @@ import pytest
 from eso.signals.volatility_model import (
     VOL_FEATURES,
     VolatilityModel,
+    VolatilityRegimeClassifier,
     build_vol_dataset,
+    build_regime_dataset,
 )
 
 
@@ -128,3 +130,65 @@ class TestVolatilityModel:
         model.fit(X.iloc[:200], y.iloc[:200])
         result = model.evaluate(X.iloc[200:], y.iloc[200:])
         assert np.isfinite(result.partial_r_vs_vol20)
+
+
+class TestBuildRegimeDataset:
+    def test_returns_binary_y(self):
+        fv = _make_fv(300)
+        X, y, thresh = build_regime_dataset(fv, horizon=12)
+        assert set(y.unique()).issubset({0, 1})
+
+    def test_threshold_is_float(self):
+        fv = _make_fv(300)
+        _, _, thresh = build_regime_dataset(fv, horizon=12)
+        assert isinstance(thresh, float)
+        assert thresh > 0
+
+    def test_custom_threshold(self):
+        fv = _make_fv(300)
+        X, y, thresh = build_regime_dataset(fv, horizon=12, threshold=0.01)
+        assert thresh == 0.01
+
+
+class TestVolatilityRegimeClassifier:
+    def test_fit_predict_returns_binary(self):
+        fv = _make_fv(400)
+        X, y_cont = build_vol_dataset(fv, horizon=12)
+        clf = VolatilityRegimeClassifier(model_type="logistic")
+        clf.fit(X, y_cont)
+        preds = clf.predict(X)
+        assert set(preds).issubset({0, 1})
+
+    def test_predict_before_fit_raises(self):
+        fv = _make_fv(200)
+        X, _ = build_vol_dataset(fv, horizon=12)
+        clf = VolatilityRegimeClassifier()
+        with pytest.raises(RuntimeError, match="fit"):
+            clf.predict(X)
+
+    def test_evaluate_returns_result(self):
+        fv = _make_fv(500)
+        X, y_cont = build_vol_dataset(fv, horizon=12)
+        clf = VolatilityRegimeClassifier()
+        clf.fit(X.iloc[:250], y_cont.iloc[:250])
+        result = clf.evaluate(X.iloc[250:], y_cont.iloc[250:])
+        assert 0 <= result.accuracy <= 1
+        assert result.threshold > 0
+        assert result.n_test > 0
+
+    def test_proba_in_0_1(self):
+        fv = _make_fv(400)
+        X, y_cont = build_vol_dataset(fv, horizon=12)
+        clf = VolatilityRegimeClassifier()
+        clf.fit(X, y_cont)
+        proba = clf.predict_proba_high(X)
+        assert proba.min() >= 0.0
+        assert proba.max() <= 1.0
+
+    def test_rf_type(self):
+        fv = _make_fv(400)
+        X, y_cont = build_vol_dataset(fv, horizon=12)
+        clf = VolatilityRegimeClassifier(model_type="rf", seed=0)
+        clf.fit(X.iloc[:200], y_cont.iloc[:200])
+        result = clf.evaluate(X.iloc[200:], y_cont.iloc[200:])
+        assert 0 <= result.accuracy <= 1

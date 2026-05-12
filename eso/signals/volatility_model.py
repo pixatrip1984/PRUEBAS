@@ -29,12 +29,14 @@ Usage:
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 import numpy as np
 import pandas as pd
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.linear_model import Ridge
+from dataclasses import dataclass as _dc
+
+from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+from sklearn.linear_model import LogisticRegression, Ridge
 from sklearn.preprocessing import RobustScaler
 
 
@@ -219,5 +221,166 @@ class VolatilityModel:
             mae_vs_mean_baseline=mae - mae_mean,
             mae_vs_garch0_baseline=mae - mae_garch0,
             partial_r_vs_vol20=partial_r,
+            feature_importances=importances,
+        )
+
+
+# ── Volatility regime classifier ──────────────────────────────────────────────
+
+@dataclass
+class RegimeResult:
+    """Evaluation results for the volatility regime classifier."""
+    model_type: str
+    feature_set: str
+    n_train: int
+    n_test: int
+    horizon: int
+    threshold: float          # vol threshold separating high/low (fitted median)
+    accuracy: float
+    baseline_accuracy: float  # majority-class baseline
+    accuracy_vs_baseline: float
+    precision_high: float     # precision for high-vol class
+    recall_high: float
+    precision_low: float
+    recall_low: float
+    feature_importances: dict = field(default_factory=dict)
+
+
+def build_regime_dataset(
+    fv: pd.DataFrame,
+    horizon: int = 12,
+    feature_cols: list[str] | None = None,
+    threshold: float | None = None,
+) -> tuple[pd.DataFrame, pd.Series, float]:
+    """Build (X, y_binary, threshold) for regime classification.
+
+    y = 1 (high-vol) when realized_vol > threshold, 0 (low-vol) otherwise.
+    Threshold defaults to the median of y in the training-accessible window
+    (caller should pass the training-set median when evaluating test data).
+
+    Returns:
+        (X, y, threshold_used)
+    """
+    X, y_cont = build_vol_dataset(fv, horizon=horizon, feature_cols=feature_cols)
+    if threshold is None:
+        threshold = float(y_cont.median())
+    y_bin = (y_cont > threshold).astype(int)
+    return X, y_bin, threshold
+
+
+class VolatilityRegimeClassifier:
+    """Binary classifier: high-volatility vs low-volatility regime.
+
+    Wraps logistic regression or random forest. Threshold is fitted
+    as the median of realized_vol in the training set.
+
+    Args:
+        model_type: "logistic" (default) or "rf".
+        horizon:    Look-ahead in bars.
+        C:          Regularization for logistic.
+        seed:       Reproducibility.
+    """
+
+    def __init__(
+        self,
+        model_type: str = "logistic",
+        horizon: int = 12,
+        C: float = 0.1,
+        seed: int = 42,
+    ) -> None:
+        self.model_type = model_type
+        self.horizon = horizon
+        self.C = C
+        self.seed = seed
+        self._scaler = RobustScaler()
+        self._model = None
+        self._feature_cols: list[str] = []
+        self.threshold_: float | None = None
+
+    def fit(self, X: pd.DataFrame, y_cont: pd.Series) -> "VolatilityRegimeClassifier":
+        """Fit on continuous vol targets; threshold = median of training y."""
+        self._feature_cols = list(X.columns)
+        self.threshold_ = float(y_cont.median())
+        y_bin = (y_cont > self.threshold_).astype(int)
+
+        X_s = self._scaler.fit_transform(X.to_numpy(dtype=float))
+        if self.model_type == "rf":
+            self._model = RandomForestClassifier(
+                n_estimators=200,
+                max_depth=5,
+                min_samples_leaf=100,
+                random_state=self.seed,
+                n_jobs=-1,
+            )
+        else:
+            self._model = LogisticRegression(
+                C=self.C, max_iter=1000, random_state=self.seed, solver="lbfgs"
+            )
+        self._model.fit(X_s, y_bin)
+        return self
+
+    def predict(self, X: pd.DataFrame) -> np.ndarray:
+        if self._model is None:
+            raise RuntimeError("Call fit() before predict()")
+        X_s = self._scaler.transform(X[self._feature_cols].to_numpy(dtype=float))
+        return self._model.predict(X_s)
+
+    def predict_proba_high(self, X: pd.DataFrame) -> np.ndarray:
+        """Return P(high-vol) for each sample."""
+        if self._model is None:
+            raise RuntimeError("Call fit() before predict_proba_high()")
+        X_s = self._scaler.transform(X[self._feature_cols].to_numpy(dtype=float))
+        proba = self._model.predict_proba(X_s)
+        classes = list(self._model.classes_)
+        idx_high = classes.index(1)
+        return proba[:, idx_high]
+
+    def evaluate(
+        self,
+        X: pd.DataFrame,
+        y_cont: pd.Series,
+    ) -> RegimeResult:
+        """Evaluate on test data using training threshold."""
+        assert self.threshold_ is not None, "Call fit() first"
+        y_true = (y_cont > self.threshold_).astype(int).to_numpy()
+        y_pred = self.predict(X)
+
+        accuracy = float((y_pred == y_true).mean())
+        majority = int(y_true.mean() >= 0.5)
+        baseline = float((y_true == majority).mean())
+
+        # Per-class precision and recall
+        high_true = y_true == 1
+        low_true  = y_true == 0
+        pred_high = y_pred == 1
+        pred_low  = y_pred == 0
+
+        prec_high = float((y_true[pred_high] == 1).mean()) if pred_high.any() else 0.0
+        rec_high  = float((y_pred[high_true] == 1).mean()) if high_true.any() else 0.0
+        prec_low  = float((y_true[pred_low]  == 0).mean()) if pred_low.any()  else 0.0
+        rec_low   = float((y_pred[low_true]  == 0).mean()) if low_true.any()  else 0.0
+
+        importances: dict = {}
+        if self.model_type == "logistic" and hasattr(self._model, "coef_"):
+            for name, coef in zip(self._feature_cols, self._model.coef_[0]):
+                importances[name] = round(float(coef), 4)
+        elif self.model_type == "rf" and hasattr(self._model, "feature_importances_"):
+            for name, imp in zip(self._feature_cols, self._model.feature_importances_):
+                importances[name] = round(float(imp), 4)
+
+        return RegimeResult(
+            model_type=self.model_type,
+            feature_set="+".join(self._feature_cols),
+            n_train=0,
+            n_test=len(y_true),
+            horizon=self.horizon,
+            threshold=self.threshold_,
+            accuracy=accuracy,
+            baseline_accuracy=baseline,
+            accuracy_vs_baseline=accuracy - baseline,
+            precision_high=prec_high,
+            recall_high=rec_high,
+            precision_low=prec_low,
+            recall_low=rec_low,
             feature_importances=importances,
         )
