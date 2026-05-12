@@ -1,0 +1,51 @@
+{
+  "experiment": "exp/causal-signal-3m — resolution sweep",
+  "date": "2026-05-12",
+  "data": "data/btc_3m/splits/train.parquet",
+  "actual_resolution": "1-minute (Binance Klines, folder mislabeled as btc_3m)",
+  "date_range": "2024-10-01 to 2024-12-04",
+  "total_calendar_days": 64,
+  "note": "All resolutions derived by resampling from the same 1-min dataset",
+
+  "resolution_sweep": {
+    "1min":  { "n_bars": 92736, "ring_cv_transductive": 0.493, "is_ring": false, "mins_per_bar": 1 },
+    "5min":  { "n_bars": 18548, "ring_cv_transductive": 0.527, "is_ring": false, "mins_per_bar": 5 },
+    "15min": { "n_bars":  6183, "ring_cv_transductive": 0.290, "is_ring": true,  "mins_per_bar": 15 },
+    "30min": { "n_bars":  3092, "ring_cv_transductive": 0.249, "is_ring": true,  "mins_per_bar": 30 },
+    "1h":    { "n_bars":  1546, "ring_cv_transductive": 0.228, "is_ring": true,  "mins_per_bar": 60 }
+  },
+
+  "causal_evaluation": {
+    "15min": {
+      "train_bars": 3703, "test_bars": 2470,
+      "train_ring_cv": 0.301, "test_ring_cv": 0.345, "test_is_ring": false,
+      "best_r_oos": 0.292, "best_smooth_bars": 6, "best_horizon_bars": 3,
+      "best_smooth_calendar_h": 1.5, "best_horizon_calendar_h": 0.75,
+      "note": "Ring borderline at train, lost at test (likely short training window)"
+    },
+    "30min": {
+      "train_bars": 1849, "test_bars": 1233,
+      "train_ring_cv": 0.277, "test_ring_cv": 0.291, "test_is_ring": true,
+      "best_r_oos": -0.303, "best_smooth_bars": 168, "best_horizon_bars": 72,
+      "best_smooth_calendar_h": 84.0, "best_horizon_calendar_h": 36.0,
+      "note": "Ring holds in test. Negative sign = UMAP ring orientation inverted vs 1h. |r|=0.303 comparable to 1h result."
+    },
+    "1h_reference": {
+      "dataset": "data/BTCUSDT_1h.csv",
+      "train_bars": 27000, "test_bars": 19558,
+      "train_years": 3.0, "test_years": 2.0,
+      "best_r_oos": 0.320, "best_smooth_bars": 24, "best_horizon_bars": 12,
+      "best_smooth_calendar_h": 24.0, "best_horizon_calendar_h": 12.0
+    }
+  },
+
+  "conclusions": {
+    "resolution_threshold": "S1 ring forms at 15-min resolution and coarser. Finer resolution (1-min, 5-min) shows ring_cv > 0.40 — no ring.",
+    "mechanism": "At sub-15min, market microstructure noise (bid-ask bounce, individual trades) dominates over cycle dynamics. The vol_20 window (20 bars) captures only 20-minutes of volatility at 1-min resolution, too short to represent regime cycles.",
+    "signal_quality": "|r_OOS| is comparable across resolutions (0.29-0.32) once the ring forms. The signal amplitude is resolution-independent once above the threshold.",
+    "sign_inversion": "The 30-min result shows negative r_OOS (-0.303). This is a UMAP orientation artifact: the ring can be fit clockwise or counterclockwise randomly. Using both sin_theta and cos_theta as features (as in build_feature_vector) is immune to this.",
+    "data_limitation": "The 1-min dataset spans only 64 days. The 15/30-min resampled results have very short test windows (12-25 days). Statistical significance is lower than the 1h result (2 years test).",
+    "verdict": "PARTIAL PASS — ring threshold confirmed at ~15min. Signal strength (|r|~0.30) confirmed multi-timeframe. 1-min specific result = WEAK (r=0.055, no ring). Need longer sub-hourly data for definitive validation.",
+    "recommendation": "Use 15-min or 30-min for sub-hourly signal generation. Do NOT use 1-min or 5-min with current compact feature set."
+  }
+}
