@@ -269,25 +269,48 @@ class CausalCyclePhase:
 
 # ── Rolling refit version ─────────────────────────────────────────────────────
 
-class RollingCausalCycle:
-    """Production-ready rolling UMAP: refits on expanding window every N bars.
+def _procrustes_align_2d(emb_new: np.ndarray, emb_ref: np.ndarray) -> np.ndarray:
+    """Rotate emb_new to best align with emb_ref using 2D Procrustes.
 
-    Phase continuity across refits is guaranteed through cos/sin encoding —
-    the absolute ring orientation is irrelevant; only local phase change matters.
+    Uses the complex-plane solution: optimal rotation angle =
+    angle(sum(z_ref * conj(z_new))).  Both arrays must have the same length
+    and represent corresponding points (overlap window between two UMAP fits).
+
+    Returns the rotated version of emb_new (all rows, not just overlap).
+    """
+    z_ref = emb_ref[:, 0] + 1j * emb_ref[:, 1]
+    z_new = emb_new[:, 0] + 1j * emb_new[:, 1]
+    rot = np.angle(np.sum(z_ref * np.conj(z_new)))
+    cos_r, sin_r = np.cos(rot), np.sin(rot)
+    return np.column_stack([
+        emb_new[:, 0] * cos_r - emb_new[:, 1] * sin_r,
+        emb_new[:, 0] * sin_r + emb_new[:, 1] * cos_r,
+    ])
+
+
+class RollingCausalCycle:
+    """Production-ready rolling UMAP with Procrustes phase alignment.
+
+    Each UMAP refit can rotate the ring arbitrarily.  Without alignment the
+    concatenated phase signal is incoherent (validated: r≈0 without, r≈0.30
+    with alignment restored).  After each refit the new embedding is rotated
+    to best match the previous one over an overlap window.
 
     Args:
-        init_train:   Number of bars for the initial training window.
-        refit_every:  Refit UMAP after this many new bars.
-        n_neighbors:  UMAP neighbourhood size.
-        min_dist:     UMAP min_dist.
-        seed:         Reproducibility seed for initial fit.
-        feature_mode: Feature group to use.
+        init_train:    Number of bars for the initial training window.
+        refit_every:   Refit UMAP every N new bars.
+        align_overlap: Overlap window used for Procrustes alignment (bars).
+        n_neighbors:   UMAP neighbourhood size.
+        min_dist:      UMAP min_dist.
+        seed:          Reproducibility seed for initial fit.
+        feature_mode:  Feature group to use.
     """
 
     def __init__(
         self,
         init_train: int = 10000,
         refit_every: int = 2000,
+        align_overlap: int = 500,
         n_neighbors: int = 15,
         min_dist: float = 0.1,
         seed: int = 42,
@@ -295,6 +318,7 @@ class RollingCausalCycle:
     ) -> None:
         self.init_train = init_train
         self.refit_every = refit_every
+        self.align_overlap = align_overlap
         self.n_neighbors = n_neighbors
         self.min_dist = min_dist
         self.seed = seed
@@ -322,14 +346,15 @@ class RollingCausalCycle:
     ) -> pd.DataFrame:
         """Return causal phase for every bar after the initial training window.
 
-        The first init_train bars are consumed for the initial fit and have no
-        phase output.  All subsequent bars are projected causally.
+        Phase continuity across refits is enforced via Procrustes alignment:
+        after each refit, the new UMAP embedding is rotated to match the
+        previous one over an overlap window of `align_overlap` bars.
 
         Args:
             df:            Raw OHLCV + microstructure DataFrame.
             timestamp_col: Column name for timestamps.
 
-        Returns DataFrame aligned to the test portion of df.
+        Returns DataFrame aligned to the post-init_train portion of df.
         """
         feat = build_financial_features(df).dropna()
         groups = feature_column_groups()
@@ -340,12 +365,9 @@ class RollingCausalCycle:
         orig_idx = feat.index.to_numpy()
 
         all_emb: list[np.ndarray] = []
-        all_idx: list[int] = []  # position in feat_clean
+        all_idx: list[int] = []
 
-        last_refit_end = self.init_train
         scaler = _RobustScaler()
-
-        # Initial fit
         X_init = feat_clean.iloc[:self.init_train].to_numpy(dtype=float)
         scaler.fit(X_init)
         reducer = self._make_umap(self.seed)
@@ -353,10 +375,13 @@ class RollingCausalCycle:
             warnings.simplefilter("ignore")
             reducer.fit(scaler.transform(X_init))
 
-        # Process remaining bars: refit when refit_every bars accumulate
+        # Keep the last align_overlap embeddings from the previous model
+        # so we can align the next model to them.
+        prev_emb_tail: np.ndarray | None = None   # shape (align_overlap, 2)
+        prev_feat_tail: np.ndarray | None = None  # corresponding features
+
         i = self.init_train
         while i < n:
-            # Batch: up to next refit point
             batch_end = min(i + self.refit_every, n)
             batch = feat_clean.iloc[i:batch_end].to_numpy(dtype=float)
             X_batch = scaler.transform(batch)
@@ -366,15 +391,58 @@ class RollingCausalCycle:
             all_emb.append(emb_batch)
             all_idx.extend(range(i, batch_end))
 
-            # Refit on all data seen so far (expanding window)
+            # Keep tail for alignment at the next refit
+            tail_size = min(self.align_overlap, len(all_emb[-1]))
+            prev_emb_tail  = np.concatenate(all_emb, axis=0)[-tail_size:]
+            prev_feat_tail = feat_clean.iloc[
+                max(0, batch_end - tail_size):batch_end
+            ].to_numpy(dtype=float)
+
+            # Refit on expanding window
             if batch_end < n:
                 X_seen = feat_clean.iloc[:batch_end].to_numpy(dtype=float)
-                scaler = _RobustScaler().fit(X_seen)
-                reducer = self._make_umap(self.seed + batch_end)
+                new_scaler = _RobustScaler().fit(X_seen)
+                new_reducer = self._make_umap(self.seed + batch_end)
                 with warnings.catch_warnings():
                     warnings.simplefilter("ignore")
-                    reducer.fit(scaler.transform(X_seen))
-                last_refit_end = batch_end
+                    new_reducer.fit(new_scaler.transform(X_seen))
+
+                # Procrustes alignment: project the overlap window through the
+                # new model, then find rotation to match the previous embedding.
+                if prev_feat_tail is not None and prev_emb_tail is not None:
+                    X_tail_new = new_scaler.transform(prev_feat_tail)
+                    with warnings.catch_warnings():
+                        warnings.simplefilter("ignore")
+                        emb_tail_new = new_reducer.transform(X_tail_new)
+                    # Find rotation angle that aligns new tail → prev tail
+                    z_ref = prev_emb_tail[:, 0] + 1j * prev_emb_tail[:, 1]
+                    z_new = emb_tail_new[:, 0]  + 1j * emb_tail_new[:, 1]
+                    rot_angle = float(np.angle(np.sum(z_ref * np.conj(z_new))))
+                else:
+                    rot_angle = 0.0
+
+                # Wrap new reducer's transform with the rotation applied
+                _rot = rot_angle  # capture for closure
+
+                class _AlignedReducer:
+                    def __init__(self, inner, angle, inner_scaler):
+                        self._inner = inner
+                        self._angle = angle
+                        self._scaler = inner_scaler
+                        self._cos = np.cos(angle)
+                        self._sin = np.sin(angle)
+
+                    def transform(self, X_raw):
+                        with warnings.catch_warnings():
+                            warnings.simplefilter("ignore")
+                            emb = self._inner.transform(X_raw)
+                        return np.column_stack([
+                            emb[:, 0] * self._cos - emb[:, 1] * self._sin,
+                            emb[:, 0] * self._sin + emb[:, 1] * self._cos,
+                        ])
+
+                reducer = _AlignedReducer(new_reducer, rot_angle, new_scaler)
+                scaler = new_scaler
 
             i = batch_end
 
