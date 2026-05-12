@@ -34,17 +34,50 @@ jobs:
         run: |
           python -m py_compile \
             eso/__init__.py \
+            eso/cli.py \
             eso/pipeline.py \
+            eso/data/*.py \
             eso/diagnostics/*.py \
             eso/topology/*.py \
             eso/meta/*.py \
+            eso/reporting/*.py \
             experiments/01_diagnose_btc.py \
             experiments/02_test_manifolds.py
 
-      - name: Run diagnosis smoke
+      - name: Run legacy experiment smokes
         run: |
           python -u experiments/01_diagnose_btc.py --n 256
-
-      - name: Run manifold smoke
-        run: |
           python -u experiments/02_test_manifolds.py --dataset harmonic --n 256 --manifolds circle sphere2 torus2 --k 6
+
+      - name: Run agent-ready CLI inspect and diagnose
+        run: |
+          python -m eso.cli inspect examples/harmonic.csv --columns x y --output reports/harmonic_inspect.json
+          python -m eso.cli diagnose examples/harmonic.csv --columns x y --output reports/harmonic_diagnosis.json
+
+      - name: Run agent-ready CLI explore
+        run: |
+          python -m eso.cli explore examples/harmonic.csv \
+            --dataset-id harmonic_example \
+            --columns x y \
+            --max-rows 64 \
+            --manifolds circle sphere2 torus2 \
+            --k 6 \
+            --n-masks 3 \
+            --output reports/harmonic_eso \
+            --no-registry
+
+      - name: Verify report artifacts
+        run: |
+          test -f reports/harmonic_eso/report.html
+          test -f reports/harmonic_eso/report.md
+          test -f reports/harmonic_eso/report.json
+          test -f reports/harmonic_eso/metrics.csv
+          test -f reports/harmonic_eso/diagnosis.json
+          test -f reports/harmonic_eso/figures/manifold_ranking.png
+
+      - name: Upload ESO report artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: eso-harmonic-report
+          path: reports/harmonic_eso
