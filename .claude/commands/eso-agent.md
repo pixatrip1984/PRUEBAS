@@ -25,41 +25,43 @@ Tu misión es mejorar continuamente **ESO (Explorador de Espacios Originales)**:
 ```
 eso/
   cli.py            # Entrypoint agent-ready: inspect | diagnose | explore
-  pipeline.py       # ESOExplorer: orquesta diagnóstico → recomendación → validación → registro
+                    #   --feature-mode [raw|compact|returns_vol|...]
+                    #   --projection-method [linear|umap|isomap]
+                    #   --skip-rows N  --klines-format
+  pipeline.py       # ESOExplorer.explore() — diagnóstico → manifolds → registro
   data/
-    loader.py       # load_dataset() — CSV/Parquet/NPY → LoadedDataset
+    loader.py       # load_dataset(path_or_df) — CSV/Parquet/NPY/DataFrame
+    features.py     # build_financial_features(), prepare_btc_klines()
     validation.py   # validate_dataframe() → DatasetReport
-  diagnostics/
-    dimension.py    # estimate_dimension() — PCA / TwoNN / correlation dim
-    stationarity.py # stationarity_report() — ADF, KPSS
-    lyapunov.py     # max_lyapunov_exponent() — caos
-    symmetries.py   # periodicity_report() — FFT, autocorrelación
-    report.py       # run_diagnosis() — integrador
+  diagnostics/      # dimension / stationarity / lyapunov / symmetries / report
   topology/
-    manifolds.py    # Circle, Sphere, Torus, Cylinder, KleinBottle — get_manifold()
-    evaluator.py    # evaluate_manifold(), rank_manifolds()
-    reconstruction.py # reconstrucción relacional k-NN
-    validation.py   # validate_manifolds() — múltiples máscaras, estabilidad
+    manifolds.py    # 17 manifolds: circle, sphere2/3/4, torus2/3, cylinder,
+                    #   cone, klein_bottle, mobius, hyperbolic, h2_r,
+                    #   s1_r2, s2_r, t2_r, s2_s1, plane2d/3d/4d
+    evaluator.py    # evaluate_manifold() — incluye relative_to_flat metric
+    reconstruction.py # embed_data(method=linear|umap|isomap, cache)
+    validation.py   # validate_manifolds() — multi-mask + relative_to_flat_mean
   meta/
-    recommender.py  # HeuristicRecommender — diagnosis → lista ordenada de variedades
-    registry.py     # ExperimentRegistry — CSV de experimentos
-    signature.py    # experiment_signature()
+    recommender.py  # HeuristicRecommender con semantic tags para los 17 manifolds
+    registry.py     # ExperimentRegistry — CSV histórico
   reporting/
-    builder.py      # write_report_bundle() → report.html, .json, .md, metrics.csv
-    plots.py        # figuras PNG interpretables
+    builder.py / plots.py
+  signals/          # ← INSTRUMENTO (nuevo)
+    cycle.py        # extract_cycle_phase(), analyse_cycle_period(), ring_quality()
+    causal_cycle.py # CausalCyclePhase (split), RollingCausalCycle (producción)
+    feature_vector.py # build_feature_vector(), CausalFeatureBuilder
 experiments/
-  eso_registry.csv  # registro histórico de experimentos
-  01_diagnose_btc.py
-  02_test_manifolds.py
-reports/            # salidas de runs (gitignored parcialmente)
-tests/
-  test_data_loader.py
-  test_diagnostics.py
-  test_pipeline_cli.py
+  eso_registry.csv
+  01_diagnose_btc.py / 02_test_manifolds.py / 03_btc_geometry_benchmark.py
+reports/
+tests/  (151 tests passing)
 ```
 
-**Flujo de datos:**
-`CSV/Parquet/NPY` → `load_dataset()` → `run_diagnosis()` → `HeuristicRecommender` → `validate_manifolds()` → `write_report_bundle()` → artefactos
+**Flujo ESO clásico:**
+`CSV/Parquet` → `load_dataset()` → `run_diagnosis()` → `validate_manifolds(projection_method=umap)` → `relative_to_flat` → `write_report_bundle()`
+
+**Flujo del instrumento (signals):**
+`OHLCV` → `build_financial_features()` → `CausalCyclePhase.fit(train)` → `.transform(test)` → `θ(t)` → `sin/cos smoothed` → `build_feature_vector()` → features para modelos ML
 
 ---
 
@@ -330,99 +332,135 @@ Luego decide qué área del backlog (§4) atacar esta sesión.
 ## 9. Conocimiento acumulado sobre BTC — estado al 2026-05-12
 
 ### Datos disponibles
-- `data/BTCUSDT_1h.csv`: 46,570 filas, 2021-01-01 → 2026-04-25, columnas ricas: OHLCV + vwap, n_trades, taker_buy_volume, taker_sell_volume, delta
-- `data/btc_3m/splits/train.parquet`: 92,736 filas, formato Binance Klines (usar `--klines-format`)
+- `data/BTCUSDT_1h.csv`: 46,570 filas, 2021-01-01 → 2026-04-25
+  OHLCV + vwap, n_trades, taker_buy_volume, taker_sell_volume, delta
+- `data/btc_3m/splits/train.parquet`: 92,736 filas, Binance Klines (usar `--klines-format`)
 
-### Hallazgos geométricos validados (features compactas: log_return + vol_20 + vwap_dev + volume_imbalance)
+### El instrumento — resumen ejecutivo
 
-**Capa 1 — proyección lineal (SVD):**
-- Todos los manifolds curvos son peores que flat
-- Mejor curved en ambient=3: `klein_bottle` (1.78x flat) — estable en 3 regímenes
-- Mejor curved en ambient=2: `hyperbolic` (2.36x flat) — mejor que torus, circle, cone
-- `s1_r2`, `s2_r` son muy malos bajo SVD (>18x) — el constraint circular destruye vecindad
+**Feature compactas validadas:** `log_return`, `vol_20`, `vwap_dev`, `volume_imbalance`
 
-**Capa 2 — proyección no-lineal (UMAP):**
-- `s1_r2` mejora de 20x→2.1x (stable 2.0-2.4x en los 3 regímenes: 2021/2022/2024)
-- `s2_r` mejora de 19x→2.2x (pero variable: 1.86x early, 3.68x late)
-- `torus2`, `cone`, `hyperbolic` empeoran con UMAP (SVD es mejor para ellos)
-- Ningún manifold ha superado el baseline plano (< 1.0x) todavía
+**El hallazgo central:**
+BTC compact features contienen un anillo S¹ no-lineal (UMAP-2D radius CV=0.279).
+Este anillo es invisible a SVD (CV=0.823) pero visible bajo UMAP.
+El S¹ NO está en ningún par 2D aislado — es una propiedad emergente de los 4 features coordinados.
 
-**Hallazgo clave — el anillo:**
-- UMAP-2D sobre los 4 features compactos: **radius CV = 0.279** (< 0.3 = estructura anular)
-- SVD-2D: radius CV = 0.823 (sin anillo visible)
-- Conclusión: BTC tiene un S¹ no-lineal que SVD aplasta
+**El instrumento validado:**
+```python
+from eso.signals.causal_cycle import CausalCyclePhase
+from eso.signals.feature_vector import build_feature_vector
 
-**UMAP-3D descompone los features limpiamente:**
-- Dim 0: log_return (-0.81) + vwap_dev (-0.78) + volume_imbalance (-0.66) → **dirección**
-- Dim 1: vol_20 (0.83) → **volatilidad**
-- Dim 2: volume_imbalance (-0.79) → **flujo de órdenes**
+# OOS: entrena en 2021-2024, prueba en 2024-2026
+fv = build_feature_vector(df, train_size=27000)
+# fv contiene: sin_theta_6h, cos_theta_6h, sin_theta_24h, cos_theta_24h,
+#              sin_theta_72h, cos_theta_72h, ring_radius, vol_20, lr_z20
 
-### Comandos de survey estándar
+# Producción: UMAP rolling, refit cada 2000 bars
+from eso.signals.feature_vector import CausalFeatureBuilder
+builder = CausalFeatureBuilder(init_train=10000, refit_every=2000)
+fv = builder.fit_predict(df)
+```
+
+**Resultados de validación causal:**
+- Train: 27,000 bars (2021-01 → 2024-01)
+- Test: 19,558 bars (2024-01 → 2026-04) — UMAP nunca vio este período
+
+| Smooth | Horizonte | r_OOS | Transductivo |
+|--------|-----------|-------|--------------|
+| 24h    | +12h      | **0.320** | 0.291 |
+| 72h    | +48h      | 0.233 | 0.237 |
+| 168h   | +72h      | 0.244 | 0.201 |
+
+r_OOS > r_transductivo: el ciclo se fortalece en 2024-2026 (mayor actividad algorítmica).
+
+**Estructura de períodos (multi-escala):**
+- 12h — ritmo AM/PM (intraday, potencia dominante)
+- 3 días — ciclo corto
+- ~11 días — biweekly (peak útil en correlación)
+- ~30 días — mensual
+- ~191 días — semi-anual
+
+Potencia FFT cae como ley de potencias → proceso fractal auto-similar.
+
+### Capa geométrica ESO (relative_to_flat, tres métodos)
+
+| Manifold | Linear | Isomap | UMAP | Best |
+|----------|--------|--------|------|------|
+| klein_bottle | **1.78x** | 2.03x | 6.80x | linear |
+| hyperbolic | **2.36x** | 2.51x | 6.80x | linear |
+| torus2 | 2.92x | **2.89x** | 4.24x | isomap |
+| s1_r2 | 23.95x | 13.63x | **2.10x** | umap |
+| s2_r | 21.14x | 12.32x | **3.57x** | umap |
+
+Regla: `--projection-method linear` para manifolds compactos 2D;
+       `--projection-method umap` para s1_r2, s2_r.
+
+### Comandos clave
 
 ```bash
-# Survey completo (17 manifolds, 3 métodos):
+# Survey completo (17 manifolds, UMAP):
 python -m eso.cli explore data/BTCUSDT_1h.csv \
   --feature-mode compact --skip-rows 36000 --max-rows 10000 \
-  --manifolds circle sphere2 sphere3 torus2 cylinder cone klein_bottle \
-             mobius hyperbolic h2_r s1_r2 s2_r t2_r s2_s1 plane2d plane3d plane4d \
-  --k 8 --n-masks 5 --seed 123 \
-  --projection-method umap --proj-neighbors 15 \
+  --manifolds circle sphere2 torus2 cylinder cone klein_bottle \
+             mobius hyperbolic h2_r s1_r2 s2_r plane2d plane3d plane4d \
+  --k 8 --n-masks 5 --seed 123 --projection-method umap \
   --output reports/survey_umap_late
 
-# Diagnóstico rápido de anillo:
+# Quick ring check:
 python -c "
 import pandas as pd, numpy as np, warnings; warnings.filterwarnings('ignore')
-from eso.data.features import build_financial_features, feature_column_groups
-from eso.data.preprocess import normalize
-import umap
-raw = pd.read_csv('data/BTCUSDT_1h.csv').tail(10000).reset_index(drop=True)
-feat = build_financial_features(raw)
-cols = [c for c in feature_column_groups()['compact'] if c in feat.columns]
-data = normalize(feat[cols].dropna().to_numpy(dtype=float), method='robust')
-r2 = umap.UMAP(n_components=2, n_neighbors=15, min_dist=0.1, random_state=42).fit_transform(data)
-r = np.sqrt(r2[:,0]**2 + r2[:,1]**2)
-print(f'UMAP-2D ring CV={np.std(r)/np.mean(r):.3f}  (< 0.3 = anillo = S1 presente)')
+from eso.signals.cycle import extract_cycle_phase, ring_quality
+df = pd.read_csv('data/BTCUSDT_1h.csv').tail(10000).reset_index(drop=True)
+phase = extract_cycle_phase(df, seed=42)
+q = ring_quality(phase)
+print(f'ring_cv={q[\"radius_cv\"]:.3f}  is_ring={q[\"is_ring\"]}  score={q[\"ring_score\"]:.3f}')
+"
+
+# Causal feature vector (OOS production):
+python -c "
+from eso.signals.feature_vector import build_feature_vector
+import pandas as pd
+df = pd.read_csv('data/BTCUSDT_1h.csv')
+fv = build_feature_vector(df, train_size=27000)
+print(fv[['sin_theta_24h','cos_theta_24h','ring_radius','vol_20']].describe())
 "
 ```
 
 ### Contexto histórico
-- Origen: **SHSE** (esfera fija) → ESO (geometría libre)
-- SVD proyección lineal es ciego a geometría no-lineal
+- Origen: **SHSE** (esfera fija) → ESO (geometría libre) → signals (instrumento)
+- SVD ciego a geometría no-lineal — siempre usar UMAP para s1_r2/s2_r
 - `legacy/` = código SHSE original, no tocar sin justificación
 
 ---
 
-## 10. Próximos experimentos sugeridos
+## 10. Próximos experimentos
 
-### Prioridad alta: extraer el anillo como feature de ciclo
+### Prioridad alta: validar señal en datos 3m
 
-**Hipótesis:**
-> "El ángulo θ del embedding UMAP-2D es una coordenada de fase del ciclo de mercado BTC. Si lo usamos como feature explícita, los modelos predictivos mejoran en precisión de timing."
+**Hipótesis:** El mismo ciclo S¹ existe en features 3m. Si r_OOS >= 0.15, el instrumento funciona multi-timeframe.
 
-**Rama:** `feat/cycle-feature-extraction`
-
-**Pasos:**
-1. Crear `eso/signals/cycle.py` con `extract_cycle_phase(df, n_neighbors=15, seed=42) -> pd.Series`
-   - Aplica UMAP-2D sobre compact features
-   - Calcula θ = arctan2(y, x) como coordenada de fase
-   - Devuelve serie temporal de θ con timestamps
-2. Validar que θ es periódico: FFT sobre θ, identificar frecuencias dominantes
-3. Correlacionar θ con price action futura (sin data leakage)
-4. Guardar fase + confianza en `reports/*/cycle_phase.csv`
-
-### Prioridad media: ¿qué periodo tiene el anillo?
-
-**Hipótesis:**
-> "El ciclo S¹ en BTC features corresponde a un periodo de mercado conocido (semanal / mensual / ciclo de 4 años)."
-
-**Rama:** `exp/cycle-period-analysis`
+**Rama:** `exp/causal-signal-3m`
 
 **Pasos:**
-1. Calcular θ(t) sobre el dataset completo (46k filas)
-2. Calcular velocidad angular dθ/dt
-3. Estimar periodo: T = 2π / mean(|dθ/dt|)
-4. Comparar con periodos conocidos (24h, 7d, 28d, ~4 años)
+1. `python -m eso.cli explore data/btc_3m/splits/train.parquet --klines-format --feature-mode compact --projection-method umap`
+2. `CausalCyclePhase(train_size=40000).fit_and_evaluate(df_3m, horizon_h=60)` — horizonte ~3h equivalente
+3. Comparar r_OOS con el 1h (0.320)
 
-### Prioridad baja: ¿puede s1_r2-UMAP llegar a < 1.0x?
+### Prioridad alta: primer modelo predictivo con las features
 
-Actualmente s1_r2-UMAP = 2.0-2.4x. Para < 1.0x necesitamos features que expongan el ciclo explícitamente. Usar la fase θ como feature y re-evaluar.
+**Hipótesis:** Un modelo simple (logistic regression o lightGBM) sobre `[sin_θ_24h, cos_θ_24h, ring_radius, vol_20, lr_z20]` logra accuracy direccional > 53% en OOS.
+
+**Rama:** `feat/direction-model-v1`
+
+**Pasos:**
+1. Usar `build_feature_vector(df, train_size=27000)` como dataset
+2. Target: `sign(log_return(t+12))` — dirección a +12h
+3. Entrenar sobre primeras 15k OOS rows, evaluar sobre últimas 4k
+4. Baseline: predecir siempre la dirección más frecuente
+5. No predecir magnitud, solo dirección
+
+### Prioridad media: s1_r2-UMAP + feature θ explícita → ¿supera 1.0x?
+
+**Hipótesis:** Añadir sin(θ_24h) y cos(θ_24h) como features adicionales al espacio compacto y re-evaluar s1_r2 bajo UMAP. Si ahora el círculo puede usarlas, debería acercarse a 1.0x.
+
+**Rama:** `exp/s1r2-with-explicit-cycle`
