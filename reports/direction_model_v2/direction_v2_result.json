@@ -1,0 +1,84 @@
+{
+  "experiment": "10_direction_model_v2",
+  "data": "data\\BTCUSDT_1h.csv",
+  "oos_start": 27020,
+  "ml_train_size": 15000,
+  "horizon_bars": 12,
+  "causal_correlations": {
+    "lr_now_vs_future12h": 0.286,
+    "vi_s6_vs_future12h": 0.258,
+    "lr_z20_vs_future12h": 0.115,
+    "sin_theta24h_vs_future12h": -0.042
+  },
+  "models": {
+    "lr_now only": {
+      "accuracy": 0.4865579550462759,
+      "baseline": 0.5136624063464081,
+      "delta": -0.027104451300132226,
+      "h1": 0.499338915821948,
+      "h2": 0.47377699427060377,
+      "stable": true,
+      "pass": false
+    },
+    "vi_s6 only": {
+      "accuracy": 0.4863375936535919,
+      "baseline": 0.5136624063464081,
+      "delta": -0.027324812692816225,
+      "h1": 0.498457470251212,
+      "h2": 0.4742177170559718,
+      "stable": true,
+      "pass": false
+    },
+    "lr_now + vol_20": {
+      "accuracy": 0.4861172322609079,
+      "baseline": 0.5136624063464081,
+      "delta": -0.027545174085500224,
+      "h1": 0.498016747465844,
+      "h2": 0.4742177170559718,
+      "stable": true,
+      "pass": false
+    },
+    "vi_s6 + vol_20": {
+      "accuracy": 0.4872190392243279,
+      "baseline": 0.5136624063464081,
+      "delta": -0.02644336712208023,
+      "h1": 0.494050242397532,
+      "h2": 0.48038783605112384,
+      "stable": true,
+      "pass": false
+    },
+    "lr_now + vi_s6 + vol_20 (BEST)": {
+      "accuracy": 0.4889819303657999,
+      "baseline": 0.5136624063464081,
+      "delta": -0.02468047598060824,
+      "h1": 0.49669457910973996,
+      "h2": 0.48126928162185983,
+      "stable": true,
+      "pass": false
+    },
+    "lr_now + vi_s6 + vi_s24 + vol_20": {
+      "accuracy": 0.4901831016986543,
+      "baseline": 0.513567174056916,
+      "delta": -0.023384072358261676,
+      "h1": 0.4876434245366284,
+      "h2": 0.49272165857962064,
+      "stable": true,
+      "pass": false
+    },
+    "lr_z20 only (exp05 key feature)": {
+      "accuracy": 0.4863375936535919,
+      "baseline": 0.5136624063464081,
+      "delta": -0.027324812692816225,
+      "h1": 0.498457470251212,
+      "h2": 0.4742177170559718,
+      "stable": true,
+      "pass": false
+    }
+  },
+  "conclusion": {
+    "best_model": "lr_now + vi_s6 + vi_s24 + vol_20",
+    "best_accuracy": 0.4901831016986543,
+    "beats_55pct": false,
+    "key_insight": "lr_now + vi_s6 beats UMAP ring features for direction prediction"
+  }
+}
