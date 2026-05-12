@@ -334,7 +334,8 @@ Luego decide qué área del backlog (§4) atacar esta sesión.
 ### Datos disponibles
 - `data/BTCUSDT_1h.csv`: 46,570 filas, 2021-01-01 → 2026-04-25
   OHLCV + vwap, n_trades, taker_buy_volume, taker_sell_volume, delta
-- `data/btc_3m/splits/train.parquet`: 92,736 filas, Binance Klines (usar `--klines-format`)
+- `data/btc_3m/splits/train.parquet`: 92,736 filas, **1-MINUTE bars** (Binance Klines, Oct-Dec 2024)
+  NOTA: carpeta nombrada "btc_3m" pero las barras son de 1-minuto (60s entre filas). Usar `prepare_btc_klines()`.
 
 ### El instrumento — resumen ejecutivo
 
@@ -426,6 +427,28 @@ print(fv[['sin_theta_24h','cos_theta_24h','ring_radius','vol_20']].describe())
 "
 ```
 
+### Umbral de resolución del anillo S¹ (hallazgo 2026-05-12)
+
+El anillo S¹ tiene un límite de resolución temporal: **~15-30 minutos**.
+
+| Resolución | ring_cv | is_ring | |r_OOS| causal |
+|---|---|---|---|
+| 1-min | 0.493 | No | 0.055 (WEAK) |
+| 5-min | 0.527 | No | — |
+| 15-min | 0.290 | borderline | 0.292 |
+| 30-min | 0.249 | Sí | 0.303 |
+| 1-hora | 0.228 | Sí | 0.320 (ref) |
+
+**Por qué**: por debajo de 15min, el ruido de microestructura (bid-ask bounce,
+trades individuales) domina sobre la dinámica cíclica. `vol_20` a 1-min = 20 minutos
+de volatilidad — demasiado corto para representar los ciclos de régimen.
+
+**Regla**: Usar resolución >= 15min para el instrumento S¹. Para datos sub-15min,
+resamplear a 15min o 30min antes de aplicar `CausalCyclePhase`.
+
+**Nota sign**: r negativo a 30-min es artefacto de orientación UMAP (el anillo puede
+ser clockwise o counterclockwise). `build_feature_vector` incluye sin+cos, inmune a esto.
+
 ### Contexto histórico
 - Origen: **SHSE** (esfera fija) → ESO (geometría libre) → signals (instrumento)
 - SVD ciego a geometría no-lineal — siempre usar UMAP para s1_r2/s2_r
@@ -435,16 +458,13 @@ print(fv[['sin_theta_24h','cos_theta_24h','ring_radius','vol_20']].describe())
 
 ## 10. Próximos experimentos
 
-### Prioridad alta: validar señal en datos 3m
+### COMPLETADO: validación en datos sub-hora (exp/causal-signal-3m, 2026-05-12)
 
-**Hipótesis:** El mismo ciclo S¹ existe en features 3m. Si r_OOS >= 0.15, el instrumento funciona multi-timeframe.
-
-**Rama:** `exp/causal-signal-3m`
-
-**Pasos:**
-1. `python -m eso.cli explore data/btc_3m/splits/train.parquet --klines-format --feature-mode compact --projection-method umap`
-2. `CausalCyclePhase(train_size=40000).fit_and_evaluate(df_3m, horizon_h=60)` — horizonte ~3h equivalente
-3. Comparar r_OOS con el 1h (0.320)
+**Resultado:** Umbral de resolución confirmado a ~15-30min.
+- 1-min: r_OOS=0.055 (WEAK, sin anillo). El parquet btc_3m es en realidad 1-min.
+- 15-min (resampleado): |r_OOS|=0.292 (borderline ring en test)
+- 30-min (resampleado): |r_OOS|=0.303 (ring estable, sign invertido)
+- Conclusión: usar resolución >= 15min. Ver `reports/causal_1m/resolution_sweep.json`.
 
 ### Prioridad alta: primer modelo predictivo con las features
 
