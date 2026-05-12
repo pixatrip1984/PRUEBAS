@@ -26,7 +26,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install numpy scipy pandas scikit-learn statsmodels nolds matplotlib pyarrow
+          pip install numpy scipy pandas scikit-learn statsmodels nolds matplotlib pyarrow pytest
           pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
           pip install torch_geometric
 
@@ -42,7 +42,12 @@ jobs:
             eso/meta/*.py \
             eso/reporting/*.py \
             experiments/01_diagnose_btc.py \
-            experiments/02_test_manifolds.py
+            experiments/02_test_manifolds.py \
+            tests/*.py
+
+      - name: Run unit tests
+        run: |
+          pytest -q
 
       - name: Run legacy experiment smokes
         run: |
@@ -74,6 +79,14 @@ jobs:
           test -f reports/harmonic_eso/metrics.csv
           test -f reports/harmonic_eso/diagnosis.json
           test -f reports/harmonic_eso/figures/manifold_ranking.png
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          payload = json.loads(Path('reports/harmonic_eso/report.json').read_text())
+          assert payload['schema_version'] == 'eso.report.v1'
+          assert payload['best']['manifold']
+          assert payload['agent_summary']['recommended_next_action']
+          PY
 
       - name: Upload ESO report artifact
         if: always()
