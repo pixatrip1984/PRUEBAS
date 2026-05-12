@@ -120,16 +120,61 @@ class KleinBottle(Manifold):
         return np.stack([x, y, z], axis=1)
 
 
+class Plane(Manifold):
+    """Flat Euclidean plane — dimensionless baseline with no curvature."""
+
+    def __init__(self, ambient_dim: int = 2):
+        super().__init__(f"plane{ambient_dim}d", dim=ambient_dim, ambient_dim=ambient_dim, is_compact=False)
+
+    def sample_uniform(self, n_points: int, seed: int | None = None) -> np.ndarray:
+        rng = np.random.default_rng(seed)
+        return rng.uniform(-1.0, 1.0, (n_points, self.ambient_dim))
+
+    def project(self, x: np.ndarray) -> np.ndarray:
+        x = np.asarray(x, dtype=float)
+        if x.shape[-1] >= self.ambient_dim:
+            return x[:, : self.ambient_dim]
+        return np.pad(x, [(0, 0), (0, self.ambient_dim - x.shape[-1])])
+
+
+class ProductCylinderLine(Manifold):
+    """S¹ × ℝ² — cycle plus 2D drift, models trending-cyclic structure."""
+
+    def __init__(self):
+        super().__init__("s1_r2", dim=3, ambient_dim=4, is_compact=False)
+
+    def sample_uniform(self, n_points: int, seed: int | None = None) -> np.ndarray:
+        rng = np.random.default_rng(seed)
+        theta = rng.uniform(0, 2 * np.pi, n_points)
+        drift = rng.uniform(-1.0, 1.0, (n_points, 2))
+        return np.concatenate([
+            np.stack([np.cos(theta), np.sin(theta)], axis=1),
+            drift,
+        ], axis=1)
+
+
 def get_manifold(name: str) -> Manifold:
     key = name.lower().replace("-", "_")
     if key in {"s1", "circle"}:
         return Circle()
     if key in {"s2", "sphere", "sphere2"}:
         return Sphere(2)
+    if key in {"s3", "sphere3"}:
+        return Sphere(3)
+    if key in {"s4", "sphere4"}:
+        return Sphere(4)
     if key in {"t2", "torus", "torus2"}:
         return Torus()
     if key == "cylinder":
         return Cylinder()
     if key in {"klein", "klein_bottle"}:
         return KleinBottle()
+    if key in {"plane", "plane2d"}:
+        return Plane(2)
+    if key in {"plane3d"}:
+        return Plane(3)
+    if key in {"plane4d"}:
+        return Plane(4)
+    if key in {"s1_r2", "product_cylinder_line"}:
+        return ProductCylinderLine()
     raise ValueError(f"Unknown manifold: {name}")
