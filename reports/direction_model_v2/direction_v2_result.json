@@ -5,10 +5,11 @@
   "ml_train_size": 15000,
   "horizon_bars": 12,
   "causal_correlations": {
-    "lr_now_vs_future12h": 0.286,
-    "vi_s6_vs_future12h": 0.258,
-    "lr_z20_vs_future12h": 0.115,
-    "sin_theta24h_vs_future12h": -0.042
+    "lr_now_vs_future12h": -0.006717287029782052,
+    "vi_s6_vs_future12h": 0.011987597247542316,
+    "vi_s24_vs_future12h": 0.012300610296659976,
+    "lr_z20_vs_future12h": 0.0032682303690957076,
+    "|vi_s6|_vs_future12h": -0.011266660199343866
   },
   "models": {
     "lr_now only": {
@@ -79,6 +80,6 @@
     "best_model": "lr_now + vi_s6 + vi_s24 + vol_20",
     "best_accuracy": 0.4901831016986543,
     "beats_55pct": false,
-    "key_insight": "lr_now + vi_s6 beats UMAP ring features for direction prediction"
+    "key_insight": "Direction is absent at 12h; all tested order-flow/momentum models fail vs baseline."
   }
 }

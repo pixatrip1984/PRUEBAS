@@ -104,11 +104,13 @@ def extract_cycle_phase(
     radius = np.sqrt(x ** 2 + y ** 2)
 
     if smooth_window and smooth_window > 1:
-        # Circular mean: average real and imaginary parts separately
+        # Circular mean: average real and imaginary parts separately.
+        # Keep the window causal; centered smoothing leaks future bars.
         z = np.exp(1j * theta)
         w = int(smooth_window)
-        z_re = pd.Series(z.real).rolling(w, center=True, min_periods=1).mean().to_numpy()
-        z_im = pd.Series(z.imag).rolling(w, center=True, min_periods=1).mean().to_numpy()
+        min_periods = max(1, w // 4)
+        z_re = pd.Series(z.real).rolling(w, center=False, min_periods=min_periods).mean().to_numpy()
+        z_im = pd.Series(z.imag).rolling(w, center=False, min_periods=min_periods).mean().to_numpy()
         theta = np.angle(z_re + 1j * z_im)
 
     if unwrap:

@@ -33,6 +33,10 @@ def test_cli_explore_writes_report(tmp_path):
     assert code == 0
     assert (out_dir / "report.html").exists()
     assert (out_dir / "report.json").exists()
+    assert (out_dir / "artifacts" / "model_handoff.json").exists()
     payload = json.loads((out_dir / "report.json").read_text())
     assert payload["schema_version"] == "eso.report.v1"
     assert payload["best"]["manifold"] in {"circle", "sphere2"}
+    handoff = json.loads((out_dir / "artifacts" / "model_handoff.json").read_text())
+    assert handoff["schema_version"] == "eso.model_handoff.v1"
+    assert handoff["topology"]["best"]["manifold"] in {"circle", "sphere2"}

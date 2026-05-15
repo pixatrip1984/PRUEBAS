@@ -40,6 +40,10 @@ node_modules/
 # Logs
 *.log
 
+# Generated ESO outputs. Curated historical JSONs already tracked by git remain tracked.
+/reports/*
+/experiments/eso_registry.csv
+
 # Temporary files
 *.tmp
 *.temp

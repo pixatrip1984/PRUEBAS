@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "eso.benchmark_suite.v1",
+  "title": "ESO Benchmark Suite",
+  "type": "object",
+  "required": ["schema_version", "name", "dataset", "runs"],
+  "properties": {
+    "schema_version": {"const": "eso.benchmark_suite.v1"},
+    "name": {"type": "string"},
+    "dataset_id": {"type": "string"},
+    "dataset": {
+      "type": "object",
+      "required": ["path"],
+      "properties": {
+        "path": {"type": "string"},
+        "feature_mode": {"type": "string"},
+        "columns": {"type": "array", "items": {"type": "string"}},
+        "close_col": {"type": "string"},
+        "umap_train_size": {"type": "integer"},
+        "smooth_windows": {"type": "array", "items": {"type": "integer"}},
+        "klines_format": {"type": "boolean"},
+        "skip_rows": {"type": "integer"},
+        "max_rows": {"type": "integer"}
+      }
+    },
+    "train_size": {"type": "integer"},
+    "train_fraction": {"type": "number"},
+    "runs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "task"],
+        "properties": {
+          "name": {"type": "string"},
+          "task": {"type": "string", "enum": ["volatility", "regime", "direction"]},
+          "horizon": {"type": "integer"},
+          "model_type": {"type": "string"},
+          "train_size": {"type": "integer"},
+          "train_fraction": {"type": "number"},
+          "feature_columns": {"type": "array", "items": {"type": "string"}}
+        }
+      }
+    }
+  }
+}

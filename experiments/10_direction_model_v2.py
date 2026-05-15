@@ -105,10 +105,12 @@ if __name__ == "__main__":
 
     print()
     print("Causal correlations on full OOS:")
+    causal_correlations = {}
     for name, f in [("lr_now", lr_now), ("vi_s6", vi_s6), ("vi_s24", vi_s24),
                     ("lr_z20", lr_z20), ("|vi_s6|", np.abs(vi_s6))]:
         m = mask & ~np.isnan(f)
         r = float(np.corrcoef(f[m], future_lr12[m])[0, 1])
+        causal_correlations[f"{name}_vs_future12h"] = r
         print(f"  r({name:12s}, future_lr12) = {r:+.4f}")
 
     print()
@@ -166,18 +168,13 @@ if __name__ == "__main__":
         "experiment": "10_direction_model_v2",
         "data": str(DATA_PATH), "oos_start": 27020,
         "ml_train_size": TRAIN_SIZE_OOS, "horizon_bars": HORIZON,
-        "causal_correlations": {
-            "lr_now_vs_future12h": 0.286,
-            "vi_s6_vs_future12h": 0.258,
-            "lr_z20_vs_future12h": 0.115,
-            "sin_theta24h_vs_future12h": -0.042,
-        },
+        "causal_correlations": causal_correlations,
         "models": results,
         "conclusion": {
             "best_model": best_name,
             "best_accuracy": results[best_name]["accuracy"],
             "beats_55pct": any_pass,
-            "key_insight": "lr_now + vi_s6 beats UMAP ring features for direction prediction",
+            "key_insight": "Direction is absent at 12h; all tested order-flow/momentum models fail vs baseline.",
         },
-    }, indent=2, default=str))
+    }, indent=2, default=str) + "\n")
     print(f"Results saved to {OUT_DIR}")

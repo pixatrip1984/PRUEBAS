@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "eso.universe_dissect.v1",
+  "title": "ESO Universe Dissection Result",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "name",
+    "output_dir",
+    "asset_count",
+    "error_count",
+    "assets",
+    "errors",
+    "tables",
+    "guardrails"
+  ],
+  "properties": {
+    "schema_version": {"const": "eso.universe_dissect.v1"},
+    "name": {"type": "string"},
+    "output_dir": {"type": "string"},
+    "asset_count": {"type": "integer"},
+    "error_count": {"type": "integer"},
+    "assets": {"type": "array", "items": {"type": "object"}},
+    "errors": {"type": "array", "items": {"type": "object"}},
+    "tables": {"type": "object"},
+    "guardrails": {"type": "array", "items": {"type": "string"}}
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "eso.model_run.v1",
+  "title": "ESO Model Run Manifest",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "dataset_id",
+    "task",
+    "model_type",
+    "features",
+    "feature_frame",
+    "target",
+    "split",
+    "baselines",
+    "metrics",
+    "primary_metric",
+    "causal_guardrails"
+  ],
+  "properties": {
+    "schema_version": {"const": "eso.model_run.v1"},
+    "dataset_id": {"type": "string"},
+    "task": {"type": "string", "enum": ["volatility", "regime", "direction"]},
+    "model_type": {"type": "string"},
+    "features": {"type": "array", "items": {"type": "string"}},
+    "feature_frame": {
+      "type": "object",
+      "required": ["rows", "columns", "sha256"],
+      "properties": {
+        "rows": {"type": "integer"},
+        "columns": {"type": "array", "items": {"type": "string"}},
+        "sha256": {"type": "string"}
+      }
+    },
+    "target": {
+      "type": "object",
+      "required": ["name", "type", "horizon"],
+      "properties": {
+        "name": {"type": "string"},
+        "type": {"type": "string", "enum": ["regression", "classification"]},
+        "horizon": {"type": "integer"}
+      }
+    },
+    "split": {
+      "type": "object",
+      "required": ["train_size", "test_size", "shuffle"],
+      "properties": {
+        "train_size": {"type": "integer"},
+        "test_size": {"type": "integer"},
+        "shuffle": {"type": "boolean"}
+      }
+    },
+    "baselines": {"type": "object"},
+    "metrics": {"type": "object"},
+    "primary_metric": {"type": "string"},
+    "feature_importances": {"type": "object"},
+    "causal_guardrails": {"type": "array", "items": {"type": "string"}}
+  }
+}

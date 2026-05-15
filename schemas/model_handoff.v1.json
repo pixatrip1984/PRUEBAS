@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "eso.model_handoff.v1",
+  "title": "ESO Model Handoff",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "dataset_id",
+    "dataset",
+    "topology",
+    "feature_contract",
+    "recommended_model_tasks",
+    "known_nulls",
+    "causal_guardrails",
+    "suggested_commands",
+    "reproducibility"
+  ],
+  "properties": {
+    "schema_version": {"const": "eso.model_handoff.v1"},
+    "dataset_id": {"type": "string"},
+    "dataset": {"type": "object"},
+    "topology": {
+      "type": "object",
+      "required": ["best", "notes", "evaluations_ranked"],
+      "properties": {
+        "best": {"type": "object"},
+        "notes": {"type": "array", "items": {"type": "string"}},
+        "evaluations_ranked": {"type": "array", "items": {"type": "object"}}
+      }
+    },
+    "feature_contract": {
+      "type": "object",
+      "required": ["feature_mode", "columns", "known_feature_descriptions"],
+      "properties": {
+        "feature_mode": {"type": "string"},
+        "columns": {"type": "array", "items": {"type": "string"}},
+        "known_feature_descriptions": {"type": "object"}
+      }
+    },
+    "recommended_model_tasks": {"type": "array", "items": {"type": "object"}},
+    "known_nulls": {"type": "array", "items": {"type": "object"}},
+    "causal_guardrails": {"type": "array", "items": {"type": "string"}},
+    "suggested_commands": {"type": "array", "items": {"type": "string"}},
+    "reproducibility": {"type": "object"}
+  }
+}

@@ -465,10 +465,10 @@ class RollingCausalCycle:
             "umap_x":    x,
             "umap_y":    y,
             "radius":    radius,
-        }, index=np.array(all_idx))
+        }, index=test_orig_idx)
 
         if timestamp_col in df.columns:
-            out.insert(0, timestamp_col, df[timestamp_col].iloc[test_orig_idx].values)
+            out.insert(0, timestamp_col, df.loc[test_orig_idx, timestamp_col].values)
 
         return out
 
@@ -501,8 +501,9 @@ def validate_causal_signal(
     close_test = df["close"].to_numpy(dtype=float)[orig_idx]
     future_ret = np.log(close_test[horizon_h:] / close_test[:-horizon_h])
 
-    z_re = pd.Series(np.cos(theta_test)).rolling(smooth_h, center=True, min_periods=1).mean().to_numpy()
-    z_im = pd.Series(np.sin(theta_test)).rolling(smooth_h, center=True, min_periods=1).mean().to_numpy()
+    min_periods = max(1, smooth_h // 4)
+    z_re = pd.Series(np.cos(theta_test)).rolling(smooth_h, center=False, min_periods=min_periods).mean().to_numpy()
+    z_im = pd.Series(np.sin(theta_test)).rolling(smooth_h, center=False, min_periods=min_periods).mean().to_numpy()
     sin_s = np.sin(np.angle(z_re + 1j * z_im))
     n_pairs = min(len(sin_s) - horizon_h, len(future_ret))
     dir_acc = float((np.sign(sin_s[:n_pairs]) == np.sign(future_ret[:n_pairs])).mean())

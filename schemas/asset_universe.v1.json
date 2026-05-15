@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "eso.asset_universe.v1",
+  "title": "ESO Asset Universe",
+  "type": "object",
+  "required": ["schema_version", "name", "assets"],
+  "properties": {
+    "schema_version": {"const": "eso.asset_universe.v1"},
+    "name": {"type": "string"},
+    "defaults": {"type": "object"},
+    "assets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path"],
+        "properties": {
+          "asset_id": {"type": "string"},
+          "path": {"type": "string"},
+          "feature_mode": {"type": "string"},
+          "columns": {"type": "array", "items": {"type": "string"}},
+          "close_col": {"type": "string"},
+          "horizons": {"type": "array", "items": {"type": "integer"}},
+          "train_size": {"type": "integer"},
+          "train_fraction": {"type": "number"},
+          "phase_window": {"type": "integer"},
+          "klines_format": {"type": "boolean"},
+          "skip_rows": {"type": "integer"},
+          "max_rows": {"type": "integer"},
+          "umap_train_size": {"type": "integer"},
+          "smooth_windows": {"type": "array", "items": {"type": "integer"}},
+          "timestamp_col": {"type": "string"},
+          "reference_path": {"type": "string"},
+          "reference_klines_format": {"type": "boolean"},
+          "reference_tolerance": {"type": "string"},
+          "relative_windows": {"type": "array", "items": {"type": "integer"}}
+        }
+      }
+    }
+  }
+}

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -10,6 +11,11 @@ import pandas as pd
 
 from .preprocess import flatten_windows, normalize
 from .validation import DataValidationReport, validate_dataframe
+
+
+def _data_fingerprint(data: np.ndarray) -> str:
+    x = np.ascontiguousarray(np.asarray(data, dtype=np.float64))
+    return hashlib.sha256(x.tobytes()).hexdigest()
 
 
 @dataclass
@@ -28,6 +34,7 @@ class LoadedDataset:
             "source_path": self.source_path,
             "columns": self.columns,
             "shape": list(self.data.shape),
+            "data_sha256": _data_fingerprint(self.data),
             "normalized": self.normalized,
             "window_size": self.window_size,
             "window_step": self.window_step,

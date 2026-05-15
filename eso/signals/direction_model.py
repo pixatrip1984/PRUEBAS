@@ -30,6 +30,8 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import RobustScaler
 
+from eso.signals.targets import future_log_return
+
 
 CYCLE_FEATURES = [
     "sin_theta_6h",  "cos_theta_6h",
@@ -82,19 +84,12 @@ def build_direction_dataset(
     if feature_cols is None:
         feature_cols = [c for c in CYCLE_FEATURES if c in fv.columns]
 
-    close = fv["close"].to_numpy(dtype=float)
-    n = len(close)
-
-    # Forward log return: log(close[t+h] / close[t])
-    future_lr = np.full(n, np.nan)
-    future_lr[: n - horizon] = np.log(close[horizon:] / close[:n-horizon])
-
     fv2 = fv.copy()
-    fv2["_target_lr"] = future_lr
+    fv2["_target_lr"] = future_log_return(fv2, horizon=horizon, close_col="close")
     fv2["_target"] = np.sign(fv2["_target_lr"])
 
     # Drop last horizon rows (no target) and flat returns
-    fv2 = fv2.dropna(subset=["_target_lr"])
+    fv2 = fv2.dropna(subset=["_target_lr", *feature_cols])
     fv2 = fv2[fv2["_target"] != 0]
 
     X = fv2[feature_cols]

@@ -9,6 +9,8 @@ import pandas as pd
 def build_financial_features(
     df: pd.DataFrame,
     vol_windows: tuple[int, ...] = (5, 20),
+    funding_window: int = 200,
+    oi_windows: tuple[int, ...] = (20, 72),
     eps: float = 1e-9,
 ) -> pd.DataFrame:
     """Return a new DataFrame with stationary financial features derived from OHLCV + microstructure.
@@ -73,6 +75,40 @@ def build_financial_features(
         trades_ma = trades.rolling(20, min_periods=10).mean()
         out["trades_ratio"] = trades / (trades_ma + eps)
 
+    # ── derivatives context: funding rate ───────────────────────────────────
+    funding_col = next(
+        (c for c in ["funding_rate", "fundingRate", "funding"] if c in df.columns),
+        None,
+    )
+    if funding_col is not None:
+        funding = df[funding_col].astype(float)
+        out["funding_rate"] = funding
+        out["funding_abs"] = funding.abs()
+        min_periods = max(10, funding_window // 10)
+        f_mean = funding.rolling(funding_window, min_periods=min_periods).mean()
+        f_std = funding.rolling(funding_window, min_periods=min_periods).std().replace(0, np.nan)
+        out["funding_z"] = (funding - f_mean) / f_std
+        out["funding_abs_pct"] = funding.abs().rolling(
+            funding_window, min_periods=min_periods
+        ).rank(pct=True)
+
+    # ── derivatives context: open interest ──────────────────────────────────
+    oi_col = next(
+        (c for c in ["open_interest", "openInterest", "oi"] if c in df.columns),
+        None,
+    )
+    if oi_col is not None:
+        oi = df[oi_col].astype(float)
+        out["open_interest"] = oi
+        log_oi = np.log(oi.replace(0, np.nan))
+        out["oi_log_return"] = log_oi.diff()
+        for w in oi_windows:
+            min_periods = max(5, w // 2)
+            out[f"oi_change_{w}"] = log_oi.diff(w)
+            oi_mean = out["oi_log_return"].rolling(w, min_periods=min_periods).mean()
+            oi_std = out["oi_log_return"].rolling(w, min_periods=min_periods).std().replace(0, np.nan)
+            out[f"oi_z_{w}"] = (out["oi_log_return"] - oi_mean) / oi_std
+
     # ── drop initial NaN rows (from diffs and rolling windows) ──────────────
     out = out.dropna(how="all").dropna(subset=["log_return"])
 
@@ -114,11 +150,22 @@ def feature_column_groups() -> dict[str, list[str]]:
         "returns_only": ["log_return", "log_return_2"],
         "returns_vol": ["log_return", "vol_5", "vol_20", "lr_z20"],
         "microstructure": ["vwap_dev", "volume_imbalance", "taker_ratio", "delta_norm"],
+        "derivatives": [
+            "funding_rate", "funding_abs", "funding_z", "funding_abs_pct",
+            "open_interest", "oi_log_return", "oi_change_20", "oi_z_20",
+        ],
         "full": [
             "log_return", "log_return_2", "hl_range", "body",
             "vol_5", "vol_20", "lr_z20",
             "vwap_dev", "volume_imbalance", "taker_ratio", "delta_norm",
             "vol_ratio", "trades_ratio",
+            "funding_rate", "funding_abs", "funding_z", "funding_abs_pct",
+            "open_interest", "oi_log_return", "oi_change_20", "oi_z_20",
         ],
         "compact": ["log_return", "vol_20", "vwap_dev", "volume_imbalance"],
+        "alt_funding": [
+            "log_return", "vol_20", "vwap_dev", "volume_imbalance",
+            "funding_rate", "funding_abs", "funding_z", "funding_abs_pct",
+            "oi_log_return", "oi_change_20", "oi_z_20",
+        ],
     }

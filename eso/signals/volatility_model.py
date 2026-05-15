@@ -39,6 +39,8 @@ from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 from sklearn.linear_model import LogisticRegression, Ridge
 from sklearn.preprocessing import RobustScaler
 
+from eso.signals.targets import future_realized_volatility
+
 
 VOL_FEATURES = [
     "ring_radius",
@@ -94,21 +96,9 @@ def build_vol_dataset(
     if feature_cols is None:
         feature_cols = [c for c in VOL_FEATURES if c in fv.columns]
 
-    close = fv["close"].to_numpy(dtype=float)
-    n = len(close)
-    lr = np.log(close[1:] / close[:-1])   # n-1 one-bar log returns
-
-    # Realized vol over [t+1 : t+horizon+1]
-    rv = np.full(n, np.nan)
-    for i in range(n - horizon):
-        if horizon == 1:
-            rv[i] = abs(lr[i])
-        else:
-            rv[i] = float(np.std(lr[i:i+horizon], ddof=1))
-
     fv2 = fv.copy()
-    fv2["_rv"] = rv
-    fv2 = fv2.dropna(subset=["_rv"])
+    fv2["_rv"] = future_realized_volatility(fv2, horizon=horizon, close_col="close")
+    fv2 = fv2.dropna(subset=["_rv", *feature_cols])
 
     X = fv2[feature_cols]
     y = fv2["_rv"]

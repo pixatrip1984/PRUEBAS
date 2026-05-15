@@ -9,6 +9,9 @@ from pathlib import Path
 
 import pandas as pd
 
+from eso.contracts import assert_valid_contract
+
+from .model_handoff import build_model_handoff
 from .plots import generate_figures
 
 
@@ -179,11 +182,18 @@ def write_report_bundle(report: dict, data, output_dir: str | Path) -> dict:
     report["schema_version"] = "eso.report.v1"
     report["figures"] = figures
     report["agent_summary"] = agent_summary(report)
+    model_handoff = build_model_handoff(report)
+    assert_valid_contract(report, "eso.report.v1")
+    assert_valid_contract(model_handoff, "eso.model_handoff.v1")
 
     json_path = output_dir / "report.json"
     json_path.write_text(json.dumps(_json_safe(report), indent=2, sort_keys=True), encoding="utf-8")
     diagnosis_path = output_dir / "diagnosis.json"
     diagnosis_path.write_text(json.dumps(_json_safe(report.get("diagnosis", {})), indent=2, sort_keys=True), encoding="utf-8")
+    model_handoff_path = artifacts_dir / "model_handoff.json"
+    model_handoff_path.write_text(
+        json.dumps(_json_safe(model_handoff), indent=2, sort_keys=True), encoding="utf-8"
+    )
     metrics_path = write_metrics(report, output_dir)
     md_path = write_markdown(report, figures, output_dir)
     html_path = write_html(md_path, output_dir)
@@ -191,6 +201,7 @@ def write_report_bundle(report: dict, data, output_dir: str | Path) -> dict:
     return {
         "report_json": str(json_path),
         "diagnosis_json": str(diagnosis_path),
+        "model_handoff_json": str(model_handoff_path),
         "metrics_csv": metrics_path,
         "report_md": md_path,
         "report_html": html_path,

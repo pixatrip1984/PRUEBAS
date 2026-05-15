@@ -63,8 +63,13 @@ def test_feature_groups_are_subsets_of_full_columns():
     df = _make_ohlcv(200)
     feat = build_financial_features(df)
     groups = feature_column_groups()
+    optional_cols = set(groups["derivatives"]) | set(groups["alt_funding"])
     for name, cols in groups.items():
         for col in cols:
+            if name in {"derivatives", "alt_funding"}:
+                continue
+            if col in optional_cols:
+                continue
             assert col in feat.columns, f"Group '{name}' references missing column '{col}'"
 
 
@@ -129,3 +134,28 @@ def test_klines_then_build_features_works():
     feat = build_financial_features(normed)
     required = {"log_return", "vol_20", "vwap_dev", "volume_imbalance"}
     assert required.issubset(set(feat.columns)), f"Missing: {required - set(feat.columns)}"
+
+
+def test_build_features_with_funding_and_open_interest():
+    df = _make_ohlcv(260)
+    rng = np.random.default_rng(123)
+    df["funding_rate"] = rng.normal(0, 0.0001, len(df))
+    df["open_interest"] = 1_000_000 * np.exp(np.cumsum(rng.normal(0, 0.001, len(df))))
+    feat = build_financial_features(df)
+    required = {"funding_rate", "funding_abs", "funding_z", "funding_abs_pct",
+                "open_interest", "oi_log_return", "oi_change_20", "oi_z_20"}
+    assert required.issubset(set(feat.columns)), f"Missing: {required - set(feat.columns)}"
+    tail = feat.tail(40)
+    assert not tail[list(required)].isnull().any().any()
+
+
+def test_alt_funding_group_available_when_columns_present():
+    df = _make_ohlcv(260)
+    rng = np.random.default_rng(123)
+    df["funding_rate"] = rng.normal(0, 0.0001, len(df))
+    df["open_interest"] = 1_000_000 * np.exp(np.cumsum(rng.normal(0, 0.001, len(df))))
+    feat = build_financial_features(df)
+    group = feature_column_groups()["alt_funding"]
+    present = [c for c in group if c in feat.columns]
+    assert "funding_z" in present
+    assert "oi_z_20" in present

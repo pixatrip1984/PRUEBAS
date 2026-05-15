@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "eso.report.v1",
+  "title": "ESO Report",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "dataset_id",
+    "diagnosis",
+    "evaluations",
+    "best",
+    "config",
+    "agent_summary"
+  ],
+  "properties": {
+    "schema_version": {"const": "eso.report.v1"},
+    "dataset_id": {"type": "string"},
+    "diagnosis": {"type": "object"},
+    "evaluations": {"type": "array", "items": {"type": "object"}},
+    "best": {"type": "object"},
+    "config": {"type": "object"},
+    "dataset": {"type": "object"},
+    "feature_mode": {"type": "string"},
+    "projection_method": {"type": "string"},
+    "agent_summary": {
+      "type": "object",
+      "required": ["one_sentence", "recommended_next_action", "confidence", "warnings"],
+      "properties": {
+        "one_sentence": {"type": "string"},
+        "recommended_next_action": {"type": "string"},
+        "confidence": {"type": "string"},
+        "warnings": {"type": "array"}
+      }
+    }
+  }
+}

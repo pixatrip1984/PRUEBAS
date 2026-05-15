@@ -1,0 +1,19 @@
+{
+  "schema_version": "eso.asset_universe.v1",
+  "name": "btc_single",
+  "defaults": {
+    "feature_mode": "cycle",
+    "close_col": "close",
+    "horizons": [3, 12],
+    "train_size": 15000,
+    "phase_window": 24,
+    "umap_train_size": 27000,
+    "smooth_windows": [6, 24, 72]
+  },
+  "assets": [
+    {
+      "asset_id": "BTCUSDT_1h",
+      "path": "data/BTCUSDT_1h.csv"
+    }
+  ]
+}

@@ -3,7 +3,7 @@
 Combines causal cycle phase (geometric) with financial context features
 to produce a complete, ML-ready feature matrix.
 
-Validated feature set (r_OOS=0.320, BTCUSDT 1h, 2024-2026):
+Validated volatility feature set (BTCUSDT 1h, OOS 2024-2026):
     sin_theta_6h   — short-cycle position (12h period)
     cos_theta_6h   — orthogonal short-cycle
     sin_theta_24h  — medium-cycle position (biweekly ~11d)
@@ -13,6 +13,9 @@ Validated feature set (r_OOS=0.320, BTCUSDT 1h, 2024-2026):
     ring_radius    — UMAP ring confidence (larger = more on-ring)
     vol_20         — rolling 20-bar volatility (amplitude context)
     lr_z20         — return z-score over 20 bars (momentum context)
+
+Best confirmed target: future realized volatility, not direction:
+    Ridge[sin/cos_24h + ring_radius + vol_20]: r=0.398, MAE -12.9% vs GARCH-0.
 
 Usage:
     from eso.signals.feature_vector import build_feature_vector, CausalFeatureBuilder
@@ -194,21 +197,18 @@ class CausalFeatureBuilder:
         out = pd.DataFrame(index=phase.index)
         out = _add_cycle_features(out, theta, radius, self.smooth_windows)
 
-        # Financial context — select from feat aligned to phase.index
+        # Financial context — phase.index contains original df/feature labels.
         feat = build_financial_features(df)
         for col in ["vol_20", "lr_z20"]:
             if col in feat.columns:
-                out[col] = feat[col].iloc[phase.index].values
+                out[col] = feat.loc[phase.index, col].values
 
         # Metadata
-        orig_idx = phase.index.to_numpy()
-        out["close"] = df["close"].to_numpy(dtype=float)[orig_idx]
+        orig_idx = phase.index
+        out["close"] = df.loc[orig_idx, "close"].to_numpy(dtype=float)
 
         if "log_return" in feat.columns:
-            # phase.index contains positional indices into feat_clean
-            feat_clean = feat.dropna(subset=["log_return"])
-            # phase.index = positions in feat_clean; use direct positional lookup
-            out["log_return"] = feat_clean["log_return"].iloc[phase.index.to_numpy()].values
+            out["log_return"] = feat.loc[orig_idx, "log_return"].values
 
         if "timestamp" in phase.columns:
             out.insert(0, "timestamp", phase["timestamp"].values)

@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "eso.asset_dissect.v1",
+  "title": "ESO Asset Dissection",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "asset_id",
+    "rows",
+    "horizons",
+    "split",
+    "features",
+    "target_summary",
+    "feature_summary",
+    "top_feature_target_correlations",
+    "tables",
+    "guardrails"
+  ],
+  "properties": {
+    "schema_version": {"const": "eso.asset_dissect.v1"},
+    "asset_id": {"type": "string"},
+    "rows": {"type": "integer"},
+    "horizons": {"type": "array", "items": {"type": "integer"}},
+    "split": {"type": "object"},
+    "features": {"type": "array", "items": {"type": "string"}},
+    "target_summary": {"type": "array", "items": {"type": "object"}},
+    "feature_summary": {"type": "array", "items": {"type": "object"}},
+    "top_feature_target_correlations": {"type": "array", "items": {"type": "object"}},
+    "tables": {"type": "object"},
+    "guardrails": {"type": "array", "items": {"type": "string"}}
+  }
+}

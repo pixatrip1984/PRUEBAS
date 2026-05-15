@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "eso.benchmark_result.v1",
+  "title": "ESO Benchmark Result",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "suite_name",
+    "dataset_id",
+    "dataset",
+    "output_dir",
+    "run_count",
+    "error_count",
+    "runs",
+    "errors",
+    "guardrails"
+  ],
+  "properties": {
+    "schema_version": {"const": "eso.benchmark_result.v1"},
+    "suite_name": {"type": "string"},
+    "dataset_id": {"type": "string"},
+    "dataset": {"type": "object"},
+    "output_dir": {"type": "string"},
+    "registry_path": {"type": "string"},
+    "run_count": {"type": "integer"},
+    "error_count": {"type": "integer"},
+    "runs": {"type": "array", "items": {"type": "object"}},
+    "errors": {"type": "array", "items": {"type": "object"}},
+    "guardrails": {"type": "array", "items": {"type": "string"}}
+  }
+}

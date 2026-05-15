@@ -1,0 +1,39 @@
+{
+  "schema_version": "eso.benchmark_suite.v1",
+  "name": "btc_core",
+  "dataset_id": "BTCUSDT_1h",
+  "dataset": {
+    "path": "data/BTCUSDT_1h.csv",
+    "feature_mode": "cycle",
+    "close_col": "close",
+    "umap_train_size": 27000,
+    "smooth_windows": [6, 24, 72]
+  },
+  "train_size": 15000,
+  "runs": [
+    {
+      "name": "volatility_h12_ridge",
+      "task": "volatility",
+      "horizon": 12,
+      "model_type": "ridge"
+    },
+    {
+      "name": "regime_h12_logistic",
+      "task": "regime",
+      "horizon": 12,
+      "model_type": "logistic"
+    },
+    {
+      "name": "direction_h3_logistic",
+      "task": "direction",
+      "horizon": 3,
+      "model_type": "logistic"
+    },
+    {
+      "name": "direction_h12_logistic",
+      "task": "direction",
+      "horizon": 12,
+      "model_type": "logistic"
+    }
+  ]
+}
