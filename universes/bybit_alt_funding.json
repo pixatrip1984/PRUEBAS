@@ -1,0 +1,27 @@
+{
+  "schema_version": "eso.asset_universe.v1",
+  "name": "bybit_alt_funding",
+  "defaults": {
+    "feature_mode": "alt_funding",
+    "close_col": "close",
+    "timestamp_col": "timestamp",
+    "horizons": [3, 12],
+    "train_fraction": 0.7,
+    "phase_window": 24,
+    "reference_path": "data/BTCUSDT_4h.csv",
+    "relative_windows": [12, 42],
+    "reference_tolerance": "4h"
+  },
+  "assets": [
+    {"asset_id": "DRIFTUSDT_4h", "path": "data/DRIFTUSDT_4h.csv"},
+    {"asset_id": "GRASSUSDT_4h", "path": "data/GRASSUSDT_4h.csv"},
+    {"asset_id": "SIGNUSDT_4h",  "path": "data/SIGNUSDT_4h.csv"},
+    {"asset_id": "NILUSDT_4h",   "path": "data/NILUSDT_4h.csv"},
+    {"asset_id": "VVVUSDT_4h",   "path": "data/VVVUSDT_4h.csv"},
+    {"asset_id": "STGUSDT_4h",   "path": "data/STGUSDT_4h.csv"},
+    {"asset_id": "GNOUSDT_4h",   "path": "data/GNOUSDT_4h.csv"},
+    {"asset_id": "ENSUSDT_4h",   "path": "data/ENSUSDT_4h.csv"},
+    {"asset_id": "POPCATUSDT_4h","path": "data/POPCATUSDT_4h.csv"},
+    {"asset_id": "MORPHOUSDT_4h","path": "data/MORPHOUSDT_4h.csv"}
+  ]
+}
