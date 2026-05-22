@@ -12,6 +12,8 @@ from eso.backtest.engine import (
 )
 from eso.backtest.strategies import (
     phase_threshold_strategy,
+    proportional_strategy,
+    proportional_deadband_strategy,
     long_only_baseline,
 )
 

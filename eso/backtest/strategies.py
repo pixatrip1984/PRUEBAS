@@ -78,3 +78,110 @@ def phase_threshold_strategy(
         pos[i] = state
 
     return pd.Series(pos, index=features.index, name="position")
+
+
+def proportional_strategy(
+    features: pd.DataFrame,
+    signal_col: str = "cos_theta_24h",
+    confidence_col: str = "ring_radius",
+    signal_scale: float = 1.0,
+    confidence_percentile_cap: float = 0.95,
+) -> pd.Series:
+    """Continuous position sizing: signal strength × ring confidence.
+
+    Position at time t = clip(signal[t] * weight[t], -1, 1)
+
+    where weight[t] normalises ring_radius by its rolling 500-bar 95th
+    percentile so the position is bounded and comparable across regimes.
+    Using ring_radius as a multiplier means the model reduces exposure
+    whenever the UMAP embedding drifts off the ring (low-confidence geometry).
+
+    No binary threshold → no discrete jumps → lower turnover than the
+    hysteresis strategy, so costs are spread more proportionally to exposure.
+
+    Args:
+        features:                 Output of build_feature_vector.
+        signal_col:               Directional feature (cos or sin of theta).
+        confidence_col:           Confidence weight. ring_radius by default.
+        signal_scale:             Multiplier applied to raw signal before clipping.
+        confidence_percentile_cap: Cap confidence at this rolling percentile
+                                   to avoid extreme scaling in outlier bars.
+
+    Returns:
+        Position series in [-1, 1] indexed like features.
+    """
+    if signal_col not in features.columns:
+        raise KeyError(f"signal_col '{signal_col}' not in features.")
+
+    sig = features[signal_col].to_numpy(dtype=float)
+
+    if confidence_col in features.columns:
+        conf_raw = features[confidence_col].to_numpy(dtype=float)
+        # Rolling percentile cap over 500-bar window
+        cap = (
+            pd.Series(conf_raw)
+            .rolling(500, min_periods=50)
+            .quantile(confidence_percentile_cap)
+            .to_numpy()
+        )
+        cap = np.where(cap > 0, cap, np.nanmedian(conf_raw[conf_raw > 0]))
+        conf = np.clip(conf_raw / cap, 0.0, 1.0)
+    else:
+        conf = np.ones(len(sig))
+
+    raw_pos = signal_scale * sig * conf
+    desired = np.clip(raw_pos, -1.0, 1.0)
+    desired = np.where(np.isnan(desired), 0.0, desired)
+
+    return pd.Series(desired, index=features.index, name="position")
+
+
+def proportional_deadband_strategy(
+    features: pd.DataFrame,
+    signal_col: str = "cos_theta_24h",
+    confidence_col: str = "ring_radius",
+    signal_scale: float = 1.0,
+    confidence_percentile_cap: float = 0.95,
+    min_trade_size: float = 0.15,
+) -> pd.Series:
+    """Proportional sizing with a dead-band to suppress micro-rebalancing.
+
+    Identical to proportional_strategy but only updates the held position when
+    the desired position differs from the current held position by more than
+    `min_trade_size`. This dramatically reduces turnover while keeping most
+    of the signal, since small oscillations in phase do not trigger a trade.
+
+    Args:
+        min_trade_size: Minimum |Δposition| required to rebalance.
+                        At 0.15 a bar must shift position by 15% before
+                        incurring any fee. Good range: 0.1–0.3.
+    """
+    if signal_col not in features.columns:
+        raise KeyError(f"signal_col '{signal_col}' not in features.")
+
+    sig = features[signal_col].to_numpy(dtype=float)
+
+    if confidence_col in features.columns:
+        conf_raw = features[confidence_col].to_numpy(dtype=float)
+        cap = (
+            pd.Series(conf_raw)
+            .rolling(500, min_periods=50)
+            .quantile(confidence_percentile_cap)
+            .to_numpy()
+        )
+        cap = np.where(cap > 0, cap, np.nanmedian(conf_raw[conf_raw > 0]))
+        conf = np.clip(conf_raw / cap, 0.0, 1.0)
+    else:
+        conf = np.ones(len(sig))
+
+    desired = np.clip(signal_scale * sig * conf, -1.0, 1.0)
+    desired = np.where(np.isnan(desired), 0.0, desired)
+
+    held = np.zeros(len(desired))
+    current = 0.0
+    for i in range(len(desired)):
+        if abs(desired[i] - current) >= min_trade_size:
+            current = desired[i]
+        held[i] = current
+
+    return pd.Series(held, index=features.index, name="position")

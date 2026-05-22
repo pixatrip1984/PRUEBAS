@@ -1,0 +1,23 @@
+{
+  "n_bars": 19485,
+  "years": 2.2243150684931505,
+  "n_trades": 698,
+  "turnover_per_year": 108.88402018862432,
+  "gross_total_return": 0.08758962006650715,
+  "net_total_return": -0.0930612715932477,
+  "cost_drag": 0.18065089165975484,
+  "cost_drag_per_year": 0.08121641318652566,
+  "gross_sharpe": 0.2516729386907688,
+  "net_sharpe": -0.292616090796308,
+  "max_drawdown": -0.26815996455876934,
+  "active_bars": 19485,
+  "hit_rate": 0.506286887349243,
+  "verdict": "NEGATIVE \u2014 signal does not survive costs",
+  "config": {
+    "fee_bps": 5.5,
+    "slippage_bps": 2.0,
+    "bars_per_year": 8760,
+    "initial_equity": 1.0,
+    "allow_short": true
+  }
+}

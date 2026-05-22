@@ -10,6 +10,8 @@ from eso.backtest import (
     BacktestConfig,
     run_backtest,
     phase_threshold_strategy,
+    proportional_strategy,
+    proportional_deadband_strategy,
     long_only_baseline,
 )
 
@@ -114,6 +116,64 @@ def test_run_backtest_requires_matching_lengths():
     positions = pd.Series([1.0, 1.0, 1.0])
     with pytest.raises(ValueError):
         run_backtest(prices, positions)
+
+
+def test_proportional_strategy_is_bounded():
+    n = 100
+    sig = np.sin(np.linspace(0, 4 * np.pi, n))
+    conf = np.abs(np.cos(np.linspace(0, 2 * np.pi, n)))
+    fv = pd.DataFrame({"cos_theta_24h": sig, "ring_radius": conf})
+    pos = proportional_strategy(fv)
+    assert (pos >= -1.0).all() and (pos <= 1.0).all()
+    assert not pos.isna().any()
+    # Position should not be uniformly zero or uniformly one
+    assert pos.abs().sum() > 0
+    assert pos.abs().mean() < 1.0  # continuous sizing, not always max
+
+
+def test_proportional_strategy_no_confidence_col():
+    fv = pd.DataFrame({"cos_theta_24h": [0.5, -0.3, 0.8, -0.9]})
+    pos = proportional_strategy(fv, confidence_col="nonexistent")
+    # Falls back to unit confidence — position = clip(signal, -1, 1)
+    expected = np.clip([0.5, -0.3, 0.8, -0.9], -1, 1)
+    np.testing.assert_allclose(pos.values, expected)
+
+
+def test_proportional_strategy_reduces_position_when_radius_low():
+    fv = pd.DataFrame({
+        "cos_theta_24h": [1.0, 1.0],
+        "ring_radius":   [1.0, 0.0],
+    })
+    pos = proportional_strategy(fv)
+    # High-confidence bar has larger position than low-confidence bar
+    assert pos.iloc[0] > pos.iloc[1]
+
+
+def test_proportional_deadband_reduces_trades_vs_full():
+    n = 200
+    sig = np.sin(np.linspace(0, 8 * np.pi, n))
+    fv = pd.DataFrame({"cos_theta_24h": sig, "ring_radius": np.ones(n)})
+    prices = pd.Series(100.0 * np.exp(np.cumsum(np.random.default_rng(0).normal(0, 0.01, n))))
+
+    r_full = run_backtest(prices, proportional_strategy(fv))
+    r_db = run_backtest(prices, proportional_deadband_strategy(fv, min_trade_size=0.2))
+    assert r_db.metrics["n_trades"] < r_full.metrics["n_trades"]
+
+
+def test_proportional_deadband_holds_position():
+    fv = pd.DataFrame({"cos_theta_24h": [0.0, 0.1, 0.12, 0.5, 0.55, 0.3, 0.0]})
+    pos = proportional_deadband_strategy(fv, confidence_col="nonexistent", min_trade_size=0.2)
+    # First bar: desired=0, held=0
+    assert pos.iloc[0] == pytest.approx(0.0)
+    # Bars 1,2: desired 0.1/0.12 — delta from 0 is < 0.2, hold 0
+    assert pos.iloc[1] == pytest.approx(0.0)
+    assert pos.iloc[2] == pytest.approx(0.0)
+    # Bar 3: desired=0.5, delta=0.5 >= 0.2 → update to 0.5
+    assert pos.iloc[3] == pytest.approx(0.5)
+    # Bar 4: desired=0.55, delta=0.05 < 0.2 → still 0.5
+    assert pos.iloc[4] == pytest.approx(0.5)
+    # Bar 5: desired=0.3, delta=0.2 >= 0.2 → update to 0.3
+    assert pos.iloc[5] == pytest.approx(0.3)
 
 
 def test_metrics_include_verdict_and_sharpe():

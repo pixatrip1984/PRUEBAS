@@ -23,6 +23,8 @@ def cmd_backtest(args) -> int:
         BacktestConfig,
         run_backtest,
         phase_threshold_strategy,
+        proportional_strategy,
+        proportional_deadband_strategy,
         long_only_baseline,
     )
     from eso.backtest.report import write_backtest_report
@@ -47,6 +49,21 @@ def cmd_backtest(args) -> int:
 
     if args.strategy == "long_only":
         pos = long_only_baseline(fv)
+    elif args.strategy == "proportional":
+        pos = proportional_strategy(
+            fv,
+            signal_col=args.signal_col,
+            confidence_col=args.confidence_col,
+            signal_scale=args.signal_scale,
+        )
+    elif args.strategy == "proportional_deadband":
+        pos = proportional_deadband_strategy(
+            fv,
+            signal_col=args.signal_col,
+            confidence_col=args.confidence_col,
+            signal_scale=args.signal_scale,
+            min_trade_size=args.min_trade_size,
+        )
     else:
         pos = phase_threshold_strategy(
             fv,
@@ -263,8 +280,15 @@ def build_parser() -> argparse.ArgumentParser:
                    help="(rolling mode) initial training window")
     p.add_argument("--refit-every", type=int, default=2000,
                    help="(rolling mode) refit cadence in bars")
-    p.add_argument("--strategy", choices=["phase_threshold", "long_only"],
+    p.add_argument("--strategy",
+                   choices=["phase_threshold", "proportional", "proportional_deadband", "long_only"],
                    default="phase_threshold")
+    p.add_argument("--confidence-col", default="ring_radius",
+                   help="(proportional) feature column used as position-size weight")
+    p.add_argument("--signal-scale", type=float, default=1.0,
+                   help="(proportional) scalar multiplier on raw signal before clipping")
+    p.add_argument("--min-trade-size", type=float, default=0.15,
+                   help="(proportional_deadband) minimum |Δposition| to trigger a rebalance")
     p.add_argument("--signal-col", default="cos_theta_24h",
                    help="Feature column to drive entries/exits")
     p.add_argument("--enter-threshold", type=float, default=0.3)
