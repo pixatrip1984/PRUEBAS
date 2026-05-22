@@ -15,6 +15,70 @@ from eso.pipeline import ESOExplorer
 from eso.reporting import write_report_bundle
 
 
+def cmd_backtest(args) -> int:
+    """Run a cost-aware backtest of a causal phase strategy on a price series."""
+    import pandas as pd
+    from eso.signals.feature_vector import build_feature_vector, CausalFeatureBuilder
+    from eso.backtest import (
+        BacktestConfig,
+        run_backtest,
+        phase_threshold_strategy,
+        long_only_baseline,
+    )
+    from eso.backtest.report import write_backtest_report
+
+    df = read_table(args.path)
+    df = _maybe_klines(df, getattr(args, "klines_format", False))
+    df = _slice_rows(df, getattr(args, "skip_rows", None), args.max_rows)
+
+    if args.causal_mode == "rolling":
+        builder = CausalFeatureBuilder(
+            init_train=args.init_train,
+            refit_every=args.refit_every,
+            seed=args.seed,
+        )
+        fv = builder.fit_predict(df)
+    else:
+        fv = build_feature_vector(df, train_size=args.train_size, seed=args.seed)
+
+    if fv.empty:
+        print("ESO error: empty feature vector — check data length", file=sys.stderr)
+        return 2
+
+    if args.strategy == "long_only":
+        pos = long_only_baseline(fv)
+    else:
+        pos = phase_threshold_strategy(
+            fv,
+            signal_col=args.signal_col,
+            enter_threshold=args.enter_threshold,
+            exit_threshold=args.exit_threshold,
+            allow_short=not args.long_only,
+        )
+
+    cfg = BacktestConfig(
+        fee_bps=args.fee_bps,
+        slippage_bps=args.slippage_bps,
+        bars_per_year=args.bars_per_year,
+        allow_short=not args.long_only,
+    )
+
+    prices = fv["close"]
+    result = run_backtest(prices, pos, cfg)
+
+    print(result.summary())
+
+    if args.output:
+        artifacts = write_backtest_report(
+            result,
+            args.output,
+            title=f"{Path(args.path).stem} — {args.strategy}",
+        )
+        print(json.dumps({"artifacts": artifacts}, indent=2))
+
+    return 0
+
+
 def _columns(values):
     return values if values else None
 
@@ -185,6 +249,35 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--registry", default="experiments/eso_registry.csv")
     p.add_argument("--no-registry", action="store_true")
     p.set_defaults(func=cmd_explore)
+
+    p = sub.add_parser("backtest", help="Cost-aware backtest of a causal phase strategy")
+    p.add_argument("path")
+    p.add_argument("--skip-rows", type=int)
+    p.add_argument("--max-rows", type=int)
+    p.add_argument("--klines-format", action="store_true")
+    p.add_argument("--causal-mode", choices=["split", "rolling"], default="split",
+                   help="split = fit UMAP once on train window; rolling = refit periodically")
+    p.add_argument("--train-size", type=int, default=27000,
+                   help="(split mode) bars used to fit the UMAP")
+    p.add_argument("--init-train", type=int, default=10000,
+                   help="(rolling mode) initial training window")
+    p.add_argument("--refit-every", type=int, default=2000,
+                   help="(rolling mode) refit cadence in bars")
+    p.add_argument("--strategy", choices=["phase_threshold", "long_only"],
+                   default="phase_threshold")
+    p.add_argument("--signal-col", default="cos_theta_24h",
+                   help="Feature column to drive entries/exits")
+    p.add_argument("--enter-threshold", type=float, default=0.3)
+    p.add_argument("--exit-threshold", type=float, default=0.1)
+    p.add_argument("--long-only", action="store_true")
+    p.add_argument("--fee-bps", type=float, default=5.5,
+                   help="Per-side fee in bps (Bybit perp taker default)")
+    p.add_argument("--slippage-bps", type=float, default=2.0)
+    p.add_argument("--bars-per-year", type=int, default=24 * 365,
+                   help="Annualisation factor (8760 for 1h bars, 2190 for 4h)")
+    p.add_argument("--seed", type=int, default=42)
+    p.add_argument("--output", help="Directory for report artifacts")
+    p.set_defaults(func=cmd_backtest)
 
     return parser
 

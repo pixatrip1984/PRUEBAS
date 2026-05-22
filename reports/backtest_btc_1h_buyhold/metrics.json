@@ -1,0 +1,23 @@
+{
+  "n_bars": 19485,
+  "years": 2.2243150684931505,
+  "n_trades": 1,
+  "turnover_per_year": 0.44957659738260203,
+  "gross_total_return": 0.8042821630001855,
+  "net_total_return": 0.8029294587054538,
+  "cost_drag": 0.0013527042947316659,
+  "cost_drag_per_year": 0.0006081441940902947,
+  "gross_sharpe": 0.5464822157333892,
+  "net_sharpe": 0.5457874920441479,
+  "max_drawdown": -0.5008379415223312,
+  "active_bars": 19485,
+  "hit_rate": 0.506286887349243,
+  "verdict": "MARGINAL \u2014 signal exists but costs eat most edge",
+  "config": {
+    "fee_bps": 5.5,
+    "slippage_bps": 2.0,
+    "bars_per_year": 8760,
+    "initial_equity": 1.0,
+    "allow_short": true
+  }
+}

@@ -1,0 +1,128 @@
+"""Tests for cost-aware backtester and baseline strategies."""
+
+from __future__ import annotations
+
+import numpy as np
+import pandas as pd
+import pytest
+
+from eso.backtest import (
+    BacktestConfig,
+    run_backtest,
+    phase_threshold_strategy,
+    long_only_baseline,
+)
+
+
+def _make_prices(returns: list[float]) -> pd.Series:
+    """Build a price series from log-returns starting at 100."""
+    log_prices = np.log(100.0) + np.cumsum([0.0] + returns)
+    return pd.Series(np.exp(log_prices), name="close")
+
+
+def test_zero_position_yields_no_pnl_no_cost():
+    prices = _make_prices([0.01, -0.005, 0.02, 0.0])
+    positions = pd.Series([0.0] * len(prices), index=prices.index)
+    r = run_backtest(prices, positions)
+    assert r.metrics["gross_total_return"] == pytest.approx(0.0)
+    assert r.metrics["net_total_return"] == pytest.approx(0.0)
+    assert r.metrics["n_trades"] == 0
+    assert r.metrics["cost_drag"] == pytest.approx(0.0)
+
+
+def test_long_only_matches_buy_and_hold_minus_entry_cost():
+    prices = _make_prices([0.01, -0.005, 0.02, 0.01])
+    positions = pd.Series([1.0] * len(prices), index=prices.index)
+    cfg = BacktestConfig(fee_bps=5.5, slippage_bps=2.0)
+    r = run_backtest(prices, positions, cfg)
+    expected_gross = float(prices.iloc[-1] / prices.iloc[0] - 1)
+    assert r.metrics["gross_total_return"] == pytest.approx(expected_gross, rel=1e-3)
+    # Exactly one entry of size 1 → one leg of cost
+    assert r.metrics["n_trades"] == 1
+    # Cost drag in arithmetic-return space ≈ cost_in_log_space * e^gross_total
+    expected_cost_drag = cfg.cost_per_unit_turnover * (1.0 + expected_gross)
+    assert r.metrics["cost_drag"] == pytest.approx(expected_cost_drag, rel=5e-2)
+
+
+def test_short_position_inverts_pnl():
+    prices = _make_prices([0.01, 0.01, 0.01, 0.01])  # monotone up
+    long_pos = pd.Series([1.0] * len(prices), index=prices.index)
+    short_pos = pd.Series([-1.0] * len(prices), index=prices.index)
+    r_long = run_backtest(prices, long_pos)
+    r_short = run_backtest(prices, short_pos)
+    # Log returns are perfectly anti-symmetric; total return signs must flip.
+    assert r_long.metrics["gross_total_return"] > 0
+    assert r_short.metrics["gross_total_return"] < 0
+
+
+def test_flip_increases_turnover_and_cost():
+    prices = _make_prices([0.01, -0.005, 0.02, 0.0, 0.01])
+    flipping = pd.Series([1.0, -1.0, 1.0, -1.0, 1.0, -1.0], index=prices.index)
+    holding = pd.Series([1.0] * len(prices), index=prices.index)
+    cfg = BacktestConfig(fee_bps=5.5, slippage_bps=2.0)
+    r_flip = run_backtest(prices, flipping, cfg)
+    r_hold = run_backtest(prices, holding, cfg)
+    assert r_flip.metrics["n_trades"] > r_hold.metrics["n_trades"]
+    assert r_flip.metrics["cost_drag"] > r_hold.metrics["cost_drag"]
+
+
+def test_disallow_short_clips_positions():
+    prices = _make_prices([0.01, -0.005, 0.02])
+    positions = pd.Series([-1.0] * len(prices), index=prices.index)
+    cfg = BacktestConfig(allow_short=False)
+    r = run_backtest(prices, positions, cfg)
+    # Positions clipped to >=0, so no PnL at all
+    assert r.metrics["gross_total_return"] == pytest.approx(0.0)
+
+
+def test_phase_threshold_strategy_respects_hysteresis():
+    # Signal oscillates: stays above enter, then drops between exit and enter
+    sig = pd.Series([0.0, 0.4, 0.5, 0.2, 0.05, -0.4, -0.5, -0.2, -0.05, 0.0])
+    fv = pd.DataFrame({"cos_theta_24h": sig})
+    pos = phase_threshold_strategy(
+        fv, signal_col="cos_theta_24h",
+        enter_threshold=0.3, exit_threshold=0.1,
+        allow_short=True,
+    )
+    # Bar 1: enters long, holds through bar 3 (0.2 > exit_threshold)
+    assert pos.iloc[0] == 0.0
+    assert pos.iloc[1] == 1.0
+    assert pos.iloc[2] == 1.0
+    assert pos.iloc[3] == 1.0  # still above exit
+    assert pos.iloc[4] == 0.0  # exits
+    assert pos.iloc[5] == -1.0  # short entry
+    assert pos.iloc[6] == -1.0
+    assert pos.iloc[7] == -1.0  # still below -exit
+    assert pos.iloc[8] == 0.0
+
+
+def test_phase_threshold_rejects_bad_thresholds():
+    fv = pd.DataFrame({"cos_theta_24h": [0.0]})
+    with pytest.raises(ValueError):
+        phase_threshold_strategy(fv, enter_threshold=0.1, exit_threshold=0.1)
+
+
+def test_long_only_baseline_is_all_ones():
+    fv = pd.DataFrame({"close": [1, 2, 3]})
+    pos = long_only_baseline(fv)
+    assert (pos == 1.0).all()
+    assert pos.name == "position"
+
+
+def test_run_backtest_requires_matching_lengths():
+    prices = pd.Series([100.0, 101.0])
+    positions = pd.Series([1.0, 1.0, 1.0])
+    with pytest.raises(ValueError):
+        run_backtest(prices, positions)
+
+
+def test_metrics_include_verdict_and_sharpe():
+    rng = np.random.default_rng(0)
+    rets = rng.normal(0.0001, 0.01, size=200).tolist()
+    prices = _make_prices(rets)
+    positions = pd.Series(np.sign(prices.diff().fillna(0)).shift(1).fillna(0.0).values,
+                          index=prices.index)
+    r = run_backtest(prices, positions)
+    assert "verdict" in r.metrics
+    assert "net_sharpe" in r.metrics
+    assert isinstance(r.summary(), str)
