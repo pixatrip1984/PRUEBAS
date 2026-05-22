@@ -23,6 +23,7 @@
           "train_size": {"type": "integer"},
           "train_fraction": {"type": "number"},
           "phase_window": {"type": "integer"},
+          "round_trip_cost_bps": {"type": "number"},
           "klines_format": {"type": "boolean"},
           "skip_rows": {"type": "integer"},
           "max_rows": {"type": "integer"},

@@ -128,6 +128,53 @@ def list_model_runs(
     return df.to_dict(orient="records")
 
 
+def rank_model_runs(
+    registry_path: str | Path = "reports/model_runs.csv",
+    limit: int | None = None,
+    task: str | None = None,
+    dataset_id: str | None = None,
+    primary_metric: str | None = None,
+) -> list[dict]:
+    """Return model runs ranked by their primary metric direction."""
+    df = _read_registry(registry_path)
+    if task:
+        df = df[df["task"] == task]
+    if dataset_id:
+        df = df[df["dataset_id"] == dataset_id]
+    if primary_metric:
+        df = df[df["primary_metric"] == primary_metric]
+    if df.empty:
+        return []
+
+    df = df.copy()
+    df["primary_value"] = pd.to_numeric(df["primary_value"], errors="coerce")
+    df = df.dropna(subset=["primary_value"])
+    if df.empty:
+        return []
+
+    ranked_frames = []
+    for (_metric, direction), grp in df.groupby(["primary_metric", "metric_direction"], dropna=False):
+        ascending = str(direction) == "lower"
+        grp = grp.sort_values("primary_value", ascending=ascending).copy()
+        best = float(grp.iloc[0]["primary_value"])
+        if ascending:
+            grp["delta_from_best"] = grp["primary_value"] - best
+        else:
+            grp["delta_from_best"] = best - grp["primary_value"]
+        grp["rank"] = range(1, len(grp) + 1)
+        ranked_frames.append(grp)
+
+    ranked = pd.concat(ranked_frames, ignore_index=True)
+    ranked = ranked.sort_values(
+        ["primary_metric", "rank", "created_at"],
+        ascending=[True, True, False],
+        na_position="last",
+    )
+    if limit:
+        ranked = ranked.head(int(limit))
+    return ranked.to_dict(orient="records")
+
+
 def _load_manifest_or_row(ref: str, registry_path: str | Path) -> dict:
     path = Path(ref)
     if path.exists():

@@ -84,6 +84,10 @@ def _asset_aggregate(asset_id: str, dissected: dict) -> list[dict]:
             "rows": dissected["result"].get("rows"),
             "train_size": dissected["result"].get("split", {}).get("train_size"),
             "test_size": dissected["result"].get("split", {}).get("test_size"),
+            "round_trip_cost_bps": ts.get("round_trip_cost_bps"),
+            "mean_abs_future_lr_bps": ts.get("mean_abs_future_lr_bps"),
+            "mean_abs_move_minus_cost_bps": ts.get("mean_abs_move_minus_cost_bps"),
+            "cost_floor_cleared_rate": ts.get("cost_floor_cleared_rate"),
             "direction_baseline_accuracy": ts.get("direction_baseline_accuracy"),
             "test_direction_baseline_accuracy": ts.get("test_direction_baseline_accuracy"),
             "future_rv_median": ts.get("future_rv_median"),
@@ -148,6 +152,7 @@ def run_universe_dissect(
                 train_size=cfg.get("train_size"),
                 train_fraction=cfg.get("train_fraction", 0.7),
                 phase_window=cfg.get("phase_window", 24),
+                round_trip_cost_bps=cfg.get("round_trip_cost_bps", 13.0),
             )
             artifacts = write_asset_dissect_bundle(dissected, asset_dir)
             aggregate_rows.extend(_asset_aggregate(asset_id, dissected))

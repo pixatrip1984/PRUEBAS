@@ -25,11 +25,14 @@ from eso.modeling import (
     compare_model_runs,
     evaluate_supervised_task,
     list_model_runs,
+    rank_model_runs,
     save_model_run,
+    validate_model_run_file,
     write_model_run,
 )
 from eso.pipeline import ESOExplorer
 from eso.reporting import write_report_bundle
+from eso.signals.costs import bps_to_rate, evaluate_cost_floor
 
 
 _FEATURE_MODES = [
@@ -210,6 +213,16 @@ def cmd_model_runs(args) -> int:
         result = compare_model_runs(args.refs[0], args.refs[1], registry_path=args.registry)
         print(json.dumps(result, indent=2, sort_keys=True))
         return 0
+    if args.action == "best":
+        rows = rank_model_runs(
+            registry_path=args.registry,
+            limit=args.limit,
+            task=args.task,
+            dataset_id=args.dataset_id,
+            primary_metric=args.primary_metric,
+        )
+        print(json.dumps({"registry": args.registry, "runs": rows}, indent=2, sort_keys=True))
+        return 0
     raise ValueError(f"unknown model-runs action: {args.action}")
 
 
@@ -219,6 +232,24 @@ def cmd_validate_json(args) -> int:
     result = {"path": args.path, "valid": not errors, "errors": errors}
     print(json.dumps(result, indent=2, sort_keys=True))
     return 0 if not errors else 1
+
+
+def cmd_validate_model_run(args) -> int:
+    result = validate_model_run_file(args.path)
+    print(json.dumps(result, indent=2, sort_keys=True))
+    return 0 if result["valid"] else 1
+
+
+def cmd_cost_check(args) -> int:
+    result = evaluate_cost_floor(
+        gross_edge=bps_to_rate(args.gross_edge_bps),
+        taker_round_trip_cost=bps_to_rate(args.taker_cost_bps),
+        slippage_round_trip=bps_to_rate(args.slippage_bps),
+        maker_round_trip_rebate=bps_to_rate(args.maker_rebate_bps),
+        watch_buffer=bps_to_rate(args.watch_buffer_bps),
+    )
+    print(json.dumps(result, indent=2, sort_keys=True))
+    return 1 if result["decision"] == "FAIL" else 0
 
 
 def cmd_benchmark(args) -> int:
@@ -272,6 +303,7 @@ def cmd_dissect(args) -> int:
         train_size=args.train_size,
         train_fraction=args.train_fraction,
         phase_window=args.phase_window,
+        round_trip_cost_bps=args.round_trip_cost_bps,
     )
     artifacts = write_asset_dissect_bundle(dissected, args.output)
     result = dissected["result"]
@@ -379,18 +411,31 @@ def build_parser() -> argparse.ArgumentParser:
     p.set_defaults(func=cmd_model_eval)
 
     p = sub.add_parser("model-runs", help="List or compare supervised model-run manifests")
-    p.add_argument("action", choices=["list", "compare"])
+    p.add_argument("action", choices=["list", "compare", "best"])
     p.add_argument("refs", nargs="*", help="Run ids or manifest paths for compare")
     p.add_argument("--registry", default="reports/model_runs.csv")
     p.add_argument("--limit", type=int, default=20)
     p.add_argument("--task", choices=["volatility", "regime", "direction"])
     p.add_argument("--dataset-id")
+    p.add_argument("--primary-metric")
     p.set_defaults(func=cmd_model_runs)
 
     p = sub.add_parser("validate-json", help="Validate an ESO JSON artifact against its schema_version")
     p.add_argument("path")
     p.add_argument("--schema-version")
     p.set_defaults(func=cmd_validate_json)
+
+    p = sub.add_parser("validate-model-run", help="Validate model-run causal/research guardrails")
+    p.add_argument("path")
+    p.set_defaults(func=cmd_validate_model_run)
+
+    p = sub.add_parser("cost-check", help="Check a gross per-trade edge against cost floor")
+    p.add_argument("--gross-edge-bps", type=float, required=True)
+    p.add_argument("--taker-cost-bps", type=float, default=13.0)
+    p.add_argument("--slippage-bps", type=float, default=0.0)
+    p.add_argument("--maker-rebate-bps", type=float, default=0.0)
+    p.add_argument("--watch-buffer-bps", type=float, default=2.0)
+    p.set_defaults(func=cmd_cost_check)
 
     p = sub.add_parser("benchmark", help="Run a declarative benchmark suite JSON")
     p.add_argument("suite")
@@ -408,6 +453,8 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--timestamp-col", default="timestamp")
     p.add_argument("--horizons", type=int, nargs="+", default=[3, 12])
     p.add_argument("--phase-window", type=int, default=24)
+    p.add_argument("--round-trip-cost-bps", type=float, default=13.0,
+                   help="Round-trip execution cost floor used in exploratory edge screens")
     p.add_argument("--train-size", type=int)
     p.add_argument("--train-fraction", type=float, default=0.7)
     p.add_argument("--skip-rows", type=int)

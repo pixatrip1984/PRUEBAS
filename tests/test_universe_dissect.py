@@ -33,6 +33,7 @@ def _universe(path_a, path_b):
             "feature_mode": "compact",
             "horizons": [3, 12],
             "train_size": 80,
+            "round_trip_cost_bps": 11.0,
         },
         "assets": [
             {"asset_id": "A", "path": str(path_a)},
@@ -53,6 +54,8 @@ def test_run_universe_dissect_writes_aggregates(tmp_path):
     assert (tmp_path / "out" / "asset_summary.csv").exists()
     summary = pd.read_csv(tmp_path / "out" / "asset_summary.csv")
     assert set(summary["asset_id"]) == {"A", "B"}
+    assert set(summary["round_trip_cost_bps"]) == {11.0}
+    assert "mean_abs_move_minus_cost_bps" in summary.columns
 
 
 def test_write_universe_dissect_result(tmp_path):

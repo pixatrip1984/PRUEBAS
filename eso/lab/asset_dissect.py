@@ -14,6 +14,7 @@ import numpy as np
 import pandas as pd
 
 from eso.contracts import assert_valid_contract
+from eso.signals.costs import DEFAULT_TAKER_ROUND_TRIP_COST, rate_to_bps
 from eso.signals.targets import build_market_target_frame
 
 
@@ -57,19 +58,29 @@ def _corr(x: pd.Series, y: pd.Series) -> float:
     return float(np.corrcoef(a, b)[0, 1])
 
 
-def _target_summary(targets: pd.DataFrame, horizon: int, split: int) -> dict:
+def _target_summary(targets: pd.DataFrame, horizon: int, split: int, round_trip_cost_bps: float) -> dict:
     out = {"horizon": horizon}
     lr = targets[f"future_lr_{horizon}"]
     direction = targets[f"future_direction_{horizon}"]
     rv = targets[f"future_rv_{horizon}"]
     valid_dir = direction.dropna()
     valid_dir = valid_dir[valid_dir != 0]
+    abs_lr_bps = lr.abs().dropna() * 10_000
     out.update({
         "n_lr": int(lr.notna().sum()),
         "future_lr_mean": float(lr.mean()),
         "future_lr_std": float(lr.std()),
         "future_rv_mean": float(rv.mean()),
         "future_rv_median": float(rv.median()),
+        "round_trip_cost_bps": float(round_trip_cost_bps),
+        "mean_abs_future_lr_bps": float(abs_lr_bps.mean()) if len(abs_lr_bps) else None,
+        "median_abs_future_lr_bps": float(abs_lr_bps.median()) if len(abs_lr_bps) else None,
+        "mean_abs_move_minus_cost_bps": (
+            float(abs_lr_bps.mean() - round_trip_cost_bps) if len(abs_lr_bps) else None
+        ),
+        "cost_floor_cleared_rate": (
+            float((abs_lr_bps > round_trip_cost_bps).mean()) if len(abs_lr_bps) else None
+        ),
         "direction_up_rate": float((valid_dir > 0).mean()) if len(valid_dir) else None,
         "direction_baseline_accuracy": (
             float(max((valid_dir > 0).mean(), (valid_dir < 0).mean())) if len(valid_dir) else None
@@ -126,7 +137,32 @@ def _correlation_table(fv: pd.DataFrame, targets: pd.DataFrame, feature_cols: li
     return out.sort_values(["horizon", "max_abs_test_corr"], ascending=[True, False])
 
 
-def _quantile_table(fv: pd.DataFrame, targets: pd.DataFrame, features: list[str], horizons: tuple[int, ...], q: int = 5) -> pd.DataFrame:
+def _edge_fields(mean_lr: float, lr_values: pd.Series, round_trip_cost_bps: float) -> dict:
+    mean_lr_bps = float(mean_lr * 10_000)
+    best_net_edge_bps = abs(mean_lr_bps) - float(round_trip_cost_bps)
+    if best_net_edge_bps <= 0:
+        best_direction = "NONE"
+    else:
+        best_direction = "LONG" if mean_lr_bps > 0 else "SHORT"
+    abs_lr_bps = lr_values.abs().dropna() * 10_000
+    return {
+        "future_lr_mean_bps": mean_lr_bps,
+        "best_direction_by_mean": best_direction,
+        "best_net_edge_bps": float(best_net_edge_bps),
+        "cost_floor_cleared_rate": (
+            float((abs_lr_bps > round_trip_cost_bps).mean()) if len(abs_lr_bps) else None
+        ),
+    }
+
+
+def _quantile_table(
+    fv: pd.DataFrame,
+    targets: pd.DataFrame,
+    features: list[str],
+    horizons: tuple[int, ...],
+    round_trip_cost_bps: float,
+    q: int = 5,
+) -> pd.DataFrame:
     rows = []
     for feature in features:
         if feature not in fv.columns:
@@ -146,7 +182,7 @@ def _quantile_table(fv: pd.DataFrame, targets: pd.DataFrame, features: list[str]
             }).dropna(subset=["bin", "future_rv", "future_lr"])
             for bin_name, grp in frame.groupby("bin", observed=True):
                 direction = grp["direction"].replace(0, np.nan).dropna()
-                rows.append({
+                row = {
                     "feature": feature,
                     "horizon": horizon,
                     "bin": bin_name,
@@ -156,11 +192,21 @@ def _quantile_table(fv: pd.DataFrame, targets: pd.DataFrame, features: list[str]
                     "future_rv_mean": float(grp["future_rv"].mean()),
                     "future_lr_mean": float(grp["future_lr"].mean()),
                     "p_up": float((direction > 0).mean()) if len(direction) else None,
-                })
+                    "round_trip_cost_bps": float(round_trip_cost_bps),
+                }
+                row.update(_edge_fields(row["future_lr_mean"], grp["future_lr"], round_trip_cost_bps))
+                rows.append(row)
     return pd.DataFrame(rows)
 
 
-def _phase_sector_table(fv: pd.DataFrame, targets: pd.DataFrame, horizons: tuple[int, ...], phase_window: int = 24, sectors: int = 12) -> pd.DataFrame:
+def _phase_sector_table(
+    fv: pd.DataFrame,
+    targets: pd.DataFrame,
+    horizons: tuple[int, ...],
+    round_trip_cost_bps: float,
+    phase_window: int = 24,
+    sectors: int = 12,
+) -> pd.DataFrame:
     sin_col = f"sin_theta_{phase_window}h"
     cos_col = f"cos_theta_{phase_window}h"
     if sin_col not in fv.columns or cos_col not in fv.columns:
@@ -178,7 +224,7 @@ def _phase_sector_table(fv: pd.DataFrame, targets: pd.DataFrame, horizons: tuple
         }).dropna(subset=["future_rv", "future_lr"])
         for sec, grp in frame.groupby("sector"):
             direction = grp["direction"].replace(0, np.nan).dropna()
-            rows.append({
+            row = {
                 "phase_window": phase_window,
                 "horizon": horizon,
                 "sector": int(sec),
@@ -188,7 +234,10 @@ def _phase_sector_table(fv: pd.DataFrame, targets: pd.DataFrame, horizons: tuple
                 "future_rv_mean": float(grp["future_rv"].mean()),
                 "future_lr_mean": float(grp["future_lr"].mean()),
                 "p_up": float((direction > 0).mean()) if len(direction) else None,
-            })
+                "round_trip_cost_bps": float(round_trip_cost_bps),
+            }
+            row.update(_edge_fields(row["future_lr_mean"], grp["future_lr"], round_trip_cost_bps))
+            rows.append(row)
     return pd.DataFrame(rows)
 
 
@@ -211,18 +260,28 @@ def dissect_feature_frame(
     train_size: int | None = None,
     train_fraction: float = 0.7,
     phase_window: int = 24,
+    round_trip_cost_bps: float = rate_to_bps(DEFAULT_TAKER_ROUND_TRIP_COST),
 ) -> dict:
     """Return asset-dissection tables and JSON summary."""
     if "close" not in fv.columns:
         raise ValueError("feature frame must include close")
     horizons = tuple(int(h) for h in horizons)
+    round_trip_cost_bps = float(round_trip_cost_bps)
+    if round_trip_cost_bps < 0:
+        raise ValueError("round_trip_cost_bps must be >= 0")
     targets = build_market_target_frame(fv, horizons=horizons, close_col="close")
     split = _split_index(len(fv), train_size, train_fraction)
     feature_cols = _numeric_features(fv)
     corr_df = _correlation_table(fv, targets, feature_cols, horizons, split)
     quantile_features = _default_quantile_features(feature_cols, corr_df)
-    quantile_df = _quantile_table(fv, targets, quantile_features, horizons)
-    sector_df = _phase_sector_table(fv, targets, horizons, phase_window=phase_window)
+    quantile_df = _quantile_table(fv, targets, quantile_features, horizons, round_trip_cost_bps)
+    sector_df = _phase_sector_table(
+        fv,
+        targets,
+        horizons,
+        round_trip_cost_bps,
+        phase_window=phase_window,
+    )
 
     top_corr = corr_df.head(20).replace({np.nan: None}).to_dict(orient="records")
     result = {
@@ -231,8 +290,12 @@ def dissect_feature_frame(
         "rows": int(len(fv)),
         "horizons": list(horizons),
         "split": {"train_size": split, "test_size": int(len(fv) - split), "shuffle": False},
+        "cost_floor": {
+            "round_trip_cost_bps": round_trip_cost_bps,
+            "round_trip_cost_rate": round_trip_cost_bps / 10_000,
+        },
         "features": feature_cols,
-        "target_summary": [_target_summary(targets, h, split) for h in horizons],
+        "target_summary": [_target_summary(targets, h, split, round_trip_cost_bps) for h in horizons],
         "feature_summary": _feature_summary(fv, feature_cols),
         "top_feature_target_correlations": top_corr,
         "tables": {},
@@ -240,6 +303,7 @@ def dissect_feature_frame(
             "Targets are indexed at decision time t.",
             "Train/test correlation columns use a temporal split; shuffle=False.",
             "Correlations are exploratory instruments, not trading proof.",
+            "Cost-floor fields are descriptive screens; they do not prove executable edge.",
         ],
     }
     assert_valid_contract(result, "eso.asset_dissect.v1")

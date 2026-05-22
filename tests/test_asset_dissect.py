@@ -32,8 +32,11 @@ def test_dissect_feature_frame_returns_tables():
     result = dissected["result"]
     assert result["schema_version"] == "eso.asset_dissect.v1"
     assert result["asset_id"] == "unit"
+    assert result["cost_floor"]["round_trip_cost_bps"] == 13.0
+    assert "mean_abs_move_minus_cost_bps" in result["target_summary"][0]
     assert not dissected["correlations"].empty
     assert not dissected["quantiles"].empty
+    assert "best_net_edge_bps" in dissected["quantiles"].columns
     assert result["top_feature_target_correlations"]
 
 
@@ -63,8 +66,11 @@ def test_cli_dissect_writes_bundle(tmp_path):
         "--feature-mode", "compact",
         "--horizons", "3", "12",
         "--train-size", "100",
+        "--round-trip-cost-bps", "10",
         "--output", str(out_dir),
     ])
     assert code == 0
     assert (out_dir / "asset_dissect.json").exists()
+    payload = json.loads((out_dir / "asset_dissect.json").read_text())
+    assert payload["cost_floor"]["round_trip_cost_bps"] == 10.0
     assert main(["validate-json", str(out_dir / "asset_dissect.json")]) == 0
