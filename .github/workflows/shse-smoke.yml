@@ -1,0 +1,97 @@
+name: SHSE v2 smoke test
+
+on:
+  push:
+    branches:
+      - shse-fitter-v2
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+          pip install torch_geometric pyarrow pandas numpy scikit-learn requests tqdm
+
+      - name: Compile Python files
+        run: |
+          python -m py_compile shse_fitter.py shse_encoder.py btc_gnn_dataset.py btc_gnn_model.py compare_models.py train_btc.py btc_transformer_dataset.py btc_transformer_model.py
+
+      - name: SHSE tensor smoke test
+        run: |
+          python - <<'PY'
+          import torch
+          from torch_geometric.data import Data
+          from torch_geometric.loader import DataLoader
+          from shse_encoder import SHSEEncoder
+          from shse_fitter import SHSEFitter, build_shse_gnn_features, generate_random_mask
+          from btc_gnn_model import BTCDirectionGNN
+
+          enc = SHSEEncoder(lookback=16, n_features=9, neighbors=4)
+          items = []
+          for i in range(2):
+              window = torch.randn(16, 9).numpy().astype('float32')
+              items.append(enc.encode(window, i % 2))
+          batch = next(iter(DataLoader(items, batch_size=2)))
+
+          fitter = SHSEFitter(value_dim=9, latent_dim=16, max_steps=3, threshold=1e-3, lr=1e-2)
+          fitted = fitter.fit(batch.x[:, :9], batch.edge_index, generate_random_mask(batch, 0.25), steps=3)
+          x = build_shse_gnn_features(batch, fitted, value_dim=9)
+          assert x.shape[-1] == 29, x.shape
+
+          model = BTCDirectionGNN(input_dim=29)
+          logits = model(x, batch.edge_index, batch.edge_attr, batch.batch)
+          assert logits.shape == (2, 2), logits.shape
+          print('ok tensor smoke', x.shape, logits.shape, fitted.loss, fitted.steps)
+          PY
+
+      - name: Create synthetic BTC parquet splits
+        run: |
+          python - <<'PY'
+          import os
+          import numpy as np
+          import pandas as pd
+
+          cols = [
+              'open', 'high', 'low', 'close', 'volume', 'quote_asset_volume',
+              'number_of_trades', 'taker_buy_base_asset_volume',
+              'taker_buy_quote_asset_volume',
+          ]
+          os.makedirs('data/btc_3m/splits', exist_ok=True)
+          rng = np.random.default_rng(123)
+          for split, n in [('train', 120), ('val', 96), ('test', 96)]:
+              base = 50000 + np.cumsum(rng.normal(0, 20, size=n)).astype('float32')
+              data = {
+                  'open': base + rng.normal(0, 3, size=n),
+                  'high': base + rng.normal(5, 3, size=n),
+                  'low': base - rng.normal(5, 3, size=n),
+                  'close': base + rng.normal(0, 3, size=n),
+                  'volume': rng.lognormal(2, 0.2, size=n),
+                  'quote_asset_volume': rng.lognormal(10, 0.2, size=n),
+                  'number_of_trades': rng.integers(100, 500, size=n),
+                  'taker_buy_base_asset_volume': rng.lognormal(1.5, 0.2, size=n),
+                  'taker_buy_quote_asset_volume': rng.lognormal(9, 0.2, size=n),
+              }
+              pd.DataFrame(data, columns=cols).to_parquet(f'data/btc_3m/splits/{split}.parquet')
+              print(split, n)
+          PY
+
+      - name: Run compare_models tiny synthetic pass
+        run: |
+          python -u compare_models.py --no-download --lookback 16 --neighbors 4 --horizon 2 --step 8 --epochs 1 --max-train 8 --batch-size 4 --shse-steps 3

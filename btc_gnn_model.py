@@ -17,7 +17,8 @@ class BTCDirectionGNN(nn.Module):
     """
     Parameters
     ----------
-    input_dim  : dimensión de features por nodo (12 por defecto: 9 market + 3 pos)
+    input_dim  : dimensión de features por nodo (29 por defecto v2:
+                 9 values_rec + 1 uncertainty + 16 embedding + 3 pos)
     hidden_dim : canales internos de cada capa convolucional
     num_layers : número de capas SAGEConv
     dropout    : tasa de dropout (aplicada en conv y head)
@@ -25,7 +26,7 @@ class BTCDirectionGNN(nn.Module):
 
     def __init__(
         self,
-        input_dim: int = 12,
+        input_dim: int = 29,
         hidden_dim: int = 64,
         num_layers: int = 3,
         dropout: float = 0.3,
