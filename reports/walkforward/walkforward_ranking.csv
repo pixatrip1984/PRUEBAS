@@ -1,0 +1,3 @@
+asset,verdict,aggregate_net_return,aggregate_net_sharpe,aggregate_trades,folds_traded
+STGUSDT_4h,TRADEABLE — positive aggregate AND net Sharpe >= 1.0,1.1584614490192395,1.716423661151112,15,3
+GNOUSDT_4h,REJECTED — negative aggregate net return,-0.2112071636094937,-0.7374406420564034,21,3

@@ -1,0 +1,11 @@
+asset,verdict,aggregate_net_return,aggregate_net_sharpe,aggregate_trades,folds_traded
+VVVUSDT_4h,TRADEABLE — positive aggregate AND net Sharpe >= 1.0,8.656252112434752,3.724262785772956,19,3
+STGUSDT_4h,TRADEABLE — positive aggregate AND net Sharpe >= 1.0,1.1584614490192395,1.716423661151112,15,3
+MORPHOUSDT_4h,TRADEABLE — positive aggregate AND net Sharpe >= 1.0,0.4484601616402964,1.400963911735783,11,3
+GRASSUSDT_4h,PROMISING — positive aggregate and majority of folds positive,0.33939406051206183,0.5824231023278391,13,3
+POPCATUSDT_4h,REJECTED — negative aggregate net return,-0.2504176912362957,-0.649971418111657,3,3
+GNOUSDT_4h,REJECTED — negative aggregate net return,-0.2112071636094937,-0.7374406420564034,21,3
+NILUSDT_4h,REJECTED — negative aggregate net return,-0.4984732381477417,-1.4887706030913388,15,3
+ENSUSDT_4h,REJECTED — negative aggregate net return,-0.5511292769158571,-2.4454735770491784,23,3
+SIGNUSDT_4h,REJECTED — negative aggregate net return,-0.6731986416721998,-2.7848528066505502,36,3
+DRIFTUSDT_4h,REJECTED — negative aggregate net return,-0.827627821449559,-2.9700658490671676,7,3

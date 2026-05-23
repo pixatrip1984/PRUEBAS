@@ -1,0 +1,60 @@
+{
+  "asset": "VVVUSDT_4h",
+  "n_bars": 2834,
+  "n_folds": 4,
+  "folds": [
+    {
+      "fold": 1,
+      "bars": [
+        335,
+        670
+      ],
+      "selected_gate": 0.3,
+      "selected_signal": "cos_theta_6h",
+      "selected_enter": 0.2,
+      "selection_metric": -2.3292298200664723,
+      "trades": 3,
+      "gross_return": 1.9863603012625597,
+      "net_return": 1.9796485441430005,
+      "gross_sharpe": 5.542219549612157,
+      "net_sharpe": 5.5307779942586714
+    },
+    {
+      "fold": 2,
+      "bars": [
+        670,
+        1005
+      ],
+      "selected_gate": 0.3,
+      "selected_signal": "cos_theta_6h",
+      "selected_enter": 0.4,
+      "selection_metric": 2.5296423103121706,
+      "trades": 15,
+      "gross_return": 0.37702555339745975,
+      "net_return": 0.36162082996241013,
+      "gross_sharpe": 1.428919890237045,
+      "net_sharpe": 1.379309944710713
+    },
+    {
+      "fold": 3,
+      "bars": [
+        1005,
+        1340
+      ],
+      "selected_gate": 0.85,
+      "selected_signal": "cos_theta_24h",
+      "selected_enter": 0.2,
+      "selection_metric": 2.0918017584054374,
+      "trades": 1,
+      "gross_return": 1.3818427686605785,
+      "net_return": 1.3800570563099201,
+      "gross_sharpe": 4.680885487665776,
+      "net_sharpe": 4.67682836035004
+    }
+  ],
+  "aggregate_net_return": 8.656252112434752,
+  "aggregate_gross_sharpe": NaN,
+  "aggregate_net_sharpe": 3.724262785772956,
+  "aggregate_trades": 19,
+  "verdict": "TRADEABLE \u2014 positive aggregate AND net Sharpe >= 1.0"
+}

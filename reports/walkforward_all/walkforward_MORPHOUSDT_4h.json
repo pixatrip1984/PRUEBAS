@@ -1,0 +1,60 @@
+{
+  "asset": "MORPHOUSDT_4h",
+  "n_bars": 3000,
+  "n_folds": 4,
+  "folds": [
+    {
+      "fold": 1,
+      "bars": [
+        355,
+        710
+      ],
+      "selected_gate": 0.3,
+      "selected_signal": "sin_theta_24h",
+      "selected_enter": 0.4,
+      "selection_metric": 1.8102576850840006,
+      "trades": 6,
+      "gross_return": -0.1316413745361523,
+      "net_return": -0.13554020939303002,
+      "gross_sharpe": -2.6947357027289893,
+      "net_sharpe": -2.778418716806914
+    },
+    {
+      "fold": 2,
+      "bars": [
+        710,
+        1065
+      ],
+      "selected_gate": 0.85,
+      "selected_signal": "sin_theta_24h",
+      "selected_enter": 0.4,
+      "selection_metric": 1.152625470470273,
+      "trades": 3,
+      "gross_return": 0.2920510729426582,
+      "net_return": 0.2891472260813166,
+      "gross_sharpe": 2.2179125795240493,
+      "net_sharpe": 2.198802860736529
+    },
+    {
+      "fold": 3,
+      "bars": [
+        1065,
+        1423
+      ],
+      "selected_gate": 0.85,
+      "selected_signal": "sin_theta_24h",
+      "selected_enter": 0.3,
+      "selection_metric": 1.334956517390583,
+      "trades": 2,
+      "gross_return": 0.3016993284911607,
+      "net_return": 0.29974824317823723,
+      "gross_sharpe": 3.1131986469623594,
+      "net_sharpe": 3.0965792104199625
+    }
+  ],
+  "aggregate_net_return": 0.4484601616402964,
+  "aggregate_gross_sharpe": NaN,
+  "aggregate_net_sharpe": 1.400963911735783,
+  "aggregate_trades": 11,
+  "verdict": "TRADEABLE \u2014 positive aggregate AND net Sharpe >= 1.0"
+}

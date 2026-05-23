@@ -1,0 +1,60 @@
+{
+  "asset": "GRASSUSDT_4h",
+  "n_bars": 3000,
+  "n_folds": 4,
+  "folds": [
+    {
+      "fold": 1,
+      "bars": [
+        355,
+        710
+      ],
+      "selected_gate": 0.3,
+      "selected_signal": "cos_theta_24h",
+      "selected_enter": 0.2,
+      "selection_metric": -1.7936489180042536,
+      "trades": 3,
+      "gross_return": -0.017356256253086087,
+      "net_return": -0.019564719223979152,
+      "gross_sharpe": -0.11483950170314604,
+      "net_sharpe": -0.12958365972231706
+    },
+    {
+      "fold": 2,
+      "bars": [
+        710,
+        1065
+      ],
+      "selected_gate": 0.7,
+      "selected_signal": "cos_theta_6h",
+      "selected_enter": 0.2,
+      "selection_metric": 0.6057645094977443,
+      "trades": 7,
+      "gross_return": 0.26794476519219385,
+      "net_return": 0.26130549849956164,
+      "gross_sharpe": 1.294683661544471,
+      "net_sharpe": 1.2662233653646513
+    },
+    {
+      "fold": 3,
+      "bars": [
+        1065,
+        1423
+      ],
+      "selected_gate": 0.85,
+      "selected_signal": "cos_theta_6h",
+      "selected_enter": 0.2,
+      "selection_metric": 0.47160099990821974,
+      "trades": 3,
+      "gross_return": 0.08554120103019822,
+      "net_return": 0.08310147904437196,
+      "gross_sharpe": 0.4993355667476327,
+      "net_sharpe": 0.48561043330815457
+    }
+  ],
+  "aggregate_net_return": 0.33939406051206183,
+  "aggregate_gross_sharpe": NaN,
+  "aggregate_net_sharpe": 0.5824231023278391,
+  "aggregate_trades": 13,
+  "verdict": "PROMISING \u2014 positive aggregate and majority of folds positive"
+}

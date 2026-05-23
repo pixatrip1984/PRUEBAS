@@ -1,0 +1,60 @@
+{
+  "asset": "POPCATUSDT_4h",
+  "n_bars": 3000,
+  "n_folds": 4,
+  "folds": [
+    {
+      "fold": 1,
+      "bars": [
+        355,
+        710
+      ],
+      "selected_gate": 0.5,
+      "selected_signal": "cos_theta_6h",
+      "selected_enter": 0.3,
+      "selection_metric": -2.15069945375632,
+      "trades": 1,
+      "gross_return": -0.14809604201838314,
+      "net_return": -0.14873473044876945,
+      "gross_sharpe": -0.9955432299712257,
+      "net_sharpe": -1.0003425074598078
+    },
+    {
+      "fold": 2,
+      "bars": [
+        710,
+        1065
+      ],
+      "selected_gate": 0.3,
+      "selected_signal": "cos_theta_6h",
+      "selected_enter": 0.3,
+      "selection_metric": -1.4846910773789297,
+      "trades": 1,
+      "gross_return": -0.2617700025726781,
+      "net_return": -0.2623234674954588,
+      "gross_sharpe": -2.0708505864462126,
+      "net_sharpe": -2.075864658329428
+    },
+    {
+      "fold": 3,
+      "bars": [
+        1065,
+        1423
+      ],
+      "selected_gate": 0.3,
+      "selected_signal": "cos_theta_6h",
+      "selected_enter": 0.3,
+      "selection_metric": -1.8796244817170362,
+      "trades": 1,
+      "gross_return": 0.19457704792820354,
+      "net_return": 0.1936814510330742,
+      "gross_sharpe": 1.3224716124980838,
+      "net_sharpe": 1.317026889484437
+    }
+  ],
+  "aggregate_net_return": -0.2504176912362957,
+  "aggregate_gross_sharpe": NaN,
+  "aggregate_net_sharpe": -0.649971418111657,
+  "aggregate_trades": 3,
+  "verdict": "REJECTED \u2014 negative aggregate net return"
+}
