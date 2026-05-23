@@ -15,6 +15,45 @@ from eso.pipeline import ESOExplorer
 from eso.reporting import write_report_bundle
 
 
+def cmd_stability(args) -> int:
+    """Analyse rolling stability of cycle-phase predictive power."""
+    from eso.signals.feature_vector import build_feature_vector, CausalFeatureBuilder
+    from eso.diagnostics.signal_stability import analyse_signal_stability
+    from eso.diagnostics.stability_report import write_stability_report
+
+    df = read_table(args.path)
+    df = _maybe_klines(df, getattr(args, "klines_format", False))
+    df = _slice_rows(df, getattr(args, "skip_rows", None), args.max_rows)
+
+    if args.causal_mode == "rolling":
+        builder = CausalFeatureBuilder(
+            init_train=args.init_train,
+            refit_every=args.refit_every,
+            seed=args.seed,
+        )
+        fv = builder.fit_predict(df)
+    else:
+        fv = build_feature_vector(df, train_size=args.train_size, seed=args.seed)
+
+    if fv.empty:
+        print("ESO error: empty feature vector", file=sys.stderr)
+        return 2
+
+    report = analyse_signal_stability(
+        fv,
+        horizon=args.horizon,
+        window=args.window,
+    )
+    print(report.summary)
+    if args.output:
+        artifacts = write_stability_report(
+            report, args.output,
+            title=f"{Path(args.path).stem} — stability h={args.horizon} w={args.window}",
+        )
+        print(json.dumps({"artifacts": artifacts}, indent=2))
+    return 0
+
+
 def cmd_backtest(args) -> int:
     """Run a cost-aware backtest of a causal phase strategy on a price series."""
     import pandas as pd
@@ -326,6 +365,23 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--seed", type=int, default=42)
     p.add_argument("--output", help="Directory for report artifacts")
     p.set_defaults(func=cmd_backtest)
+
+    p = sub.add_parser("stability",
+                       help="Rolling stability analysis of cycle-phase predictive power")
+    p.add_argument("path")
+    p.add_argument("--skip-rows", type=int)
+    p.add_argument("--max-rows", type=int)
+    p.add_argument("--klines-format", action="store_true")
+    p.add_argument("--causal-mode", choices=["split", "rolling"], default="split")
+    p.add_argument("--train-size", type=int, default=27000)
+    p.add_argument("--init-train", type=int, default=10000)
+    p.add_argument("--refit-every", type=int, default=2000)
+    p.add_argument("--horizon", type=int, default=12)
+    p.add_argument("--window", type=int, default=1000,
+                   help="Rolling window in bars for correlation estimation")
+    p.add_argument("--seed", type=int, default=42)
+    p.add_argument("--output", help="Directory for report artifacts")
+    p.set_defaults(func=cmd_stability)
 
     return parser
 
