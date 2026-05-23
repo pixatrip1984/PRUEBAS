@@ -29,6 +29,9 @@ from eso.signals.causal_cycle import CausalCyclePhase
 OHLCV_FEATURES = ["log_return", "log_return_2", "hl_range", "body",
                   "vol_5", "vol_20", "lr_z20"]
 
+# OHLCV + funding rate (perp positioning signal — genuinely orthogonal to price)
+OHLCV_FUNDING_FEATURES = OHLCV_FEATURES + ["funding_rate", "funding_z20"]
+
 
 @dataclass
 class AssetResult:
@@ -61,13 +64,31 @@ def build_alt_feature_vector(
     feature_cols: list[str] | None = None,
     smooth_windows: tuple[int, ...] = (6, 24, 72),
     seed: int = 42,
+    include_funding: bool = False,
 ) -> pd.DataFrame:
     """Build a 9-feature vector for an OHLCV-only asset.
 
     Returns DataFrame with index aligned to test slice (post-train).
+
+    Args:
+        include_funding: If True and 'funding_rate' is in df, append
+                         funding_rate and its 20-bar z-score to the
+                         features used by the UMAP fit.
     """
     feat = build_financial_features(df)
-    cols = [c for c in (feature_cols or OHLCV_FEATURES) if c in feat.columns]
+    # Optionally enrich with funding rate features (perp positioning signal)
+    if include_funding and "funding_rate" in df.columns:
+        fr = df["funding_rate"].astype(float)
+        # Align to feat's index by position (feat dropped initial NaN rows)
+        # We append directly assuming positional alignment, then dropna later.
+        feat = feat.copy()
+        feat["funding_rate"] = fr.iloc[-len(feat):].values
+        rolling_mean = feat["funding_rate"].rolling(20, min_periods=5).mean()
+        rolling_std = feat["funding_rate"].rolling(20, min_periods=5).std().replace(0, np.nan)
+        feat["funding_z20"] = (feat["funding_rate"] - rolling_mean) / rolling_std
+
+    default_set = OHLCV_FUNDING_FEATURES if include_funding else OHLCV_FEATURES
+    cols = [c for c in (feature_cols or default_set) if c in feat.columns]
     if len(cols) < 3:
         raise ValueError(f"Need at least 3 features for UMAP; got {cols}")
 

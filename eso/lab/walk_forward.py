@@ -96,6 +96,7 @@ def walk_forward_backtest(
     fee_bps: float = 5.5,
     slippage_bps: float = 2.0,
     seed: int = 42,
+    include_funding: bool = False,
 ) -> WalkForwardResult:
     """Walk-forward parameter selection + backtest on one asset.
 
@@ -105,7 +106,7 @@ def walk_forward_backtest(
     csv_path = Path(csv_path)
     asset = csv_path.stem
     df = pd.read_csv(csv_path)
-    fv = build_alt_feature_vector(df, seed=seed)
+    fv = build_alt_feature_vector(df, seed=seed, include_funding=include_funding)
     if len(fv) < 400:
         raise ValueError(f"Feature vector too short ({len(fv)}) for walk-forward")
 
@@ -250,8 +251,10 @@ def _write_report(result: WalkForwardResult, out_dir: Path) -> None:
 def walk_forward_many(
     csv_paths: Sequence[str | Path],
     output_dir: str | Path = "reports/walkforward",
+    include_funding: bool = False,
     **kwargs,
 ) -> pd.DataFrame:
+    kwargs["include_funding"] = include_funding
     rows = []
     for path in csv_paths:
         asset = Path(path).stem

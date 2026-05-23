@@ -1,0 +1,16 @@
+{
+  "assets": [
+    "VVVUSDT_4h",
+    "STGUSDT_4h",
+    "MORPHOUSDT_4h",
+    "GNOUSDT_4h",
+    "GRASSUSDT_4h"
+  ],
+  "n_bars_union": 1067,
+  "n_bars_intersection": 921,
+  "portfolio_net_return": 1.2566116691084281,
+  "portfolio_net_sharpe": 3.297736104568443,
+  "portfolio_max_drawdown": -0.15540754462476014,
+  "avg_assets_active": 4.7994376757263355,
+  "annualisation": 2190
+}
