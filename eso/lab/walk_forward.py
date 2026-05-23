@@ -60,6 +60,8 @@ class WalkForwardResult:
     aggregate_net_sharpe: float
     aggregate_trades: int
     verdict: str
+    net_returns: list = None      # concatenated net log-returns across trading folds
+    timestamps: list = None       # ISO timestamp per net_return bar (if available)
 
 
 def _select_best_params(
@@ -121,6 +123,8 @@ def walk_forward_backtest(
     net_log_pnl = 0.0
     total_trades = 0
     net_log_returns_all = []
+    timestamps_all = []
+    has_ts = "timestamp" in fv.columns
 
     for k in range(1, n_folds):
         # Selection window = concatenation of fold 0 .. k-1
@@ -150,6 +154,8 @@ def walk_forward_backtest(
         net_log_pnl += float(np.log1p(bt.metrics["net_total_return"]))
         total_trades += bt.metrics["n_trades"]
         net_log_returns_all.extend(bt.net_returns.tolist())
+        if has_ts:
+            timestamps_all.extend(pd.to_datetime(fv_tr["timestamp"].iloc[1:]).astype(str).tolist())
 
         records.append(asdict(FoldRecord(
             fold=k,
@@ -199,6 +205,8 @@ def walk_forward_backtest(
         aggregate_net_sharpe=net_sharpe_agg,
         aggregate_trades=total_trades,
         verdict=verdict,
+        net_returns=net_log_returns_all,
+        timestamps=timestamps_all if has_ts else None,
     )
 
     if output_dir is not None:
