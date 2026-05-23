@@ -16,6 +16,11 @@ from eso.backtest.strategies import (
     proportional_deadband_strategy,
     long_only_baseline,
 )
+from eso.backtest.model_strategy import (
+    model_strategy,
+    build_target,
+    ModelStrategyResult,
+)
 
 __all__ = [
     "BacktestConfig",

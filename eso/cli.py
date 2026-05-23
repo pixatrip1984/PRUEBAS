@@ -26,6 +26,7 @@ def cmd_backtest(args) -> int:
         proportional_strategy,
         proportional_deadband_strategy,
         long_only_baseline,
+        model_strategy,
     )
     from eso.backtest.report import write_backtest_report
 
@@ -64,6 +65,22 @@ def cmd_backtest(args) -> int:
             signal_scale=args.signal_scale,
             min_trade_size=args.min_trade_size,
         )
+    elif args.strategy == "model":
+        result = model_strategy(
+            fv,
+            horizon=args.model_horizon,
+            train_frac=args.model_train_frac,
+            ridge_alpha=args.ridge_alpha,
+            signal_scale=args.signal_scale,
+            min_trade_size=args.min_trade_size,
+            return_diagnostics=True,
+        )
+        pos = result.positions
+        print(f"Model train R²: {result.train_score:+.4f}   "
+              f"test R²: {result.test_score:+.4f}   "
+              f"horizon: {result.target_horizon}h")
+        top_coefs = sorted(result.coefficients.items(), key=lambda kv: -abs(kv[1]))[:5]
+        print("Top |coef|: " + ", ".join(f"{c}={w:+.4f}" for c, w in top_coefs))
     else:
         pos = phase_threshold_strategy(
             fv,
@@ -281,14 +298,21 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--refit-every", type=int, default=2000,
                    help="(rolling mode) refit cadence in bars")
     p.add_argument("--strategy",
-                   choices=["phase_threshold", "proportional", "proportional_deadband", "long_only"],
+                   choices=["phase_threshold", "proportional", "proportional_deadband",
+                            "model", "long_only"],
                    default="phase_threshold")
     p.add_argument("--confidence-col", default="ring_radius",
                    help="(proportional) feature column used as position-size weight")
     p.add_argument("--signal-scale", type=float, default=1.0,
                    help="(proportional) scalar multiplier on raw signal before clipping")
     p.add_argument("--min-trade-size", type=float, default=0.15,
-                   help="(proportional_deadband) minimum |Δposition| to trigger a rebalance")
+                   help="(proportional_deadband / model) minimum |Δposition| to trigger a rebalance")
+    p.add_argument("--model-horizon", type=int, default=12,
+                   help="(model) target prediction horizon in bars")
+    p.add_argument("--model-train-frac", type=float, default=0.5,
+                   help="(model) fraction of feature vector used to fit the regression")
+    p.add_argument("--ridge-alpha", type=float, default=1.0,
+                   help="(model) Ridge L2 regularisation strength")
     p.add_argument("--signal-col", default="cos_theta_24h",
                    help="Feature column to drive entries/exits")
     p.add_argument("--enter-threshold", type=float, default=0.3)

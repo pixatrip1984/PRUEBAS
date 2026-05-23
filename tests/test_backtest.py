@@ -13,6 +13,8 @@ from eso.backtest import (
     proportional_strategy,
     proportional_deadband_strategy,
     long_only_baseline,
+    model_strategy,
+    build_target,
 )
 
 
@@ -174,6 +176,64 @@ def test_proportional_deadband_holds_position():
     assert pos.iloc[4] == pytest.approx(0.5)
     # Bar 5: desired=0.3, delta=0.2 >= 0.2 → update to 0.3
     assert pos.iloc[5] == pytest.approx(0.3)
+
+
+def _make_synthetic_features(n: int = 800, seed: int = 0) -> pd.DataFrame:
+    rng = np.random.default_rng(seed)
+    t = np.arange(n)
+    theta = 2 * np.pi * t / 100.0
+    rets = 0.02 * np.cos(theta) + rng.normal(0, 0.005, n)
+    close = 100.0 * np.exp(np.cumsum(rets))
+    df = pd.DataFrame({
+        "sin_theta_6h":  np.sin(theta * 1.0),
+        "cos_theta_6h":  np.cos(theta * 1.0),
+        "sin_theta_24h": np.sin(theta * 0.5),
+        "cos_theta_24h": np.cos(theta * 0.5),
+        "sin_theta_72h": np.sin(theta * 0.2),
+        "cos_theta_72h": np.cos(theta * 0.2),
+        "ring_radius":   np.ones(n),
+        "vol_20":        np.full(n, 0.01),
+        "lr_z20":        rng.normal(0, 1, n),
+        "close":         close,
+    })
+    return df
+
+
+def test_build_target_horizon_alignment():
+    fv = pd.DataFrame({"close": [100.0, 101.0, 102.0, 103.0, 104.0]})
+    tgt = build_target(fv, horizon=2)
+    # tgt[0] = log(102/100), tgt[1] = log(103/101), last two NaN
+    assert tgt.iloc[0] == pytest.approx(np.log(102 / 100))
+    assert tgt.iloc[1] == pytest.approx(np.log(103 / 101))
+    assert np.isnan(tgt.iloc[-2])
+    assert np.isnan(tgt.iloc[-1])
+
+
+def test_model_strategy_zeros_train_slice_and_predicts_oos():
+    fv = _make_synthetic_features(n=600)
+    result = model_strategy(
+        fv, horizon=10, train_frac=0.5, return_diagnostics=True,
+    )
+    pos = result.positions
+    # Train slice (first 300) must all be zero
+    assert (pos.iloc[:300] == 0.0).all()
+    # Test slice should have nonzero positions if signal is present
+    assert pos.iloc[300:].abs().sum() > 0
+    # Bounded
+    assert (pos >= -1.0).all() and (pos <= 1.0).all()
+
+
+def test_model_strategy_rejects_missing_features():
+    fv = pd.DataFrame({"close": [100, 101], "sin_theta_6h": [0, 0]})
+    with pytest.raises(KeyError):
+        model_strategy(fv, horizon=1, train_frac=0.5)
+
+
+def test_model_strategy_rejects_short_train_slice():
+    fv = _make_synthetic_features(n=120)
+    with pytest.raises(ValueError):
+        # train_frac 0.5 of 120 = 60, minus horizon 12 = 48 < 100 minimum
+        model_strategy(fv, horizon=12, train_frac=0.5)
 
 
 def test_metrics_include_verdict_and_sharpe():
