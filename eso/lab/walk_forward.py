@@ -88,6 +88,162 @@ def _select_best_params(
     return gp, sc, et, best[1]
 
 
+def _select_topk_params(
+    fv_slice: pd.DataFrame,
+    cfg: BacktestConfig,
+    k: int = 3,
+) -> list[tuple[float, str, float, float]]:
+    """Sweep the grid and return top-k configs by net Sharpe."""
+    scored = []
+    prices = fv_slice["close"]
+    for gp, sc, et in SWEEP_GRID:
+        if sc not in fv_slice.columns:
+            continue
+        pos = gated_phase_threshold_strategy(
+            fv_slice, signal_col=sc, gate_col="ring_radius",
+            gate_percentile=gp, gate_window=min(300, len(fv_slice) // 3),
+            enter_threshold=et, exit_threshold=et / 3,
+            allow_short=True,
+        )
+        bt = run_backtest(prices, pos, cfg)
+        s = bt.metrics["net_sharpe"]
+        if not np.isnan(s):
+            scored.append(((gp, sc, et), s))
+    scored.sort(key=lambda x: -x[1])
+    return [(p[0][0], p[0][1], p[0][2], p[1]) for p in scored[:k]]
+
+
+def walk_forward_ensemble_backtest(
+    csv_path: str | Path,
+    n_folds: int = 4,
+    ensemble_k: int = 3,
+    output_dir: str | Path | None = None,
+    bars_per_year: int = 2190,
+    fee_bps: float = 5.5,
+    slippage_bps: float = 2.0,
+    seed: int = 42,
+    include_funding: bool = False,
+) -> WalkForwardResult:
+    """Walk-forward with ensemble of top-k configs per fold.
+
+    Instead of picking a single best (gate, signal, enter) per fold,
+    we pick the top-k by net Sharpe on the selection window, then
+    average their position series at trade time. This reduces the
+    variance of single-point parameter selection.
+    """
+    csv_path = Path(csv_path)
+    asset = csv_path.stem
+    df = pd.read_csv(csv_path)
+    fv = build_alt_feature_vector(df, seed=seed, include_funding=include_funding)
+    if len(fv) < 400:
+        raise ValueError(f"Feature vector too short ({len(fv)}) for walk-forward")
+
+    cfg = BacktestConfig(
+        fee_bps=fee_bps, slippage_bps=slippage_bps,
+        bars_per_year=bars_per_year, allow_short=True,
+    )
+
+    fold_size = len(fv) // n_folds
+    fold_edges = [(i * fold_size, (i + 1) * fold_size) for i in range(n_folds)]
+    fold_edges[-1] = (fold_edges[-1][0], len(fv))
+
+    records = []
+    gross_log_pnl = 0.0
+    net_log_pnl = 0.0
+    total_trades = 0
+    net_log_returns_all = []
+    timestamps_all = []
+    has_ts = "timestamp" in fv.columns
+
+    for k_fold in range(1, n_folds):
+        sel_start = fold_edges[0][0]
+        sel_end = fold_edges[k_fold - 1][1]
+        fv_sel = fv.iloc[sel_start:sel_end].copy()
+        if len(fv_sel) < 100:
+            continue
+
+        topk = _select_topk_params(fv_sel, cfg, k=ensemble_k)
+        if not topk:
+            continue
+
+        tr_start, tr_end = fold_edges[k_fold]
+        fv_tr = fv.iloc[tr_start:tr_end].copy()
+        if len(fv_tr) < 30:
+            continue
+
+        # Average positions across top-k configs
+        pos_sum = np.zeros(len(fv_tr), dtype=float)
+        for gp, sc, et, _ in topk:
+            pos = gated_phase_threshold_strategy(
+                fv_tr, signal_col=sc, gate_col="ring_radius",
+                gate_percentile=gp, gate_window=min(300, len(fv_tr) // 3),
+                enter_threshold=et, exit_threshold=et / 3,
+                allow_short=True,
+            )
+            pos_sum += pos.to_numpy()
+        ens_pos = pd.Series(pos_sum / len(topk), index=fv_tr.index, name="position")
+
+        bt = run_backtest(fv_tr["close"], ens_pos, cfg)
+
+        gross_log_pnl += float(np.log1p(bt.metrics["gross_total_return"]))
+        net_log_pnl += float(np.log1p(bt.metrics["net_total_return"]))
+        total_trades += bt.metrics["n_trades"]
+        net_log_returns_all.extend(bt.net_returns.tolist())
+        if has_ts:
+            timestamps_all.extend(pd.to_datetime(fv_tr["timestamp"].iloc[1:]).astype(str).tolist())
+
+        # Record summary of ensemble selection (use top-1 for the record)
+        gp, sc, et, score = topk[0]
+        records.append(asdict(FoldRecord(
+            fold=k_fold,
+            bars=(tr_start, tr_end),
+            selected_gate=gp,
+            selected_signal=sc,
+            selected_enter=et,
+            selection_metric=score,
+            trades=bt.metrics["n_trades"],
+            gross_return=bt.metrics["gross_total_return"],
+            net_return=bt.metrics["net_total_return"],
+            gross_sharpe=bt.metrics["gross_sharpe"],
+            net_sharpe=bt.metrics["net_sharpe"],
+        )))
+
+    agg_gross = float(np.expm1(gross_log_pnl))
+    agg_net = float(np.expm1(net_log_pnl))
+    net_arr = np.array(net_log_returns_all, dtype=float)
+    net_sharpe_agg = float("nan")
+    if len(net_arr) > 1 and net_arr.std(ddof=0) > 0:
+        net_sharpe_agg = float(net_arr.mean() / net_arr.std(ddof=0) * np.sqrt(bars_per_year))
+
+    n_winning_folds = sum(1 for r in records if r["net_return"] > 0)
+    n_traded = len(records)
+    if n_traded == 0:
+        verdict = "INCONCLUSIVE"
+    elif agg_net > 0 and net_sharpe_agg >= 1.0:
+        verdict = f"TRADEABLE (ensemble k={ensemble_k}) — positive aggregate AND net Sharpe >= 1.0"
+    elif agg_net > 0 and n_winning_folds / n_traded >= 0.6:
+        verdict = f"PROMISING (ensemble k={ensemble_k})"
+    elif agg_net > 0:
+        verdict = f"MARGINAL (ensemble k={ensemble_k})"
+    else:
+        verdict = f"REJECTED (ensemble k={ensemble_k})"
+
+    result = WalkForwardResult(
+        asset=asset, n_bars=len(df), n_folds=n_folds,
+        folds=records,
+        aggregate_net_return=agg_net,
+        aggregate_gross_sharpe=float("nan"),
+        aggregate_net_sharpe=net_sharpe_agg,
+        aggregate_trades=total_trades,
+        verdict=verdict,
+        net_returns=net_log_returns_all,
+        timestamps=timestamps_all if has_ts else None,
+    )
+    if output_dir is not None:
+        _write_report(result, Path(output_dir))
+    return result
+
+
 def walk_forward_backtest(
     csv_path: str | Path,
     n_folds: int = 4,
