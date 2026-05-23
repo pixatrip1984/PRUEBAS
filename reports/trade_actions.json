@@ -1,0 +1,50 @@
+{
+  "generated_at": "2026-05-23T18:02:37+00:00",
+  "actions": [
+    {
+      "asset": "VVVUSDT_4h",
+      "held": 0.0,
+      "target": 0.04457043220115028,
+      "delta": 0.04457043220115028,
+      "action": "HOLD",
+      "quality_pass": true,
+      "notes": "delta below min_trade_size"
+    },
+    {
+      "asset": "STGUSDT_4h",
+      "held": 0.0,
+      "target": 0.06238587386467438,
+      "delta": 0.06238587386467438,
+      "action": "BUY",
+      "quality_pass": true,
+      "notes": ""
+    },
+    {
+      "asset": "MORPHOUSDT_4h",
+      "held": 0.0,
+      "target": 0.0,
+      "delta": 0.0,
+      "action": "HOLD",
+      "quality_pass": true,
+      "notes": "delta below min_trade_size"
+    },
+    {
+      "asset": "GNOUSDT_4h",
+      "held": 0.0,
+      "target": 0.05258104224930393,
+      "delta": 0.05258104224930393,
+      "action": "HOLD",
+      "quality_pass": false,
+      "notes": "selection_sharpe -0.08 below min +0.50"
+    },
+    {
+      "asset": "GRASSUSDT_4h",
+      "held": 0.0,
+      "target": 0.05039742676449919,
+      "delta": 0.05039742676449919,
+      "action": "BUY",
+      "quality_pass": true,
+      "notes": ""
+    }
+  ]
+}
