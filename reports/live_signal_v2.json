@@ -1,0 +1,81 @@
+{
+  "generated_at": "2026-05-23T19:06:18+00:00",
+  "target_annual_vol": 0.3,
+  "per_asset": [
+    {
+      "asset": "VVVUSDT_4h",
+      "timestamp": "2026-05-23 16:00:00+00:00",
+      "current_position": 1.0,
+      "last_close": 17.857,
+      "selected_gate": 0.5,
+      "selected_signal": "sin_theta_24h",
+      "selected_enter": 0.4,
+      "selection_sharpe": 3.2848130324230045,
+      "selection_window_bars": 700,
+      "n_recent_active_bars": 50
+    },
+    {
+      "asset": "STGUSDT_4h",
+      "timestamp": "2026-05-23 16:00:00+00:00",
+      "current_position": 0.0,
+      "last_close": 0.1697,
+      "selected_gate": 0.5,
+      "selected_signal": "cos_theta_24h",
+      "selected_enter": 0.4,
+      "selection_sharpe": 1.8228984249477338,
+      "selection_window_bars": 700,
+      "n_recent_active_bars": 35
+    },
+    {
+      "asset": "MORPHOUSDT_4h",
+      "timestamp": "2026-05-23 16:00:00+00:00",
+      "current_position": 1.0,
+      "last_close": 2.0642,
+      "selected_gate": 0.85,
+      "selected_signal": "sin_theta_24h",
+      "selected_enter": 0.2,
+      "selection_sharpe": 3.0931118818765695,
+      "selection_window_bars": 700,
+      "n_recent_active_bars": 28
+    },
+    {
+      "asset": "GNOUSDT_4h",
+      "timestamp": "2026-05-23 08:00:00+00:00",
+      "current_position": 1.0,
+      "last_close": 115.04,
+      "selected_gate": 0.3,
+      "selected_signal": "cos_theta_72h",
+      "selected_enter": 0.2,
+      "selection_sharpe": -0.23326851179724592,
+      "selection_window_bars": 700,
+      "n_recent_active_bars": 50
+    },
+    {
+      "asset": "GRASSUSDT_4h",
+      "timestamp": "2026-05-23 16:00:00+00:00",
+      "current_position": 0.0,
+      "last_close": 0.48908,
+      "selected_gate": 0.85,
+      "selected_signal": "cos_theta_6h",
+      "selected_enter": 0.3,
+      "selection_sharpe": 2.1662604362421054,
+      "selection_window_bars": 700,
+      "n_recent_active_bars": 41
+    }
+  ],
+  "vol_scalers": {
+    "VVVUSDT_4h": 0.1976096547261924,
+    "STGUSDT_4h": 0.3017194472286003,
+    "MORPHOUSDT_4h": 0.40020222311063086,
+    "GNOUSDT_4h": 0.2633484736388882,
+    "GRASSUSDT_4h": 0.222223802385837
+  },
+  "portfolio_positions": {
+    "VVVUSDT_4h": 0.03952193094523848,
+    "STGUSDT_4h": 0.0,
+    "MORPHOUSDT_4h": 0.08004044462212617,
+    "GNOUSDT_4h": 0.05266969472777764,
+    "GRASSUSDT_4h": 0.0
+  },
+  "notes": []
+}

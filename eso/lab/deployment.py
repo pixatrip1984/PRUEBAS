@@ -227,23 +227,27 @@ def refresh_funding_in_csv(
 
     # Merge: for each bar in existing, find the most recent funding event
     # that occurred BEFORE that bar's timestamp (forward-fill style).
-    funding_sorted = funding.sort_values("timestamp").reset_index(drop=True)
+    funding_sorted = (
+        funding.sort_values("timestamp")
+               .rename(columns={"funding_rate": "_fr_new"})
+               .reset_index(drop=True)
+    )
     existing_sorted = existing.sort_values("timestamp").reset_index(drop=True)
     merged = pd.merge_asof(
         existing_sorted, funding_sorted,
         on="timestamp", direction="backward",
-        suffixes=("", "_new"),
     )
 
     n_updated = 0
-    if "funding_rate" in existing.columns:
-        # Update only NaN rows
-        mask = existing_sorted["funding_rate"].isna() & merged["funding_rate"].notna()
-        existing_sorted.loc[mask, "funding_rate"] = merged.loc[mask, "funding_rate"]
+    if "funding_rate" in existing_sorted.columns:
+        # Update only rows where the existing funding_rate is NaN AND we have
+        # a valid newer funding observation to fill it with.
+        mask = existing_sorted["funding_rate"].isna() & merged["_fr_new"].notna()
+        existing_sorted.loc[mask, "funding_rate"] = merged.loc[mask, "_fr_new"]
         n_updated = int(mask.sum())
     else:
-        existing_sorted["funding_rate"] = merged["funding_rate"]
-        n_updated = int(merged["funding_rate"].notna().sum())
+        existing_sorted["funding_rate"] = merged["_fr_new"]
+        n_updated = int(merged["_fr_new"].notna().sum())
 
     existing_sorted.to_csv(csv_path, index=False)
     return n_updated
