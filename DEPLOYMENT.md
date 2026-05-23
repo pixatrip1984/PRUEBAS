@@ -119,6 +119,25 @@ This is the most important section. Stop if any of these triggers fire:
 
 ---
 
+## Paper-trading journal (validated)
+
+We ran `experiments/paper_journal.py` over the last 200 bars (~33 days
+at 4h) to simulate live execution. The result was striking:
+
+| Gate min_sharpe | Net return | Sharpe | GNO Sharpe |
+|----------------:|-----------:|-------:|-----------:|
+| 0.5 (original)  |     +0.9%  |  +0.49 |  **-5.44** |
+| **1.0** (use this) |  +6.4%  |  **+4.37** | +3.24 |
+
+The 0.5 gate let GNO trade 28 times during a regime where it was
+losing money badly. The 1.0 gate cut that to 2 trades — most of GNO's
+selection sweeps in that period had Sharpe < 1.0, correctly signalling
+"the walker isn't confident enough — sit out."
+
+MORPHOUSDT was still overtrading at gate=1.0 (18 trades, -0.5% net).
+This is a leading indicator the signal is decaying. Watch it. If it
+continues underperforming, drop it from `LIVE_ASSET_CONFIGS`.
+
 ## Re-validation (monthly)
 
 ```bash

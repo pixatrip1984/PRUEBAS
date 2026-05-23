@@ -1,0 +1,12 @@
+{
+  "asset_count": 1,
+  "n_steps": 199,
+  "aggregate_log_return": 0.7180089259521695,
+  "aggregate_net_return": 1.0503467515665035,
+  "aggregate_sharpe": 6.2334525615850955,
+  "aggregate_max_drawdown": -0.12743436248933548,
+  "n_trades_per_asset": {
+    "VVVUSDT_4h": 10
+  },
+  "avg_exposure": 0.9396984924623115
+}

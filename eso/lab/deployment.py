@@ -164,6 +164,91 @@ def fetch_bybit_klines(
     return df[["timestamp", "open", "high", "low", "close", "volume"]]
 
 
+def fetch_bybit_funding(
+    symbol: str,
+    limit: int = 200,
+    category: str = "linear",
+) -> pd.DataFrame:
+    """Pull recent funding-rate history from Bybit.
+
+    Returns a DataFrame with columns: timestamp, funding_rate
+    Funding is published every 8h on Bybit (3 times per day).
+    """
+    try:
+        import requests
+    except ImportError as exc:
+        raise RuntimeError(
+            "Install 'requests' to fetch Bybit data: pip install requests"
+        ) from exc
+
+    params = {
+        "category": category,
+        "symbol": symbol,
+        "limit": min(limit, 200),
+    }
+    resp = requests.get(BYBIT_FUNDING_URL, params=params, timeout=15)
+    resp.raise_for_status()
+    body = resp.json()
+    if body.get("retCode") != 0:
+        raise RuntimeError(f"Bybit funding error: {body.get('retMsg')}")
+    rows = list(reversed(body["result"]["list"]))
+    df = pd.DataFrame(rows)
+    if df.empty:
+        return pd.DataFrame(columns=["timestamp", "funding_rate"])
+    df["timestamp"] = pd.to_datetime(
+        df["fundingRateTimestamp"].astype(np.int64), unit="ms", utc=True,
+    )
+    df["funding_rate"] = df["fundingRate"].astype(float)
+    return df[["timestamp", "funding_rate"]]
+
+
+def refresh_funding_in_csv(
+    symbol: str,
+    csv_path: str | Path,
+    limit: int = 200,
+) -> int:
+    """Refresh funding_rate column in an existing CSV.
+
+    Funding is forward-filled into each 4h bar between funding events
+    (matches how the original CSVs were built — funding_rate column
+    represents the most recent funding observation as of that bar).
+    """
+    csv_path = Path(csv_path)
+    if not csv_path.exists():
+        raise FileNotFoundError(f"CSV does not exist: {csv_path}. "
+                                "Run 'fetch' first to seed klines.")
+
+    existing = pd.read_csv(csv_path)
+    existing["timestamp"] = pd.to_datetime(existing["timestamp"])
+
+    funding = fetch_bybit_funding(symbol, limit=limit)
+    if funding.empty:
+        return 0
+
+    # Merge: for each bar in existing, find the most recent funding event
+    # that occurred BEFORE that bar's timestamp (forward-fill style).
+    funding_sorted = funding.sort_values("timestamp").reset_index(drop=True)
+    existing_sorted = existing.sort_values("timestamp").reset_index(drop=True)
+    merged = pd.merge_asof(
+        existing_sorted, funding_sorted,
+        on="timestamp", direction="backward",
+        suffixes=("", "_new"),
+    )
+
+    n_updated = 0
+    if "funding_rate" in existing.columns:
+        # Update only NaN rows
+        mask = existing_sorted["funding_rate"].isna() & merged["funding_rate"].notna()
+        existing_sorted.loc[mask, "funding_rate"] = merged.loc[mask, "funding_rate"]
+        n_updated = int(mask.sum())
+    else:
+        existing_sorted["funding_rate"] = merged["funding_rate"]
+        n_updated = int(merged["funding_rate"].notna().sum())
+
+    existing_sorted.to_csv(csv_path, index=False)
+    return n_updated
+
+
 def refresh_asset_csv(
     symbol: str,
     csv_path: str | Path,
@@ -235,6 +320,11 @@ def main(argv: list[str] | None = None) -> int:
     p_fetch.add_argument("--interval", default="240")
     p_fetch.add_argument("--limit", type=int, default=200)
 
+    p_fund = sub.add_parser("funding", help="Refresh funding_rate column in a CSV")
+    p_fund.add_argument("symbol", help="e.g. GNOUSDT")
+    p_fund.add_argument("csv_path")
+    p_fund.add_argument("--limit", type=int, default=200)
+
     args = p.parse_args(argv)
 
     if args.command == "diff":
@@ -257,6 +347,11 @@ def main(argv: list[str] | None = None) -> int:
             interval=args.interval, fetch_limit=args.limit,
         )
         print(f"Appended {n} new rows to {args.csv_path}")
+        return 0
+
+    if args.command == "funding":
+        n = refresh_funding_in_csv(args.symbol, args.csv_path, limit=args.limit)
+        print(f"Updated funding_rate on {n} rows in {args.csv_path}")
         return 0
 
     return 1

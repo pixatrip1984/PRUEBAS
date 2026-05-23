@@ -1,0 +1,12 @@
+{
+  "asset_count": 1,
+  "n_steps": 199,
+  "aggregate_log_return": -0.13010883499959117,
+  "aggregate_net_return": -0.12200013139494725,
+  "aggregate_sharpe": -5.438890408420031,
+  "aggregate_max_drawdown": -0.12358013862308903,
+  "n_trades_per_asset": {
+    "GNOUSDT_4h": 28
+  },
+  "avg_exposure": 0.17587939698492464
+}

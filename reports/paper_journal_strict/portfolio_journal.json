@@ -1,0 +1,23 @@
+{
+  "asset_count": 5,
+  "n_steps": 221,
+  "aggregate_log_return": 0.0622826477477395,
+  "aggregate_net_return": 0.06426311379229754,
+  "aggregate_sharpe": 4.372240271403099,
+  "aggregate_max_drawdown": -0.02597219933552586,
+  "n_trades_per_asset": {
+    "VVVUSDT_4h": 10,
+    "STGUSDT_4h": 2,
+    "MORPHOUSDT_4h": 18,
+    "GNOUSDT_4h": 2,
+    "GRASSUSDT_4h": 3
+  },
+  "avg_exposure": 0.9004524886877828,
+  "vol_scalers": {
+    "VVVUSDT_4h": 0.3036122992418504,
+    "STGUSDT_4h": 0.34695376173797704,
+    "MORPHOUSDT_4h": 0.39236338464314674,
+    "GNOUSDT_4h": 1.0,
+    "GRASSUSDT_4h": 0.23232764432793435
+  }
+}
