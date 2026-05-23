@@ -185,3 +185,139 @@ def proportional_deadband_strategy(
         held[i] = current
 
     return pd.Series(held, index=features.index, name="position")
+
+
+def gated_phase_threshold_strategy(
+    features: pd.DataFrame,
+    signal_col: str = "cos_theta_24h",
+    gate_col: str = "ring_radius",
+    gate_percentile: float = 0.70,
+    gate_window: int = 1000,
+    enter_threshold: float = 0.3,
+    exit_threshold: float = 0.1,
+    allow_short: bool = True,
+) -> pd.Series:
+    """Hysteresis phase threshold AND regime gate.
+
+    Combines the few-trade discipline of phase_threshold_strategy with
+    the regime filter of regime_gated_strategy: only allow entries when
+    the gate is active. Exits respect the original threshold logic
+    regardless of gate state (don't trap a losing position because the
+    gate closes).
+    """
+    if signal_col not in features.columns:
+        raise KeyError(f"signal_col '{signal_col}' not in features")
+    if gate_col not in features.columns:
+        raise KeyError(f"gate_col '{gate_col}' not in features")
+    if exit_threshold >= enter_threshold:
+        raise ValueError("exit_threshold must be < enter_threshold")
+
+    sig = features[signal_col].to_numpy(dtype=float)
+    gate = features[gate_col].to_numpy(dtype=float)
+    threshold = (
+        pd.Series(gate)
+        .rolling(gate_window, min_periods=max(50, gate_window // 10))
+        .quantile(gate_percentile)
+        .to_numpy()
+    )
+    active = gate >= threshold
+
+    pos = np.zeros(len(sig), dtype=float)
+    state = 0
+    for i in range(len(sig)):
+        x = sig[i]
+        if np.isnan(x):
+            pos[i] = state
+            continue
+        if state == 0:
+            # Entries gated
+            if active[i]:
+                if x >= enter_threshold:
+                    state = 1
+                elif allow_short and x <= -enter_threshold:
+                    state = -1
+        elif state == 1:
+            # Exits ungated — always allowed to flatten
+            if x <= exit_threshold:
+                if active[i] and allow_short and x <= -enter_threshold:
+                    state = -1
+                else:
+                    state = 0
+        elif state == -1:
+            if x >= -exit_threshold:
+                if active[i] and x >= enter_threshold:
+                    state = 1
+                else:
+                    state = 0
+        pos[i] = state
+
+    return pd.Series(pos, index=features.index, name="position")
+
+
+def regime_gated_strategy(
+    features: pd.DataFrame,
+    signal_col: str = "cos_theta_24h",
+    gate_col: str = "ring_radius",
+    gate_percentile: float = 0.70,
+    gate_window: int = 1000,
+    signal_scale: float = 1.0,
+    min_trade_size: float = 0.15,
+    allow_short: bool = True,
+) -> pd.Series:
+    """Trade the phase signal only when the regime gate is favourable.
+
+    Position = clip(scale × signal, -1, 1) when gate > rolling_percentile(gate_col),
+    else 0. Dead-band applied on top.
+
+    The motivation is the stability finding: phase features predict
+    direction only when ring_radius is high (geometrically: when the
+    embedding is close to the ring). Outside that regime the signal
+    has zero or negative correlation with returns and trading it costs
+    money.
+
+    Args:
+        signal_col:      Directional feature.
+        gate_col:        Column used as regime indicator (default ring_radius).
+        gate_percentile: Threshold (0-1) above which trading is enabled,
+                         computed as a rolling percentile of gate_col.
+        gate_window:     Rolling window for the percentile (default 1000 bars).
+        signal_scale:    Multiplier on raw signal before clipping.
+        min_trade_size:  Dead-band for turnover control.
+        allow_short:     If False, gate also blocks shorts.
+
+    Returns:
+        Position series in [-1, 1].
+    """
+    if signal_col not in features.columns:
+        raise KeyError(f"signal_col '{signal_col}' not in features")
+    if gate_col not in features.columns:
+        raise KeyError(f"gate_col '{gate_col}' not in features")
+    if not 0.0 < gate_percentile < 1.0:
+        raise ValueError("gate_percentile must be in (0, 1)")
+
+    sig = features[signal_col].to_numpy(dtype=float)
+    gate = features[gate_col].to_numpy(dtype=float)
+
+    # Rolling percentile threshold of the gate column itself
+    threshold = (
+        pd.Series(gate)
+        .rolling(gate_window, min_periods=max(50, gate_window // 10))
+        .quantile(gate_percentile)
+        .to_numpy()
+    )
+    active = gate >= threshold
+
+    raw = signal_scale * sig
+    desired = np.clip(raw, -1.0, 1.0)
+    if not allow_short:
+        desired = np.clip(desired, 0.0, 1.0)
+    desired = np.where(np.isnan(desired) | ~active, 0.0, desired)
+
+    held = np.zeros(len(desired))
+    current = 0.0
+    for i in range(len(desired)):
+        if abs(desired[i] - current) >= min_trade_size:
+            current = desired[i]
+        held[i] = current
+
+    return pd.Series(held, index=features.index, name="position")

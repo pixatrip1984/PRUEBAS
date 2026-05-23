@@ -64,6 +64,8 @@ def cmd_backtest(args) -> int:
         phase_threshold_strategy,
         proportional_strategy,
         proportional_deadband_strategy,
+        regime_gated_strategy,
+        gated_phase_threshold_strategy,
         long_only_baseline,
         model_strategy,
     )
@@ -103,6 +105,28 @@ def cmd_backtest(args) -> int:
             confidence_col=args.confidence_col,
             signal_scale=args.signal_scale,
             min_trade_size=args.min_trade_size,
+        )
+    elif args.strategy == "gated_phase_threshold":
+        pos = gated_phase_threshold_strategy(
+            fv,
+            signal_col=args.signal_col,
+            gate_col=args.gate_col,
+            gate_percentile=args.gate_percentile,
+            gate_window=args.gate_window,
+            enter_threshold=args.enter_threshold,
+            exit_threshold=args.exit_threshold,
+            allow_short=not args.long_only,
+        )
+    elif args.strategy == "regime_gated":
+        pos = regime_gated_strategy(
+            fv,
+            signal_col=args.signal_col,
+            gate_col=args.gate_col,
+            gate_percentile=args.gate_percentile,
+            gate_window=args.gate_window,
+            signal_scale=args.signal_scale,
+            min_trade_size=args.min_trade_size,
+            allow_short=not args.long_only,
         )
     elif args.strategy == "model":
         result = model_strategy(
@@ -338,6 +362,7 @@ def build_parser() -> argparse.ArgumentParser:
                    help="(rolling mode) refit cadence in bars")
     p.add_argument("--strategy",
                    choices=["phase_threshold", "proportional", "proportional_deadband",
+                            "regime_gated", "gated_phase_threshold",
                             "model", "long_only"],
                    default="phase_threshold")
     p.add_argument("--confidence-col", default="ring_radius",
@@ -352,6 +377,12 @@ def build_parser() -> argparse.ArgumentParser:
                    help="(model) fraction of feature vector used to fit the regression")
     p.add_argument("--ridge-alpha", type=float, default=1.0,
                    help="(model) Ridge L2 regularisation strength")
+    p.add_argument("--gate-col", default="ring_radius",
+                   help="(regime_gated) regime indicator column")
+    p.add_argument("--gate-percentile", type=float, default=0.70,
+                   help="(regime_gated) trade only when gate > this rolling percentile")
+    p.add_argument("--gate-window", type=int, default=1000,
+                   help="(regime_gated) rolling window for the gate percentile")
     p.add_argument("--signal-col", default="cos_theta_24h",
                    help="Feature column to drive entries/exits")
     p.add_argument("--enter-threshold", type=float, default=0.3)

@@ -12,6 +12,7 @@ from eso.backtest import (
     phase_threshold_strategy,
     proportional_strategy,
     proportional_deadband_strategy,
+    regime_gated_strategy,
     long_only_baseline,
     model_strategy,
     build_target,
@@ -176,6 +177,47 @@ def test_proportional_deadband_holds_position():
     assert pos.iloc[4] == pytest.approx(0.5)
     # Bar 5: desired=0.3, delta=0.2 >= 0.2 → update to 0.3
     assert pos.iloc[5] == pytest.approx(0.3)
+
+
+def test_regime_gated_filters_by_percentile():
+    # Random gate values uniform on [0, 1]. With gate_percentile=0.7,
+    # roughly 30% of bars should be "active" (above rolling 70th percentile).
+    rng = np.random.default_rng(0)
+    n = 2000
+    sig = np.sign(np.sin(np.linspace(0, 30 * np.pi, n))).astype(float)
+    gate = rng.uniform(0, 1, n)
+    fv = pd.DataFrame({"cos_theta_24h": sig, "ring_radius": gate})
+    pos = regime_gated_strategy(
+        fv, signal_col="cos_theta_24h", gate_col="ring_radius",
+        gate_percentile=0.7, gate_window=200, min_trade_size=0.05,
+    )
+    # Roughly 20-40% of bars should hold a non-zero position
+    active_frac = (pos.iloc[300:] != 0.0).mean()
+    assert 0.15 < active_frac < 0.45
+
+
+def test_regime_gated_position_follows_signal_when_active():
+    n = 600
+    # Constant positive signal, high gate everywhere
+    sig = np.ones(n)
+    gate = np.linspace(0.5, 1.0, n)  # monotonically rising
+    fv = pd.DataFrame({"cos_theta_24h": sig, "ring_radius": gate})
+    pos = regime_gated_strategy(
+        fv, signal_col="cos_theta_24h", gate_col="ring_radius",
+        gate_percentile=0.5, gate_window=100, min_trade_size=0.05,
+    )
+    # End of series: should be long
+    assert pos.iloc[-1] == pytest.approx(1.0)
+
+
+def test_regime_gated_rejects_bad_args():
+    fv = pd.DataFrame({"cos_theta_24h": [0.0], "ring_radius": [1.0]})
+    with pytest.raises(ValueError):
+        regime_gated_strategy(fv, gate_percentile=1.5)
+    with pytest.raises(KeyError):
+        regime_gated_strategy(fv, signal_col="nope")
+    with pytest.raises(KeyError):
+        regime_gated_strategy(fv, gate_col="nope")
 
 
 def _make_synthetic_features(n: int = 800, seed: int = 0) -> pd.DataFrame:
