@@ -53,7 +53,7 @@ python -m eso.lab.live_signal --output reports/live_signal.json
 # Step 3: compute diff vs held positions and apply quality gate
 python -m eso.lab.deployment diff reports/live_signal.json \
     --held current_held.json \
-    --min-sharpe 0.5 \
+    --min-sharpe 1.0 \
     --output reports/trade_actions.json
 
 # Step 4: review reports/trade_actions.json, execute on Bybit, update
