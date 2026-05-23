@@ -1,0 +1,23 @@
+{
+  "n_bars": 4582,
+  "years": 2.0922374429223742,
+  "n_trades": 1,
+  "turnover_per_year": 0.47795722391968576,
+  "gross_total_return": 0.20208296006173082,
+  "net_total_return": 0.20118173584301147,
+  "cost_drag": 0.0009012242187193542,
+  "cost_drag_per_year": 0.0004307466257082902,
+  "gross_sharpe": 0.18615484396192708,
+  "net_sharpe": 0.18539641707739826,
+  "max_drawdown": -0.49836971788955076,
+  "active_bars": 4582,
+  "hit_rate": 0.5102575294631165,
+  "verdict": "WEAK \u2014 barely positive, not tradeable as-is",
+  "config": {
+    "fee_bps": 5.5,
+    "slippage_bps": 2.0,
+    "bars_per_year": 2190,
+    "initial_equity": 1.0,
+    "allow_short": true
+  }
+}
