@@ -1,0 +1,29 @@
+{
+  "assets": [
+    "VVVUSDT_4h",
+    "STGUSDT_4h",
+    "MORPHOUSDT_4h",
+    "GNOUSDT_4h",
+    "GRASSUSDT_4h"
+  ],
+  "n_bars_union": 1067,
+  "n_bars_intersection": 921,
+  "portfolio_net_return": 0.6696861283712259,
+  "portfolio_net_sharpe": 3.111027076059585,
+  "portfolio_max_drawdown": -0.11343568128805714,
+  "avg_assets_active": 4.7994376757263355,
+  "annualisation": 2190,
+  "target_annual_vol": 0.3,
+  "per_asset_scaler": {
+    "VVVUSDT_4h": 0.5333651758035172,
+    "STGUSDT_4h": 0.41667023569810757,
+    "MORPHOUSDT_4h": 1.8320150509939228,
+    "GNOUSDT_4h": 0.6800437884555368,
+    "GRASSUSDT_4h": 0.37653202022310095
+  },
+  "bootstrap_sharpe_ci_95": {
+    "point": 3.111027076059585,
+    "lo": 0.9430987371176623,
+    "hi": 5.460638499469657
+  }
+}
