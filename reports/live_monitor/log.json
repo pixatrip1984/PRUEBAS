@@ -1,0 +1,1993 @@
+{
+  "observations": [
+    {
+      "timestamp": "2026-04-08T12:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-08T16:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-08T20:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-09T00:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-09T04:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-09T08:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-09T12:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-09T16:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-09T20:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-10T00:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-10T04:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-10T08:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-10T12:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-10T16:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-10T20:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-11T00:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-11T04:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-11T08:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-11T12:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-11T16:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-11T20:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-12T00:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-12T04:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0028127512993025,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-12T08:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0014465626920016,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-12T12:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0011132620640758,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-12T16:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0009290806324495,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-12T20:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0004962460288562,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-13T00:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0007002120649014,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-13T04:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0025179827026571,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-13T08:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.001397313939234,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-13T12:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0012421677455003,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-13T16:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0089213436785183,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-13T20:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0007586467151284,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-14T00:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0001193727746407,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-14T04:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0001241211111069,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-14T08:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0038869271293117,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-14T12:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0077981728228259,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-14T16:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0026090389911024,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-14T20:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0009935505673474,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-15T00:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.003016322328167,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-15T04:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0007952116715294,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-15T08:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0061733775017031,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-15T12:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0091255223851264,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-15T16:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0070820365316099,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-15T20:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0020977621058732,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-16T00:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.003652704155746,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-16T04:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.002349323201879,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-16T08:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 4.712265613668635e-05,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-16T12:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.001807435981843,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-16T16:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0011132861178321,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-16T20:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0017165353949476,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-17T00:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0032521351517772,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-17T04:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.003839140697134,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-17T08:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0048702925638327,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-17T12:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0023228608029088,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-17T16:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0059922637363082,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-17T20:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0003697477203333,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-18T00:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0040501089074241,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-18T04:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0075334800893708,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-18T08:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.004001952386841,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-18T12:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0007409489008753,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-18T16:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0021655137917031,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-18T20:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0005520506175919,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-19T00:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0016358320558282,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-19T04:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0063023108874512,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-19T08:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0029349296768928,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-19T12:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0045617852775447,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-19T16:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.008022945187708,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-19T20:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0050608096318138,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-20T00:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0005192930002023,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-20T04:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0041579947147606,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-20T08:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0009067721590019,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-20T12:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0021605462851385,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-20T16:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0025697173812317,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-20T20:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0012748978301409,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-21T00:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0045885236377729,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-21T04:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0003745611162503,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-21T08:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0008686354046011,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-21T12:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0031527461780639,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-21T16:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0011512386644445,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-21T20:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0067379155278595,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-22T00:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0010423605691672,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-22T04:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.000610476018291,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-22T08:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0013188625847552,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-22T12:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 9.821522979459788e-05,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-22T16:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0002448098214761,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-22T20:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0024167157431268,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-23T00:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 1.5181768625215196e-05,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-23T04:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0002197991119035,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-23T08:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0007106991105149,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-23T12:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0005326441324549,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-23T16:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0057762488509662,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-23T20:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0025311465142174,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-24T00:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0020776818226449,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-24T04:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0002871718483217,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-24T08:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0036844823198854,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-24T12:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0001856428138777,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-24T16:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0019179859241864,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-24T20:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0021017587980965,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-25T00:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0008119060558287,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-25T04:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0003111346481534,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-25T08:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.000341727803367,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-25T12:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0005234734470556,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-25T16:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0032878164335352,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-25T20:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0001801859272872,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-26T00:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.003001092973684,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-26T04:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0010040835186231,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-26T08:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0002873128363839,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-26T12:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0004366311715695,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-26T16:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0004559398529288,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-26T20:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0004159328588857,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-27T00:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0024291858137435,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-27T04:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0028593021323227,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-27T08:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 1.7660497455587645e-05,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-27T12:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0005134590576546,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-27T16:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0005452394260004,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-27T20:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -7.2928841032101e-05,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-28T00:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0001213707778816,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-28T04:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0013307465885918,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-28T08:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0008430724024638,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-28T12:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0006129678660398,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-28T16:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0019141164395169,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-28T20:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -3.9425737548516655e-05,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-29T00:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0013855122271731,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-29T04:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.000661012424356,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-29T08:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.001795109754156,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-29T12:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0056028780444458,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-29T16:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0021480524549563,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-29T20:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0028460667351458,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-30T00:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0034984144259434,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-30T04:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0007696530641131,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-30T08:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0014101587842156,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-30T12:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0021051757754521,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-30T16:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0004515529612032,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-04-30T20:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0023722327697468,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-01T00:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0024303417178937,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-01T04:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0018129559390091,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-01T08:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0007400199823589,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-01T12:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0005497272039595,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-01T16:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0008288081254002,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-01T20:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0001591744114832,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-02T00:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -6.77970545870343e-05,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-02T04:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0002211116926727,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-02T08:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0007892161048807,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-02T12:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0016055872336852,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-02T16:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0047687410052724,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-02T20:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0020853125042936,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-03T00:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0011650123193022,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-03T04:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 4.937440214758306e-06,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-03T08:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0001432124115983,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-03T12:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.003993166580184,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-03T16:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0012535048131105,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-03T20:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0029665674992689,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-04T00:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0006648836879976,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-04T04:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0043688521289864,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-04T08:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0029239289743406,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-04T12:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0014598935988367,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-04T16:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0002339321710942,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-04T20:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -5.133041626189164e-05,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-05T00:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0051086752400762,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-05T04:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0002768926370693,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-05T08:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0066375353081388,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-05T12:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0010547957133908,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-05T16:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0010613185344658,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-05T20:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0041368446261135,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-06T00:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0064641189051925,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-06T04:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0051946130007051,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-06T08:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0016622068188282,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-06T12:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0035907038425153,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-06T16:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0049456875431738,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-06T20:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0075121446079754,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-07T00:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0007728182923764,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-07T04:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0022463169638232,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-07T08:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0024433453140902,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-07T12:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0010779789905449,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-07T16:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0032520568042526,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-07T20:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0026929591746362,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-08T00:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0003133981687849,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-08T04:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0011644683645894,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-08T08:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.00020003964059,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-08T12:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0041437740393994,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-08T16:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0015906531548498,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-08T20:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0140848223890062,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-09T00:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0018561475787967,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-09T04:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0017468380909526,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-09T08:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -4.259602635253441e-05,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-09T12:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0049597864017309,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-09T16:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0020170617680561,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-09T20:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.003319519508376,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-10T00:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0045096417441038,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-10T04:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0018505825637947,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-10T08:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0008362666621602,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-10T12:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0007544029832805,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-10T16:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0020689690827257,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-10T20:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0039986931471174,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-11T00:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0089311900385841,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-11T04:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -3.414436835288525e-05,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-11T08:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0033590353325339,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-11T12:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0053457126188511,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-11T16:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0040049509932742,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-11T20:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.001974546266186,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-12T00:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0040339490511564,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-12T04:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.002483237666416,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-12T08:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0044536018354774,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-12T12:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0012042191482529,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-12T16:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0005873266540596,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-12T20:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0023454251854969,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-13T00:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0026378345671107,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-13T04:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0010493780497657,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-13T08:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0065576507487947,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-13T12:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -5.52072230750286e-05,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-13T16:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0001161755572858,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-13T20:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0013559061770905,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-14T00:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0016437688307709,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-14T04:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0006531884448601,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-14T08:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": 0.0061300684517746,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-14T12:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -2.7565529358326543e-05,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-14T16:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0003051051023155,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-14T20:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.000102337913988,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-15T00:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -1.7472710643779008e-06,
+      "notes": "seeded from paper journal"
+    },
+    {
+      "timestamp": "2026-05-15T04:00:00+00:00",
+      "target_positions": {},
+      "actual_positions": {},
+      "marks": {},
+      "realized_log_returns": {},
+      "portfolio_log_return": -0.0001224397783948,
+      "notes": "seeded from paper journal"
+    }
+  ]
+}
