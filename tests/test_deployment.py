@@ -64,6 +64,47 @@ def test_compute_trade_diff_respects_min_trade(tmp_path):
     assert by_asset["AAA"].action == "HOLD"
 
 
+def test_funding_merge_fills_nan_rows(tmp_path, monkeypatch):
+    """Regression: funding refresh must actually fill NaN funding_rate values.
+
+    The original implementation used merge_asof with suffixes=("", "_new")
+    and then compared `merged["funding_rate"]` (the OLD column) for the
+    update mask — which is always NaN where the existing CSV's funding is
+    NaN, so no updates ever fired.
+    """
+    import pandas as pd
+    from eso.lab import deployment as dep
+
+    # Build a CSV with 5 bars; first 3 have funding, last 2 are NaN
+    csv = tmp_path / "TST_4h.csv"
+    pd.DataFrame({
+        "timestamp": pd.date_range("2025-01-01", periods=5, freq="4h", tz="UTC"),
+        "open": [1, 2, 3, 4, 5], "high": [1, 2, 3, 4, 5],
+        "low": [1, 2, 3, 4, 5], "close": [1, 2, 3, 4, 5],
+        "volume": [10, 20, 30, 40, 50],
+        "funding_rate": [0.0001, 0.0001, 0.0001, None, None],
+    }).to_csv(csv, index=False)
+
+    # Stub fetch to return a funding observation that pre-dates the NaN bars
+    def stub_fetch(symbol, limit=200, category="linear"):
+        return pd.DataFrame({
+            "timestamp": pd.to_datetime([
+                "2025-01-01 08:00:00+00:00",  # before NaN bars
+                "2025-01-01 12:00:00+00:00",  # covers the first NaN bar
+            ]),
+            "funding_rate": [0.0002, 0.0003],
+        })
+    monkeypatch.setattr(dep, "fetch_bybit_funding", stub_fetch)
+
+    n = dep.refresh_funding_in_csv("TST", csv)
+    assert n == 2, f"Expected 2 NaN rows filled, got {n}"
+
+    after = pd.read_csv(csv)
+    assert after["funding_rate"].isna().sum() == 0
+    # Last NaN bar should pick up the most recent prior funding (0.0003)
+    assert after["funding_rate"].iloc[-1] == pytest.approx(0.0003)
+
+
 def test_write_trade_actions(tmp_path):
     actions = [
         TradeAction("AAA", 0.0, 0.2, 0.2, "BUY", True, ""),
