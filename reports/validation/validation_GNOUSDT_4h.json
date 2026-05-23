@@ -1,0 +1,546 @@
+{
+  "asset": "GNOUSDT_4h",
+  "n_bars": 3000,
+  "half_split": {
+    "first_half": {
+      "n_bars": 711,
+      "trades": 19,
+      "gross_return": 0.1742909625463601,
+      "net_return": 0.1576759792418382,
+      "gross_sharpe": 0.8573830060012005,
+      "net_sharpe": 0.7812863246263098,
+      "hit_rate": 0.5264150943396226
+    },
+    "second_half": {
+      "n_bars": 712,
+      "trades": 27,
+      "gross_return": -0.00637034607010313,
+      "net_return": -0.026288989643258827,
+      "gross_sharpe": -0.025531554328438965,
+      "net_sharpe": -0.10642612707531462,
+      "hit_rate": 0.4991023339317774
+    }
+  },
+  "half_split_passed": false,
+  "sweep": [
+    {
+      "gate_percentile": 0.3,
+      "signal_col": "cos_theta_6h",
+      "enter_threshold": 0.2,
+      "trades": 90,
+      "gross_sharpe": 0.8606744487364949,
+      "net_sharpe": 0.7134420787429891,
+      "net_return": 0.3914958807128339,
+      "edge_bps_per_trade": 54.420146264827274
+    },
+    {
+      "gate_percentile": 0.3,
+      "signal_col": "cos_theta_6h",
+      "enter_threshold": 0.3,
+      "trades": 81,
+      "gross_sharpe": 0.7272120141889735,
+      "net_sharpe": 0.5952782580369943,
+      "net_return": 0.3147597867015705,
+      "edge_bps_per_trade": 49.02560854093169
+    },
+    {
+      "gate_percentile": 0.3,
+      "signal_col": "cos_theta_6h",
+      "enter_threshold": 0.4,
+      "trades": 75,
+      "gross_sharpe": 0.4271467262681137,
+      "net_sharpe": 0.30294135676006045,
+      "net_return": 0.14692127827235058,
+      "edge_bps_per_trade": 28.43794274129706
+    },
+    {
+      "gate_percentile": 0.3,
+      "signal_col": "cos_theta_24h",
+      "enter_threshold": 0.2,
+      "trades": 41,
+      "gross_sharpe": 0.5614262115614034,
+      "net_sharpe": 0.49378971106246006,
+      "net_return": 0.25186269186228516,
+      "edge_bps_per_trade": 70.96474153817358
+    },
+    {
+      "gate_percentile": 0.3,
+      "signal_col": "cos_theta_24h",
+      "enter_threshold": 0.3,
+      "trades": 45,
+      "gross_sharpe": 0.32520720839053247,
+      "net_sharpe": 0.24911537433323272,
+      "net_return": 0.1167853238569016,
+      "edge_bps_per_trade": 34.47113087988342
+    },
+    {
+      "gate_percentile": 0.3,
+      "signal_col": "cos_theta_24h",
+      "enter_threshold": 0.4,
+      "trades": 41,
+      "gross_sharpe": 0.2878967692311259,
+      "net_sharpe": 0.2170006309121388,
+      "net_return": 0.09865882838353209,
+      "edge_bps_per_trade": 32.43106779070674
+    },
+    {
+      "gate_percentile": 0.3,
+      "signal_col": "cos_theta_72h",
+      "enter_threshold": 0.2,
+      "trades": 15,
+      "gross_sharpe": 1.2061751865974246,
+      "net_sharpe": 1.1813483985692397,
+      "net_return": 0.7066502254255898,
+      "edge_bps_per_trade": 483.972297039282
+    },
+    {
+      "gate_percentile": 0.3,
+      "signal_col": "cos_theta_72h",
+      "enter_threshold": 0.3,
+      "trades": 15,
+      "gross_sharpe": 1.2316637077617592,
+      "net_sharpe": 1.206527982031266,
+      "net_return": 0.7157724354498145,
+      "edge_bps_per_trade": 490.1225732544125
+    },
+    {
+      "gate_percentile": 0.3,
+      "signal_col": "cos_theta_72h",
+      "enter_threshold": 0.4,
+      "trades": 16,
+      "gross_sharpe": 1.3937018052884467,
+      "net_sharpe": 1.3663396769246,
+      "net_return": 0.814265323998596,
+      "edge_bps_per_trade": 522.6047869185095
+    },
+    {
+      "gate_percentile": 0.3,
+      "signal_col": "sin_theta_24h",
+      "enter_threshold": 0.2,
+      "trades": 1,
+      "gross_sharpe": -0.2201959361988933,
+      "net_sharpe": -0.2217619930425565,
+      "net_return": -0.10061788250343259,
+      "edge_bps_per_trade": -999.4309290083995
+    },
+    {
+      "gate_percentile": 0.3,
+      "signal_col": "sin_theta_24h",
+      "enter_threshold": 0.3,
+      "trades": 1,
+      "gross_sharpe": -0.2201959361988933,
+      "net_sharpe": -0.2217619930425565,
+      "net_return": -0.10061788250343259,
+      "edge_bps_per_trade": -999.4309290083995
+    },
+    {
+      "gate_percentile": 0.3,
+      "signal_col": "sin_theta_24h",
+      "enter_threshold": 0.4,
+      "trades": 1,
+      "gross_sharpe": -0.2201959361988933,
+      "net_sharpe": -0.2217619930425565,
+      "net_return": -0.10061788250343259,
+      "edge_bps_per_trade": -999.4309290083995
+    },
+    {
+      "gate_percentile": 0.5,
+      "signal_col": "cos_theta_6h",
+      "enter_threshold": 0.2,
+      "trades": 86,
+      "gross_sharpe": 0.8698786899972969,
+      "net_sharpe": 0.7275462318938137,
+      "net_return": 0.3963398428276729,
+      "edge_bps_per_trade": 57.03363257173002
+    },
+    {
+      "gate_percentile": 0.5,
+      "signal_col": "cos_theta_6h",
+      "enter_threshold": 0.3,
+      "trades": 81,
+      "gross_sharpe": 0.6268607656405696,
+      "net_sharpe": 0.4931176519707977,
+      "net_return": 0.2513959758049542,
+      "edge_bps_per_trade": 40.71295538367033
+    },
+    {
+      "gate_percentile": 0.5,
+      "signal_col": "cos_theta_6h",
+      "enter_threshold": 0.4,
+      "trades": 71,
+      "gross_sharpe": 0.34816292507633406,
+      "net_sharpe": 0.22833896141344706,
+      "net_return": 0.10689969956267784,
+      "edge_bps_per_trade": 23.583053638500623
+    },
+    {
+      "gate_percentile": 0.5,
+      "signal_col": "cos_theta_24h",
+      "enter_threshold": 0.2,
+      "trades": 41,
+      "gross_sharpe": 0.5511655463700225,
+      "net_sharpe": 0.4834644028136553,
+      "net_return": 0.24589966598158222,
+      "edge_bps_per_trade": 69.4649275738438
+    },
+    {
+      "gate_percentile": 0.5,
+      "signal_col": "cos_theta_24h",
+      "enter_threshold": 0.3,
+      "trades": 45,
+      "gross_sharpe": 0.3370314568937498,
+      "net_sharpe": 0.26072085998588806,
+      "net_return": 0.12225145259603674,
+      "edge_bps_per_trade": 35.72752177665006
+    },
+    {
+      "gate_percentile": 0.5,
+      "signal_col": "cos_theta_24h",
+      "enter_threshold": 0.4,
+      "trades": 41,
+      "gross_sharpe": 0.20400773486742063,
+      "net_sharpe": 0.13301609871374045,
+      "net_return": 0.059332664944170485,
+      "edge_bps_per_trade": 22.53979274513925
+    },
+    {
+      "gate_percentile": 0.5,
+      "signal_col": "cos_theta_72h",
+      "enter_threshold": 0.2,
+      "trades": 15,
+      "gross_sharpe": 1.143474162428198,
+      "net_sharpe": 1.118394311760188,
+      "net_return": 0.6576383483927395,
+      "edge_bps_per_trade": 450.9280478087175
+    },
+    {
+      "gate_percentile": 0.5,
+      "signal_col": "cos_theta_72h",
+      "enter_threshold": 0.3,
+      "trades": 15,
+      "gross_sharpe": 1.2222005004878964,
+      "net_sharpe": 1.1968826403120953,
+      "net_return": 0.7084948158065079,
+      "edge_bps_per_trade": 485.2159364990503
+    },
+    {
+      "gate_percentile": 0.5,
+      "signal_col": "cos_theta_72h",
+      "enter_threshold": 0.4,
+      "trades": 16,
+      "gross_sharpe": 1.3581168436333069,
+      "net_sharpe": 1.3306085737632658,
+      "net_return": 0.7861375498539684,
+      "edge_bps_per_trade": 504.8126989439712
+    },
+    {
+      "gate_percentile": 0.5,
+      "signal_col": "sin_theta_24h",
+      "enter_threshold": 0.2,
+      "trades": 1,
+      "gross_sharpe": -0.21051072403959484,
+      "net_sharpe": -0.21209153228635347,
+      "net_return": -0.09644009091926341,
+      "edge_bps_per_trade": -957.6216679768496
+    },
+    {
+      "gate_percentile": 0.5,
+      "signal_col": "sin_theta_24h",
+      "enter_threshold": 0.3,
+      "trades": 1,
+      "gross_sharpe": -0.21051072403959484,
+      "net_sharpe": -0.21209153228635347,
+      "net_return": -0.09644009091926341,
+      "edge_bps_per_trade": -957.6216679768496
+    },
+    {
+      "gate_percentile": 0.5,
+      "signal_col": "sin_theta_24h",
+      "enter_threshold": 0.4,
+      "trades": 1,
+      "gross_sharpe": -0.21051072403959484,
+      "net_sharpe": -0.21209153228635347,
+      "net_return": -0.09644009091926341,
+      "edge_bps_per_trade": -957.6216679768496
+    },
+    {
+      "gate_percentile": 0.7,
+      "signal_col": "cos_theta_6h",
+      "enter_threshold": 0.2,
+      "trades": 76,
+      "gross_sharpe": 0.5447267008863192,
+      "net_sharpe": 0.41599817653531246,
+      "net_return": 0.20528316355592582,
+      "edge_bps_per_trade": 36.43912740100915
+    },
+    {
+      "gate_percentile": 0.7,
+      "signal_col": "cos_theta_6h",
+      "enter_threshold": 0.3,
+      "trades": 74,
+      "gross_sharpe": 0.42713193954226264,
+      "net_sharpe": 0.3027224257176521,
+      "net_return": 0.144719332058938,
+      "edge_bps_per_trade": 28.38477556261379
+    },
+    {
+      "gate_percentile": 0.7,
+      "signal_col": "cos_theta_6h",
+      "enter_threshold": 0.4,
+      "trades": 66,
+      "gross_sharpe": 0.1457341184087311,
+      "net_sharpe": 0.03295660377792563,
+      "net_return": 0.014575940109393625,
+      "edge_bps_per_trade": 10.00927227835712
+    },
+    {
+      "gate_percentile": 0.7,
+      "signal_col": "cos_theta_24h",
+      "enter_threshold": 0.2,
+      "trades": 39,
+      "gross_sharpe": 0.5931844827794666,
+      "net_sharpe": 0.5282556889108542,
+      "net_return": 0.26866841180866624,
+      "edge_bps_per_trade": 78.544873277368
+    },
+    {
+      "gate_percentile": 0.7,
+      "signal_col": "cos_theta_24h",
+      "enter_threshold": 0.3,
+      "trades": 45,
+      "gross_sharpe": 0.3999880231051932,
+      "net_sharpe": 0.323191263214658,
+      "net_return": 0.15257329996728752,
+      "edge_bps_per_trade": 42.697005085309605
+    },
+    {
+      "gate_percentile": 0.7,
+      "signal_col": "cos_theta_24h",
+      "enter_threshold": 0.4,
+      "trades": 41,
+      "gross_sharpe": 0.21540079757050418,
+      "net_sharpe": 0.14391201821729233,
+      "net_return": 0.06387895305712585,
+      "edge_bps_per_trade": 23.68327032415542
+    },
+    {
+      "gate_percentile": 0.7,
+      "signal_col": "cos_theta_72h",
+      "enter_threshold": 0.2,
+      "trades": 15,
+      "gross_sharpe": 1.5226686226394697,
+      "net_sharpe": 1.4973997477928935,
+      "net_return": 0.9593355287210223,
+      "edge_bps_per_trade": 654.3350059271417
+    },
+    {
+      "gate_percentile": 0.7,
+      "signal_col": "cos_theta_72h",
+      "enter_threshold": 0.3,
+      "trades": 15,
+      "gross_sharpe": 1.7595202414992202,
+      "net_sharpe": 1.7339715457557054,
+      "net_return": 1.1543702909144238,
+      "edge_bps_per_trade": 785.8292004103079
+    },
+    {
+      "gate_percentile": 0.7,
+      "signal_col": "cos_theta_72h",
+      "enter_threshold": 0.4,
+      "trades": 16,
+      "gross_sharpe": 1.2661639317363982,
+      "net_sharpe": 1.238348660228425,
+      "net_return": 0.7087472292798265,
+      "edge_bps_per_trade": 455.8598246442516
+    },
+    {
+      "gate_percentile": 0.7,
+      "signal_col": "sin_theta_24h",
+      "enter_threshold": 0.2,
+      "trades": 1,
+      "gross_sharpe": -0.21051072403959484,
+      "net_sharpe": -0.21209153228635347,
+      "net_return": -0.09644009091926341,
+      "edge_bps_per_trade": -957.6216679768496
+    },
+    {
+      "gate_percentile": 0.7,
+      "signal_col": "sin_theta_24h",
+      "enter_threshold": 0.3,
+      "trades": 1,
+      "gross_sharpe": -0.21051072403959484,
+      "net_sharpe": -0.21209153228635347,
+      "net_return": -0.09644009091926341,
+      "edge_bps_per_trade": -957.6216679768496
+    },
+    {
+      "gate_percentile": 0.7,
+      "signal_col": "sin_theta_24h",
+      "enter_threshold": 0.4,
+      "trades": 1,
+      "gross_sharpe": -0.21051072403959484,
+      "net_sharpe": -0.21209153228635347,
+      "net_return": -0.09644009091926341,
+      "edge_bps_per_trade": -957.6216679768496
+    },
+    {
+      "gate_percentile": 0.85,
+      "signal_col": "cos_theta_6h",
+      "enter_threshold": 0.2,
+      "trades": 66,
+      "gross_sharpe": 0.4527412616269077,
+      "net_sharpe": 0.3377768851222567,
+      "net_return": 0.15917143365810796,
+      "edge_bps_per_trade": 33.167895892431034
+    },
+    {
+      "gate_percentile": 0.85,
+      "signal_col": "cos_theta_6h",
+      "enter_threshold": 0.3,
+      "trades": 64,
+      "gross_sharpe": 0.46437714009949316,
+      "net_sharpe": 0.3544088399886315,
+      "net_return": 0.16742597442034193,
+      "edge_bps_per_trade": 35.12954291021854
+    },
+    {
+      "gate_percentile": 0.85,
+      "signal_col": "cos_theta_6h",
+      "enter_threshold": 0.4,
+      "trades": 60,
+      "gross_sharpe": -0.09015417810342208,
+      "net_sharpe": -0.19635643633914465,
+      "net_return": -0.0798227201452132,
+      "edge_bps_per_trade": -6.244821536145479
+    },
+    {
+      "gate_percentile": 0.85,
+      "signal_col": "cos_theta_24h",
+      "enter_threshold": 0.2,
+      "trades": 37,
+      "gross_sharpe": 0.5767624558247099,
+      "net_sharpe": 0.5140114938357667,
+      "net_return": 0.25498390054022224,
+      "edge_bps_per_trade": 78.45876017719272
+    },
+    {
+      "gate_percentile": 0.85,
+      "signal_col": "cos_theta_24h",
+      "enter_threshold": 0.3,
+      "trades": 39,
+      "gross_sharpe": 0.816262326942883,
+      "net_sharpe": 0.7471519358133694,
+      "net_return": 0.3714808185509583,
+      "edge_bps_per_trade": 105.68950990055437
+    },
+    {
+      "gate_percentile": 0.85,
+      "signal_col": "cos_theta_24h",
+      "enter_threshold": 0.4,
+      "trades": 37,
+      "gross_sharpe": 0.4464646751841627,
+      "net_sharpe": 0.38017608644227063,
+      "net_return": 0.17256014039322554,
+      "edge_bps_per_trade": 55.55523292913528
+    },
+    {
+      "gate_percentile": 0.85,
+      "signal_col": "cos_theta_72h",
+      "enter_threshold": 0.2,
+      "trades": 15,
+      "gross_sharpe": 1.4833143223190817,
+      "net_sharpe": 1.457855618254568,
+      "net_return": 0.909836955660116,
+      "edge_bps_per_trade": 620.9626218479602
+    },
+    {
+      "gate_percentile": 0.85,
+      "signal_col": "cos_theta_72h",
+      "enter_threshold": 0.3,
+      "trades": 15,
+      "gross_sharpe": 1.7118642705698195,
+      "net_sharpe": 1.6860042666020465,
+      "net_return": 1.0801996881302314,
+      "edge_bps_per_trade": 735.8227115272289
+    },
+    {
+      "gate_percentile": 0.85,
+      "signal_col": "cos_theta_72h",
+      "enter_threshold": 0.4,
+      "trades": 16,
+      "gross_sharpe": 1.573618258293661,
+      "net_sharpe": 1.5457178042076065,
+      "net_return": 0.9391070052864152,
+      "edge_bps_per_trade": 601.5727907477923
+    },
+    {
+      "gate_percentile": 0.85,
+      "signal_col": "sin_theta_24h",
+      "enter_threshold": 0.2,
+      "trades": 1,
+      "gross_sharpe": -0.29570375665964216,
+      "net_sharpe": -0.29728733439031924,
+      "net_return": -0.1321036650352315,
+      "edge_bps_per_trade": -1314.5249862712833
+    },
+    {
+      "gate_percentile": 0.85,
+      "signal_col": "sin_theta_24h",
+      "enter_threshold": 0.3,
+      "trades": 1,
+      "gross_sharpe": -0.29570375665964216,
+      "net_sharpe": -0.29728733439031924,
+      "net_return": -0.1321036650352315,
+      "edge_bps_per_trade": -1314.5249862712833
+    },
+    {
+      "gate_percentile": 0.85,
+      "signal_col": "sin_theta_24h",
+      "enter_threshold": 0.4,
+      "trades": 1,
+      "gross_sharpe": -0.29570375665964216,
+      "net_sharpe": -0.29728733439031924,
+      "net_return": -0.1321036650352315,
+      "edge_bps_per_trade": -1314.5249862712833
+    }
+  ],
+  "sweep_robust": true,
+  "sweep_best_net_sharpe": 1.7339715457557054,
+  "stability_mean_corrs": {
+    "sin_theta_6h": -0.07596874808527647,
+    "cos_theta_6h": -0.005157253278710353,
+    "sin_theta_24h": -0.056136892404859445,
+    "cos_theta_24h": 0.007685034536988361,
+    "sin_theta_72h": 0.061061116669468174,
+    "cos_theta_72h": 0.08319043514737207
+  },
+  "stability_flip_counts": {
+    "sin_theta_6h": 9,
+    "cos_theta_6h": 5,
+    "sin_theta_24h": 4,
+    "cos_theta_24h": 9,
+    "sin_theta_72h": 3,
+    "cos_theta_72h": 6
+  },
+  "stability_cross_corr": {
+    "sin_theta_6h__vol_20": -0.42303829277601745,
+    "sin_theta_6h__ring_radius": -0.48392839779864877,
+    "sin_theta_6h__lr_z20": 0.4279956892326446,
+    "cos_theta_6h__vol_20": 0.6908744157550876,
+    "cos_theta_6h__ring_radius": 0.649521972113445,
+    "cos_theta_6h__lr_z20": -0.5655625866161288,
+    "sin_theta_24h__vol_20": 0.31416639175743444,
+    "sin_theta_24h__ring_radius": 0.038698470089637074,
+    "sin_theta_24h__lr_z20": 0.19131792214126872,
+    "cos_theta_24h__vol_20": 0.36964179336095965,
+    "cos_theta_24h__ring_radius": 0.35903948886702625,
+    "cos_theta_24h__lr_z20": -0.785598601638834,
+    "sin_theta_72h__vol_20": -0.7389146421405982,
+    "sin_theta_72h__ring_radius": -0.6058995833106869,
+    "sin_theta_72h__lr_z20": 0.24775709543411745,
+    "cos_theta_72h__vol_20": 0.17200576376797883,
+    "cos_theta_72h__ring_radius": 0.07939411504420127,
+    "cos_theta_72h__lr_z20": -0.43858046021738994
+  },
+  "verdict": "REGIME-DEPENDENT \u2014 parameter-stable but not temporally stable"
+}
