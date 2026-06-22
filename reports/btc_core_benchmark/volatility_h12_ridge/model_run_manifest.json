@@ -1,0 +1,59 @@
+{
+  "baselines": {
+    "train_mean_mae": 0.003709120570231946,
+    "vol_20_persistence_mae": 0.0019412661337664427
+  },
+  "benchmark_suite": "btc_core",
+  "causal_guardrails": [
+    "Temporal split only; shuffle=False.",
+    "Target is indexed at decision time t and may use future prices only as label.",
+    "Feature builders must use only information available at t."
+  ],
+  "dataset_id": "BTCUSDT_1h",
+  "feature_frame": {
+    "columns": [
+      "timestamp",
+      "log_return",
+      "vol_20",
+      "vwap_dev",
+      "volume_imbalance",
+      "close"
+    ],
+    "rows": 46569,
+    "sha256": "4ba71047850ef393aef8c2c50bc92040e0041c1b3e30c242265422f8663370be"
+  },
+  "feature_importances": {
+    "log_return": -0.0003,
+    "vol_20": 0.0022,
+    "volume_imbalance": -0.0001,
+    "vwap_dev": 0.0002
+  },
+  "features": [
+    "vol_20",
+    "log_return",
+    "volume_imbalance",
+    "vwap_dev"
+  ],
+  "metrics": {
+    "mae": 0.0022613605616628413,
+    "mae_vs_train_mean": -0.0014477600085691048,
+    "mae_vs_vol_20_persistence": 0.0003200944278963986,
+    "pearson_r": 0.44670258490622433,
+    "rmse": 0.002784192408076978
+  },
+  "model_type": "ridge",
+  "primary_metric": "mae_vs_vol_20_persistence",
+  "run_name": "volatility_h12_ridge",
+  "schema_version": "eso.model_run.v1",
+  "split": {
+    "shuffle": false,
+    "test_size": 31546,
+    "train_size": 15000
+  },
+  "target": {
+    "horizon": 12,
+    "name": "future_rv_12",
+    "type": "regression"
+  },
+  "task": "volatility"
+}

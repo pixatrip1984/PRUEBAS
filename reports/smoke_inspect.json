@@ -1,0 +1,30 @@
+{
+  "columns": 3,
+  "constant_columns": [],
+  "highly_correlated_columns": [],
+  "missing_ratio_by_column": {
+    "t": 0.0,
+    "x": 0.0,
+    "y": 0.0
+  },
+  "non_numeric_columns": [],
+  "numeric_columns": [
+    "t",
+    "x",
+    "y"
+  ],
+  "recommended_columns": [
+    "t",
+    "x",
+    "y"
+  ],
+  "rows": 64,
+  "selected_columns": [
+    "t",
+    "x",
+    "y"
+  ],
+  "time_columns": [],
+  "time_summary": {},
+  "warnings": []
+}

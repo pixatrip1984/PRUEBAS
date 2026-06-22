@@ -1,0 +1,78 @@
+{
+  "baselines": {
+    "majority_class_accuracy": 0.5043536503683858
+  },
+  "benchmark_suite": "btc_core",
+  "causal_guardrails": [
+    "Temporal split only; shuffle=False.",
+    "Target is indexed at decision time t and may use future prices only as label.",
+    "Feature builders must use only information available at t."
+  ],
+  "dataset_id": "BTCUSDT_1h",
+  "feature_frame": {
+    "columns": [
+      "timestamp",
+      "sin_theta_6h",
+      "cos_theta_6h",
+      "sin_theta_24h",
+      "cos_theta_24h",
+      "sin_theta_72h",
+      "cos_theta_72h",
+      "ring_radius",
+      "vol_20",
+      "lr_z20",
+      "log_return",
+      "close"
+    ],
+    "rows": 19486,
+    "sha256": "ef0627aab0de053bd4dd04b767a3b1db63b28f3eb3fbbc366fa52e2eb88064ae"
+  },
+  "feature_importances": {
+    "cos_theta_24h": 0.0801,
+    "cos_theta_6h": 0.1013,
+    "cos_theta_72h": -0.0106,
+    "log_return": -0.0341,
+    "lr_z20": 0.0126,
+    "ring_radius": 0.1119,
+    "sin_theta_24h": -0.0054,
+    "sin_theta_6h": 0.0621,
+    "sin_theta_72h": 0.0024,
+    "vol_20": 0.0648
+  },
+  "features": [
+    "sin_theta_6h",
+    "cos_theta_6h",
+    "sin_theta_24h",
+    "cos_theta_24h",
+    "sin_theta_72h",
+    "cos_theta_72h",
+    "ring_radius",
+    "vol_20",
+    "lr_z20",
+    "log_return"
+  ],
+  "metrics": {
+    "accuracy": 0.5068095557043983,
+    "accuracy_vs_baseline": 0.002455905336012587,
+    "baseline_accuracy": 0.5043536503683858,
+    "precision_down": 0.5159033078880407,
+    "precision_up": 0.5018919848641211,
+    "recall_down": 0.35900841080123946,
+    "recall_up": 0.6572072072072072
+  },
+  "model_type": "logistic",
+  "primary_metric": "accuracy_vs_baseline",
+  "run_name": "direction_h3_logistic",
+  "schema_version": "eso.model_run.v1",
+  "split": {
+    "shuffle": false,
+    "test_size": 4479,
+    "train_size": 15000
+  },
+  "target": {
+    "horizon": 3,
+    "name": "future_direction_3",
+    "type": "classification"
+  },
+  "task": "direction"
+}

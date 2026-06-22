@@ -1,0 +1,146 @@
+{
+  "causal_guardrails": [
+    "Fit scalers, embeddings, selectors, and model weights only on the training window.",
+    "Use rolling(..., center=False) for every feature used at prediction time.",
+    "After dropna(), align targets by original dataframe index, not by reset positions.",
+    "Do not use future realized volatility as a regime filter.",
+    "Report the majority-class baseline for classification and vol_20 persistence for volatility.",
+    "Treat topology as a feature-generation hypothesis until a walk-forward test confirms value."
+  ],
+  "dataset": {
+    "columns": [
+      "t",
+      "x",
+      "y"
+    ],
+    "data_sha256": "7a2a129baa2b8d77addf46e15e8cd6c7b39e1d654477d98060a91ee902029cbe",
+    "normalized": "robust",
+    "shape": [
+      64,
+      3
+    ],
+    "source_path": "<dataframe>",
+    "validation": {
+      "columns": 3,
+      "constant_columns": [],
+      "highly_correlated_columns": [],
+      "missing_ratio_by_column": {
+        "t": 0.0,
+        "x": 0.0,
+        "y": 0.0
+      },
+      "non_numeric_columns": [],
+      "numeric_columns": [
+        "t",
+        "x",
+        "y"
+      ],
+      "recommended_columns": [
+        "t",
+        "x",
+        "y"
+      ],
+      "rows": 64,
+      "selected_columns": [
+        "t",
+        "x",
+        "y"
+      ],
+      "time_columns": [],
+      "time_summary": {},
+      "warnings": []
+    },
+    "window_mode": null,
+    "window_size": null,
+    "window_step": null
+  },
+  "dataset_id": "harmonic",
+  "feature_contract": {
+    "columns": [
+      "t",
+      "x",
+      "y"
+    ],
+    "feature_mode": "raw",
+    "known_feature_descriptions": {},
+    "normalization": "robust",
+    "shape": [
+      64,
+      3
+    ],
+    "windowing": {
+      "window_mode": null,
+      "window_size": null,
+      "window_step": null
+    }
+  },
+  "known_nulls": [],
+  "recommended_model_tasks": [
+    {
+      "baseline": "linear PCA reconstruction with the same latent dimension",
+      "name": "manifold_conditioned_autoencoder",
+      "priority": "medium",
+      "target": "reconstruct selected input features",
+      "why": "Use the winning manifold as an inductive-bias hint, not as a supervised edge."
+    }
+  ],
+  "reproducibility": {
+    "eso_config": {
+      "k": 8,
+      "mask_ratio": 0.25,
+      "n_masks": 5,
+      "proj_neighbors": 15,
+      "projection_method": "linear",
+      "validate": true
+    },
+    "feature_mode": "raw",
+    "projection_method": "linear"
+  },
+  "schema_version": "eso.model_handoff.v1",
+  "suggested_commands": [
+    "python -m eso.cli model-eval <dataset.csv> --task volatility --feature-mode raw --horizon 12 --output reports/model_volatility",
+    "python -m eso.cli model-eval <dataset.csv> --task regime --feature-mode raw --horizon 12 --output reports/model_regime",
+    "python -m eso.cli model-eval <dataset.csv> --task direction --feature-mode raw --horizon 3 --output reports/model_direction_h3"
+  ],
+  "topology": {
+    "best": {
+      "latent_utilization": 0.75,
+      "manifold": "sphere2",
+      "rank": 1,
+      "reconstruction_error": 0.0003991363252325498,
+      "reconstruction_error_std": 0.0003433547072617034,
+      "score": 0.0003991638252325498,
+      "smoothness": 0.049298508687613624
+    },
+    "evaluations_ranked": [
+      {
+        "manifold": "sphere2",
+        "rank": 1,
+        "reconstruction_error": 0.0003991363252325498,
+        "score": 0.0003991638252325498
+      },
+      {
+        "manifold": "torus2",
+        "rank": 2,
+        "reconstruction_error": 0.0005543340798234784,
+        "score": 0.0005543615798234784
+      },
+      {
+        "manifold": "circle",
+        "rank": 3,
+        "reconstruction_error": 0.0009328468602379126,
+        "score": 0.0009328618602379125
+      },
+      {
+        "manifold": "cylinder",
+        "rank": 4,
+        "reconstruction_error": 0.0010960384840142637,
+        "score": 0.0010960659840142633
+      }
+    ],
+    "notes": [
+      "Intrinsic dimension estimate: 3.0.",
+      "Best candidate manifold: sphere2."
+    ]
+  }
+}

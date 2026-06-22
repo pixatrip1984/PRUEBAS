@@ -1,0 +1,30 @@
+{
+  "asset_count": 1,
+  "assets": [
+    {
+      "artifacts": {
+        "asset_dissect_json": "reports\\btc_single_universe_dissect\\BTCUSDT_1h\\asset_dissect.json",
+        "correlations_csv": "reports\\btc_single_universe_dissect\\BTCUSDT_1h\\feature_target_correlations.csv",
+        "phase_sectors_csv": "reports\\btc_single_universe_dissect\\BTCUSDT_1h\\phase_sectors.csv",
+        "quantiles_csv": "reports\\btc_single_universe_dissect\\BTCUSDT_1h\\quantile_regimes.csv",
+        "targets_csv": "reports\\btc_single_universe_dissect\\BTCUSDT_1h\\targets.csv"
+      },
+      "asset_id": "BTCUSDT_1h",
+      "path": "data/BTCUSDT_1h.csv",
+      "rows": 19486
+    }
+  ],
+  "error_count": 0,
+  "errors": [],
+  "guardrails": [
+    "Each asset uses the same dissection engine as single-asset dissect.",
+    "Aggregate correlations are exploratory and must be validated by model_eval/benchmark before strategy use."
+  ],
+  "name": "btc_single",
+  "output_dir": "reports\\btc_single_universe_dissect",
+  "schema_version": "eso.universe_dissect.v1",
+  "tables": {
+    "asset_leaders_csv": "reports\\btc_single_universe_dissect\\asset_leaders.csv",
+    "asset_summary_csv": "reports\\btc_single_universe_dissect\\asset_summary.csv"
+  }
+}

@@ -1,0 +1,4031 @@
+{
+  "agent_summary": {
+    "confidence": "medium",
+    "one_sentence": "Best current candidate is plane4d with intrinsic dimension estimate 3.941986960388802.",
+    "recommended_next_action": "Inspect report.html and run a second explore pass with more rows/masks if confidence is not high.",
+    "warnings": [
+      "low latent utilization"
+    ]
+  },
+  "best": {
+    "ambient_dim": 4,
+    "complexity_penalty": 5e-08,
+    "k": 8,
+    "latent_shape": [
+      9999,
+      4
+    ],
+    "latent_utilization": 0.06840684068406841,
+    "manifold": "plane4d",
+    "manifold_dim": 4,
+    "mask_ratio": 0.25,
+    "n_masks": 10,
+    "n_points": 9999,
+    "rank": 1,
+    "reconstruction_error": 0.014261128052094488,
+    "reconstruction_error_ci95": 0.0010663381231174383,
+    "reconstruction_error_mean": 0.012377822626014964,
+    "reconstruction_error_std": 0.0017204373596531402,
+    "score": 0.014261178052094488,
+    "score_mean": 0.012377872626014965,
+    "score_std": 0.0017204373596531406,
+    "smoothness": 0.17494574523923892,
+    "validation_runs": [
+      {
+        "ambient_dim": 4,
+        "complexity_penalty": 5e-08,
+        "k": 8,
+        "latent_shape": [
+          9999,
+          4
+        ],
+        "latent_utilization": 0.06840684068406841,
+        "manifold": "plane4d",
+        "manifold_dim": 4,
+        "mask_ratio": 0.25,
+        "n_points": 9999,
+        "reconstruction_error": 0.014261128052094488,
+        "score": 0.014261178052094488,
+        "smoothness": 0.17494574523923892
+      },
+      {
+        "ambient_dim": 4,
+        "complexity_penalty": 5e-08,
+        "k": 8,
+        "latent_shape": [
+          9999,
+          4
+        ],
+        "latent_utilization": 0.06840684068406841,
+        "manifold": "plane4d",
+        "manifold_dim": 4,
+        "mask_ratio": 0.25,
+        "n_points": 9999,
+        "reconstruction_error": 0.010935445120241385,
+        "score": 0.010935495120241384,
+        "smoothness": 0.17494574523923892
+      },
+      {
+        "ambient_dim": 4,
+        "complexity_penalty": 5e-08,
+        "k": 8,
+        "latent_shape": [
+          9999,
+          4
+        ],
+        "latent_utilization": 0.06840684068406841,
+        "manifold": "plane4d",
+        "manifold_dim": 4,
+        "mask_ratio": 0.25,
+        "n_points": 9999,
+        "reconstruction_error": 0.016859444396602898,
+        "score": 0.0168594943966029,
+        "smoothness": 0.17494574523923892
+      },
+      {
+        "ambient_dim": 4,
+        "complexity_penalty": 5e-08,
+        "k": 8,
+        "latent_shape": [
+          9999,
+          4
+        ],
+        "latent_utilization": 0.06840684068406841,
+        "manifold": "plane4d",
+        "manifold_dim": 4,
+        "mask_ratio": 0.25,
+        "n_points": 9999,
+        "reconstruction_error": 0.011455253115508416,
+        "score": 0.011455303115508415,
+        "smoothness": 0.17494574523923892
+      },
+      {
+        "ambient_dim": 4,
+        "complexity_penalty": 5e-08,
+        "k": 8,
+        "latent_shape": [
+          9999,
+          4
+        ],
+        "latent_utilization": 0.06840684068406841,
+        "manifold": "plane4d",
+        "manifold_dim": 4,
+        "mask_ratio": 0.25,
+        "n_points": 9999,
+        "reconstruction_error": 0.011435088142473548,
+        "score": 0.011435138142473548,
+        "smoothness": 0.17494574523923892
+      },
+      {
+        "ambient_dim": 4,
+        "complexity_penalty": 5e-08,
+        "k": 8,
+        "latent_shape": [
+          9999,
+          4
+        ],
+        "latent_utilization": 0.06840684068406841,
+        "manifold": "plane4d",
+        "manifold_dim": 4,
+        "mask_ratio": 0.25,
+        "n_points": 9999,
+        "reconstruction_error": 0.011510902289971047,
+        "score": 0.011510952289971047,
+        "smoothness": 0.17494574523923892
+      },
+      {
+        "ambient_dim": 4,
+        "complexity_penalty": 5e-08,
+        "k": 8,
+        "latent_shape": [
+          9999,
+          4
+        ],
+        "latent_utilization": 0.06840684068406841,
+        "manifold": "plane4d",
+        "manifold_dim": 4,
+        "mask_ratio": 0.25,
+        "n_points": 9999,
+        "reconstruction_error": 0.012198892089795054,
+        "score": 0.012198942089795054,
+        "smoothness": 0.17494574523923892
+      },
+      {
+        "ambient_dim": 4,
+        "complexity_penalty": 5e-08,
+        "k": 8,
+        "latent_shape": [
+          9999,
+          4
+        ],
+        "latent_utilization": 0.06840684068406841,
+        "manifold": "plane4d",
+        "manifold_dim": 4,
+        "mask_ratio": 0.25,
+        "n_points": 9999,
+        "reconstruction_error": 0.011647661142008488,
+        "score": 0.011647711142008488,
+        "smoothness": 0.17494574523923892
+      },
+      {
+        "ambient_dim": 4,
+        "complexity_penalty": 5e-08,
+        "k": 8,
+        "latent_shape": [
+          9999,
+          4
+        ],
+        "latent_utilization": 0.06840684068406841,
+        "manifold": "plane4d",
+        "manifold_dim": 4,
+        "mask_ratio": 0.25,
+        "n_points": 9999,
+        "reconstruction_error": 0.011668444956635538,
+        "score": 0.011668494956635538,
+        "smoothness": 0.17494574523923892
+      },
+      {
+        "ambient_dim": 4,
+        "complexity_penalty": 5e-08,
+        "k": 8,
+        "latent_shape": [
+          9999,
+          4
+        ],
+        "latent_utilization": 0.06840684068406841,
+        "manifold": "plane4d",
+        "manifold_dim": 4,
+        "mask_ratio": 0.25,
+        "n_points": 9999,
+        "reconstruction_error": 0.011805966954818801,
+        "score": 0.011806016954818801,
+        "smoothness": 0.17494574523923892
+      }
+    ]
+  },
+  "config": {
+    "k": 8,
+    "mask_ratio": 0.25,
+    "n_masks": 10,
+    "validate": true
+  },
+  "dataset": {
+    "columns": [
+      "log_return",
+      "vol_20",
+      "vwap_dev",
+      "volume_imbalance"
+    ],
+    "normalized": "robust",
+    "shape": [
+      9999,
+      4
+    ],
+    "source_path": "<dataframe>",
+    "validation": {
+      "columns": 13,
+      "constant_columns": [],
+      "highly_correlated_columns": [],
+      "missing_ratio_by_column": {
+        "body": 0.0,
+        "delta_norm": 0.0,
+        "hl_range": 0.0,
+        "log_return": 0.0,
+        "log_return_2": 0.00010001000100010001,
+        "lr_z20": 0.0009000900090009,
+        "taker_ratio": 0.0,
+        "trades_ratio": 0.0008000800080008001,
+        "vol_20": 0.0009000900090009,
+        "vol_5": 0.00010001000100010001,
+        "vol_ratio": 0.0008000800080008001,
+        "volume_imbalance": 0.0,
+        "vwap_dev": 0.00010001000100010001
+      },
+      "non_numeric_columns": [],
+      "numeric_columns": [
+        "log_return",
+        "log_return_2",
+        "hl_range",
+        "body",
+        "vol_5",
+        "vol_20",
+        "lr_z20",
+        "vwap_dev",
+        "volume_imbalance",
+        "taker_ratio",
+        "delta_norm",
+        "vol_ratio",
+        "trades_ratio"
+      ],
+      "recommended_columns": [
+        "log_return",
+        "vol_20",
+        "vwap_dev",
+        "volume_imbalance"
+      ],
+      "rows": 9999,
+      "selected_columns": [
+        "log_return",
+        "vol_20",
+        "vwap_dev",
+        "volume_imbalance"
+      ],
+      "warnings": []
+    },
+    "window_mode": null,
+    "window_size": null,
+    "window_step": null
+  },
+  "dataset_id": "BTC_1h_mid_full",
+  "diagnosis": {
+    "dimension": {
+      "consensus_dimension": 3.941986960388802,
+      "correlation": {
+        "details": {
+          "correlation_sum": [
+            0.04999999899969993,
+            0.0592386103983473,
+            0.06995076383013377,
+            0.08222230504706803,
+            0.09628856464362179,
+            0.1122563346552699,
+            0.13031567209531517,
+            0.1505539231658713,
+            0.1730362874255019,
+            0.19786025411903063,
+            0.22505783284869796,
+            0.2545657446320747,
+            0.28635023934479864,
+            0.320283238565905,
+            0.35602952173593033,
+            0.3934230990612564,
+            0.43209650030816243,
+            0.47163544119965106,
+            0.5115111831247138,
+            0.5512678893414447,
+            0.5903844235193674,
+            0.6284906946385777,
+            0.6651109599857765,
+            0.699999985995799
+          ],
+          "radii": [
+            0.7868109820659787,
+            0.8321043399317211,
+            0.8800050435431563,
+            0.930663186692353,
+            0.9842375034318647,
+            1.0408958654577345,
+            1.100815808124721,
+            1.1641850867419814,
+            1.2312022648923282,
+            1.3020773366185188,
+            1.3770323844261636,
+            1.456302275165056,
+            1.5401353959694304,
+            1.6287944325631656,
+            1.7225571923687042,
+            1.821717474998849,
+            1.926585992859064,
+            2.037491344744931,
+            2.154781045485466,
+            2.2788226148586137,
+            2.410004729190977,
+            2.5487384392502315,
+            2.695458458246425,
+            2.850624523978029
+          ]
+        },
+        "dimension": 2.097890578384754,
+        "method": "correlation"
+      },
+      "pca": {
+        "details": {
+          "explained_variance_ratio": [
+            0.6196651322974053,
+            0.1906149575970078,
+            0.12465820382050156,
+            0.06506170628508523
+          ],
+          "variance_threshold": 0.95
+        },
+        "dimension": 4.0,
+        "method": "pca"
+      },
+      "two_nn": {
+        "details": {
+          "n": 9999
+        },
+        "dimension": 3.941986960388802,
+        "method": "two_nn"
+      }
+    },
+    "lyapunov": {
+      "available": true,
+      "chaotic_hint": true,
+      "value": 0.05379540197815344
+    },
+    "stationarity": {
+      "adf": {
+        "available": true,
+        "critical_values": {
+          "1%": -3.4310058034664337,
+          "10%": -2.566924269263309,
+          "5%": -2.8618298260383197
+        },
+        "nobs": 9974,
+        "pvalue": 0.0,
+        "statistic": -20.159248455116572,
+        "used_lag": 24
+      },
+      "kpss": {
+        "available": true,
+        "critical_values": {
+          "1%": 0.739,
+          "10%": 0.347,
+          "2.5%": 0.574,
+          "5%": 0.463
+        },
+        "pvalue": 0.06089384647332277,
+        "statistic": 0.4377262761818912,
+        "used_lag": 7
+      },
+      "label": "stationary"
+    },
+    "summary": "intrinsic_dimension\u22483.942; stationarity=stationary; lyapunov=0.0538; chaotic_hint=True; periodic_hint=False; dominant_frequency=0.0739",
+    "symmetries": {
+      "autocorrelation": [
+        1.0,
+        -0.034674364697471594,
+        0.01070056788943578,
+        0.006764843544744742,
+        0.007825053752199395,
+        -0.012947765307113302,
+        -0.0052358322562109,
+        -0.002807821714570148,
+        0.02035720586343137,
+        0.016153365906330933,
+        -0.011912846547245838,
+        0.0158759821780228,
+        0.013329052292694411,
+        -0.0039279937686871776,
+        0.01649606594158391,
+        0.01894716093408956,
+        0.0008119477764841694,
+        -0.007164035357293957,
+        0.013899852724564728,
+        0.013515667812974898,
+        -0.016105419718898176,
+        0.018862000137483965,
+        -0.014757675741284938,
+        -0.016913412276279013,
+        -0.011918297348895369,
+        -0.02473227076720815,
+        0.0035261338835442706,
+        0.00016030211021541703,
+        -0.008733634547565964,
+        -0.013065678135489471,
+        0.010952262088416032,
+        0.008973675819327369,
+        0.003981078407950216,
+        -0.003664243080706669,
+        -0.00859341582237152,
+        0.005576637634282432,
+        0.022433150316931605,
+        -0.0020558162070258854,
+        0.00031303926817906244,
+        0.005043619942572921,
+        0.004738553325743849,
+        0.0019139681792753264,
+        0.0023159015055613727,
+        0.009437462696295223,
+        0.021079031052944824,
+        0.008572941735863286,
+        -0.0015950266119919405,
+        -0.0001508062526905681,
+        -0.010291352524858192,
+        0.009924175992472944,
+        -0.016870162878907736,
+        -0.002541553153159146,
+        0.0044616422747921014,
+        -0.016983991635117147,
+        0.005700035389259767,
+        -0.012572323132639415,
+        0.001098925623584048,
+        0.024056111814012366,
+        -0.00579728344169057,
+        0.008802701838737603,
+        -0.0031888970871795305,
+        0.019913289983137142,
+        0.004658956410988306,
+        0.004725362571197069,
+        -0.007882731515684072,
+        -0.007632380458577509,
+        0.011596702923532124,
+        0.028378581870623063,
+        0.003138017464628432,
+        0.011792465143850487,
+        0.010556710320653421,
+        0.006024909668788357,
+        -0.01493652976801505,
+        -0.02195526505352757,
+        -0.0014368518793735252,
+        -0.01271336426553428,
+        -0.007458585989773492,
+        -0.01276767554333102,
+        0.0012622993637026395,
+        0.012748533599933286,
+        -0.0007024029949733363,
+        -0.005437161814007784,
+        0.001430942479155612,
+        0.012447591198459633,
+        0.0030672347995447324,
+        0.01265402977877024,
+        0.0024614832188222155,
+        0.005941091289090778,
+        0.0007186843984529967,
+        -0.008857877886063608,
+        0.01623896449940232,
+        0.008135296608267738,
+        -0.02383174488214881,
+        0.0032571802841533533,
+        0.0006995957590873693,
+        -0.01553700061854477,
+        0.004223572290897719,
+        -0.00985397182262365,
+        0.0004574851786506459,
+        0.011896267096166454,
+        0.007100148594912268,
+        0.0012619971233394087,
+        0.015307109726671424,
+        -0.022618711469104456,
+        0.0028886956494172974,
+        -0.005401914319312825,
+        0.015988859601388565,
+        0.011667810489828503,
+        -0.0016803520413373656,
+        -0.0018322300395289194,
+        -0.014080076040755158,
+        -0.000637674330339977,
+        -0.011624773619630657,
+        0.003925547584450613,
+        -0.00149715971174745,
+        0.0013815549601780268,
+        0.01382444422319549,
+        -0.0005040642456595788,
+        0.019022429771093082,
+        0.005672283696154223,
+        0.01634772409806815,
+        -0.0037411854957394514,
+        0.02835374090319404,
+        -0.011619599017432463,
+        0.004691156474752366,
+        -0.010013899880543275,
+        0.008711869714065913,
+        -0.00012284579368157135,
+        -0.018977440032811578,
+        0.0015957052691578642,
+        0.014900124614809903,
+        0.006813487057211538,
+        -0.013953076453845841,
+        -0.009284555503519693,
+        -0.0004281507319523294,
+        -0.019218917950075468,
+        -0.00950272535570865,
+        0.0005083114722477308,
+        0.003254128402846458,
+        0.004233196981744682,
+        0.0005202568780005947,
+        0.0037328884072732813,
+        0.018060638477061294,
+        -0.02031981756150858,
+        0.0008615420082260116,
+        0.003162380686172858,
+        -0.00884032575583237,
+        -0.02280084358975564,
+        0.0007973763906316047,
+        -0.014098586843675015,
+        0.027295740552965072,
+        -0.011275912945960295,
+        0.011598803297857743,
+        -0.0005507843158526292,
+        0.004791188168582458,
+        -0.00131305471893912,
+        -0.005139533075857775,
+        0.019006502772265794,
+        0.00561862444119991,
+        -0.0010445933331133359,
+        0.017755299650863487,
+        0.005808483204580494,
+        0.00897380239722983,
+        -0.0005503460569070893,
+        -0.014544036566822642,
+        -0.003091435703490207,
+        0.01251769787404111,
+        -0.009597395280988224,
+        0.020537284090342448,
+        0.0006613476313406409,
+        -0.027604969018665427,
+        0.00764145549849426,
+        -0.0020555389473409366,
+        -0.001384261756534293,
+        -0.028685371277301093,
+        -0.00530156031636218,
+        0.014577025247369904,
+        -0.001972910886491887,
+        0.002581655720929949,
+        0.0068723287835565595,
+        -0.0031792273564605214,
+        -0.002469963973084013,
+        -0.007900711978105986,
+        -0.015249249310321678,
+        -0.010930105432327942,
+        0.012696650601049115,
+        0.005499287164897447,
+        0.008515501322402818,
+        -0.005840931202690152,
+        -0.004290504990476269,
+        0.012991057855880027,
+        0.006265034276945698,
+        -0.027849858163417028,
+        -0.02862798789047736,
+        -0.0056362865278880145,
+        -0.0013897425984861125,
+        0.010707620654946558,
+        -0.0015530418195028924,
+        -0.010588826842524622,
+        -0.007231561887657772,
+        -0.00610123021056371,
+        0.0062255990816705645,
+        -0.0187683434995842,
+        0.008553505806879967,
+        -0.0034823484410772296,
+        0.0037862662482686014,
+        0.0047700447784228515,
+        0.02115312147593715,
+        -0.014301996651806145,
+        -0.008334902342879721,
+        -0.010713740776696897,
+        0.012178723822266785,
+        0.00011402745384064785,
+        -0.03148960450735102,
+        0.024605939463663053,
+        0.006841399248214252,
+        -0.010245218002812915,
+        0.01406602208103687,
+        -0.005638491688913937,
+        0.00022517554641334668,
+        0.013094680357495198,
+        -0.0020230223712604982,
+        0.006439950013244345,
+        0.00646704973285403,
+        0.0017438115381941518,
+        0.008204195496272345,
+        0.006130079224646845,
+        -0.0059605013705006545,
+        -0.0014460644293993465,
+        -0.011269024961500205,
+        0.0025485944172823636,
+        -0.007869262321201588,
+        0.005082286619397929,
+        -0.00426017136671841,
+        -0.0024208120324285313,
+        0.01223125274399048,
+        -0.014060346703383025,
+        -0.02136688235743566,
+        0.000768393420364949,
+        0.020294931378112963,
+        0.020481849735009293,
+        -0.0005502832547743517,
+        -0.015553275059244179,
+        0.00587738868386203,
+        -0.005543416086737806,
+        -0.003475344928695098,
+        -0.005372783602980845,
+        -0.00554988103829867,
+        -0.005797419466561643,
+        0.007629210352603929,
+        8.687102224747847e-05,
+        -0.006735408774884618,
+        0.0012640078260649646,
+        -0.014885354916954396,
+        -0.00869420995338424,
+        -0.004474788549702054,
+        0.014818300013166513
+      ],
+      "dominant_frequency": {
+        "available": true,
+        "frequency": 0.07390739073907392,
+        "power": 145029.8625554662
+      },
+      "peak_heights": [],
+      "peaks": [],
+      "periodic_hint": false
+    }
+  },
+  "evaluations": [
+    {
+      "ambient_dim": 4,
+      "complexity_penalty": 5e-08,
+      "k": 8,
+      "latent_shape": [
+        9999,
+        4
+      ],
+      "latent_utilization": 0.06840684068406841,
+      "manifold": "plane4d",
+      "manifold_dim": 4,
+      "mask_ratio": 0.25,
+      "n_masks": 10,
+      "n_points": 9999,
+      "rank": 1,
+      "reconstruction_error": 0.014261128052094488,
+      "reconstruction_error_ci95": 0.0010663381231174383,
+      "reconstruction_error_mean": 0.012377822626014964,
+      "reconstruction_error_std": 0.0017204373596531402,
+      "score": 0.014261178052094488,
+      "score_mean": 0.012377872626014965,
+      "score_std": 0.0017204373596531406,
+      "smoothness": 0.17494574523923892,
+      "validation_runs": [
+        {
+          "ambient_dim": 4,
+          "complexity_penalty": 5e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            4
+          ],
+          "latent_utilization": 0.06840684068406841,
+          "manifold": "plane4d",
+          "manifold_dim": 4,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.014261128052094488,
+          "score": 0.014261178052094488,
+          "smoothness": 0.17494574523923892
+        },
+        {
+          "ambient_dim": 4,
+          "complexity_penalty": 5e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            4
+          ],
+          "latent_utilization": 0.06840684068406841,
+          "manifold": "plane4d",
+          "manifold_dim": 4,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.010935445120241385,
+          "score": 0.010935495120241384,
+          "smoothness": 0.17494574523923892
+        },
+        {
+          "ambient_dim": 4,
+          "complexity_penalty": 5e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            4
+          ],
+          "latent_utilization": 0.06840684068406841,
+          "manifold": "plane4d",
+          "manifold_dim": 4,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.016859444396602898,
+          "score": 0.0168594943966029,
+          "smoothness": 0.17494574523923892
+        },
+        {
+          "ambient_dim": 4,
+          "complexity_penalty": 5e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            4
+          ],
+          "latent_utilization": 0.06840684068406841,
+          "manifold": "plane4d",
+          "manifold_dim": 4,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.011455253115508416,
+          "score": 0.011455303115508415,
+          "smoothness": 0.17494574523923892
+        },
+        {
+          "ambient_dim": 4,
+          "complexity_penalty": 5e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            4
+          ],
+          "latent_utilization": 0.06840684068406841,
+          "manifold": "plane4d",
+          "manifold_dim": 4,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.011435088142473548,
+          "score": 0.011435138142473548,
+          "smoothness": 0.17494574523923892
+        },
+        {
+          "ambient_dim": 4,
+          "complexity_penalty": 5e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            4
+          ],
+          "latent_utilization": 0.06840684068406841,
+          "manifold": "plane4d",
+          "manifold_dim": 4,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.011510902289971047,
+          "score": 0.011510952289971047,
+          "smoothness": 0.17494574523923892
+        },
+        {
+          "ambient_dim": 4,
+          "complexity_penalty": 5e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            4
+          ],
+          "latent_utilization": 0.06840684068406841,
+          "manifold": "plane4d",
+          "manifold_dim": 4,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.012198892089795054,
+          "score": 0.012198942089795054,
+          "smoothness": 0.17494574523923892
+        },
+        {
+          "ambient_dim": 4,
+          "complexity_penalty": 5e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            4
+          ],
+          "latent_utilization": 0.06840684068406841,
+          "manifold": "plane4d",
+          "manifold_dim": 4,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.011647661142008488,
+          "score": 0.011647711142008488,
+          "smoothness": 0.17494574523923892
+        },
+        {
+          "ambient_dim": 4,
+          "complexity_penalty": 5e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            4
+          ],
+          "latent_utilization": 0.06840684068406841,
+          "manifold": "plane4d",
+          "manifold_dim": 4,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.011668444956635538,
+          "score": 0.011668494956635538,
+          "smoothness": 0.17494574523923892
+        },
+        {
+          "ambient_dim": 4,
+          "complexity_penalty": 5e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            4
+          ],
+          "latent_utilization": 0.06840684068406841,
+          "manifold": "plane4d",
+          "manifold_dim": 4,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.011805966954818801,
+          "score": 0.011806016954818801,
+          "smoothness": 0.17494574523923892
+        }
+      ]
+    },
+    {
+      "ambient_dim": 3,
+      "complexity_penalty": 2.75e-08,
+      "k": 8,
+      "latent_shape": [
+        9999,
+        3
+      ],
+      "latent_utilization": 0.2065972222222222,
+      "manifold": "klein_bottle",
+      "manifold_dim": 2,
+      "mask_ratio": 0.25,
+      "n_masks": 10,
+      "n_points": 9999,
+      "rank": 2,
+      "reconstruction_error": 0.0626133644142271,
+      "reconstruction_error_ci95": 0.00185163693554606,
+      "reconstruction_error_mean": 0.06790633792782656,
+      "reconstruction_error_std": 0.002987443936744869,
+      "score": 0.0626133919142271,
+      "score_mean": 0.06790636542782655,
+      "score_std": 0.002987443936744869,
+      "smoothness": 0.5134862836504752,
+      "validation_runs": [
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.2065972222222222,
+          "manifold": "klein_bottle",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.0626133644142271,
+          "score": 0.0626133919142271,
+          "smoothness": 0.5134862836504752
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.2065972222222222,
+          "manifold": "klein_bottle",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.06822271082710746,
+          "score": 0.06822273832710746,
+          "smoothness": 0.5134862836504752
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.2065972222222222,
+          "manifold": "klein_bottle",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.07295131935892324,
+          "score": 0.07295134685892324,
+          "smoothness": 0.5134862836504752
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.2065972222222222,
+          "manifold": "klein_bottle",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.06601539818230341,
+          "score": 0.06601542568230341,
+          "smoothness": 0.5134862836504752
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.2065972222222222,
+          "manifold": "klein_bottle",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.06631639096486962,
+          "score": 0.06631641846486962,
+          "smoothness": 0.5134862836504752
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.2065972222222222,
+          "manifold": "klein_bottle",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.0674582521135585,
+          "score": 0.0674582796135585,
+          "smoothness": 0.5134862836504752
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.2065972222222222,
+          "manifold": "klein_bottle",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.06691561660392477,
+          "score": 0.06691564410392477,
+          "smoothness": 0.5134862836504752
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.2065972222222222,
+          "manifold": "klein_bottle",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.07193922268558768,
+          "score": 0.07193925018558768,
+          "smoothness": 0.5134862836504752
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.2065972222222222,
+          "manifold": "klein_bottle",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.07074410602584032,
+          "score": 0.07074413352584032,
+          "smoothness": 0.5134862836504752
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.2065972222222222,
+          "manifold": "klein_bottle",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.06588699810192356,
+          "score": 0.06588702560192355,
+          "smoothness": 0.5134862836504752
+        }
+      ]
+    },
+    {
+      "ambient_dim": 3,
+      "complexity_penalty": 3.75e-08,
+      "k": 8,
+      "latent_shape": [
+        9999,
+        3
+      ],
+      "latent_utilization": 0.2065972222222222,
+      "manifold": "plane3d",
+      "manifold_dim": 3,
+      "mask_ratio": 0.25,
+      "n_masks": 10,
+      "n_points": 9999,
+      "rank": 3,
+      "reconstruction_error": 0.0635266530195768,
+      "reconstruction_error_ci95": 0.0029556239872333676,
+      "reconstruction_error_mean": 0.06865609408822483,
+      "reconstruction_error_std": 0.004768624340145852,
+      "score": 0.0635266905195768,
+      "score_mean": 0.06865613158822483,
+      "score_std": 0.004768624340145852,
+      "smoothness": 0.5134862836504752,
+      "validation_runs": [
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 3.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.2065972222222222,
+          "manifold": "plane3d",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.0635266530195768,
+          "score": 0.0635266905195768,
+          "smoothness": 0.5134862836504752
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 3.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.2065972222222222,
+          "manifold": "plane3d",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.07152929910538258,
+          "score": 0.07152933660538258,
+          "smoothness": 0.5134862836504752
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 3.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.2065972222222222,
+          "manifold": "plane3d",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.07224859240817164,
+          "score": 0.07224862990817163,
+          "smoothness": 0.5134862836504752
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 3.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.2065972222222222,
+          "manifold": "plane3d",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.0793325110799503,
+          "score": 0.0793325485799503,
+          "smoothness": 0.5134862836504752
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 3.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.2065972222222222,
+          "manifold": "plane3d",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.06997617325571878,
+          "score": 0.06997621075571878,
+          "smoothness": 0.5134862836504752
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 3.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.2065972222222222,
+          "manifold": "plane3d",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.06934447977000227,
+          "score": 0.06934451727000226,
+          "smoothness": 0.5134862836504752
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 3.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.2065972222222222,
+          "manifold": "plane3d",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.06343280472396055,
+          "score": 0.06343284222396055,
+          "smoothness": 0.5134862836504752
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 3.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.2065972222222222,
+          "manifold": "plane3d",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.06464184304877779,
+          "score": 0.06464188054877779,
+          "smoothness": 0.5134862836504752
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 3.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.2065972222222222,
+          "manifold": "plane3d",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.06837195741444127,
+          "score": 0.06837199491444126,
+          "smoothness": 0.5134862836504752
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 3.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.2065972222222222,
+          "manifold": "plane3d",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.0641566270562663,
+          "score": 0.0641566645562663,
+          "smoothness": 0.5134862836504752
+        }
+      ]
+    },
+    {
+      "ambient_dim": 3,
+      "complexity_penalty": 2.75e-08,
+      "k": 8,
+      "latent_shape": [
+        9999,
+        3
+      ],
+      "latent_utilization": 0.10706018518518519,
+      "manifold": "cone",
+      "manifold_dim": 2,
+      "mask_ratio": 0.25,
+      "n_masks": 10,
+      "n_points": 9999,
+      "rank": 4,
+      "reconstruction_error": 0.19973512081560452,
+      "reconstruction_error_ci95": 0.0021992527448466623,
+      "reconstruction_error_mean": 0.19964475173826626,
+      "reconstruction_error_std": 0.0035482897061696887,
+      "score": 0.19973514831560452,
+      "score_mean": 0.19964477923826626,
+      "score_std": 0.0035482897061696887,
+      "smoothness": 1.3811857446843698,
+      "validation_runs": [
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.10706018518518519,
+          "manifold": "cone",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.19973512081560452,
+          "score": 0.19973514831560452,
+          "smoothness": 1.3811857446843698
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.10706018518518519,
+          "manifold": "cone",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.20186746087274543,
+          "score": 0.20186748837274543,
+          "smoothness": 1.3811857446843698
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.10706018518518519,
+          "manifold": "cone",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.1976553566909318,
+          "score": 0.1976553841909318,
+          "smoothness": 1.3811857446843698
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.10706018518518519,
+          "manifold": "cone",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.19427028659374515,
+          "score": 0.19427031409374515,
+          "smoothness": 1.3811857446843698
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.10706018518518519,
+          "manifold": "cone",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.20077254661919317,
+          "score": 0.20077257411919316,
+          "smoothness": 1.3811857446843698
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.10706018518518519,
+          "manifold": "cone",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.20268340794193979,
+          "score": 0.20268343544193979,
+          "smoothness": 1.3811857446843698
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.10706018518518519,
+          "manifold": "cone",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.2025638577081026,
+          "score": 0.2025638852081026,
+          "smoothness": 1.3811857446843698
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.10706018518518519,
+          "manifold": "cone",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.20552140499709184,
+          "score": 0.20552143249709184,
+          "smoothness": 1.3811857446843698
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.10706018518518519,
+          "manifold": "cone",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.19441320597277614,
+          "score": 0.19441323347277614,
+          "smoothness": 1.3811857446843698
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.10706018518518519,
+          "manifold": "cone",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.19696486917053221,
+          "score": 0.1969648966705322,
+          "smoothness": 1.3811857446843698
+        }
+      ]
+    },
+    {
+      "ambient_dim": 3,
+      "complexity_penalty": 2.75e-08,
+      "k": 8,
+      "latent_shape": [
+        9999,
+        3
+      ],
+      "latent_utilization": 0.3726851851851852,
+      "manifold": "torus2",
+      "manifold_dim": 2,
+      "mask_ratio": 0.25,
+      "n_masks": 10,
+      "n_points": 9999,
+      "rank": 5,
+      "reconstruction_error": 0.24162198165889875,
+      "reconstruction_error_ci95": 0.008298792897945804,
+      "reconstruction_error_mean": 0.21802873553533936,
+      "reconstruction_error_std": 0.013389330299764298,
+      "score": 0.24162200915889875,
+      "score_mean": 0.21802876303533938,
+      "score_std": 0.013389330299764298,
+      "smoothness": 1.497883547574215,
+      "validation_runs": [
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.3726851851851852,
+          "manifold": "torus2",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.24162198165889875,
+          "score": 0.24162200915889875,
+          "smoothness": 1.497883547574215
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.3726851851851852,
+          "manifold": "torus2",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.20206078693018797,
+          "score": 0.20206081443018797,
+          "smoothness": 1.497883547574215
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.3726851851851852,
+          "manifold": "torus2",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.22250175825083365,
+          "score": 0.22250178575083365,
+          "smoothness": 1.497883547574215
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.3726851851851852,
+          "manifold": "torus2",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.22960086936817536,
+          "score": 0.22960089686817536,
+          "smoothness": 1.497883547574215
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.3726851851851852,
+          "manifold": "torus2",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.22155070967319201,
+          "score": 0.221550737173192,
+          "smoothness": 1.497883547574215
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.3726851851851852,
+          "manifold": "torus2",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.21173336060050227,
+          "score": 0.21173338810050227,
+          "smoothness": 1.497883547574215
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.3726851851851852,
+          "manifold": "torus2",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.20456085628513265,
+          "score": 0.20456088378513265,
+          "smoothness": 1.497883547574215
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.3726851851851852,
+          "manifold": "torus2",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.23504593627166223,
+          "score": 0.23504596377166223,
+          "smoothness": 1.497883547574215
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.3726851851851852,
+          "manifold": "torus2",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.20744646873002662,
+          "score": 0.20744649623002662,
+          "smoothness": 1.497883547574215
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.3726851851851852,
+          "manifold": "torus2",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.20416462758478218,
+          "score": 0.20416465508478218,
+          "smoothness": 1.497883547574215
+        }
+      ]
+    },
+    {
+      "ambient_dim": 4,
+      "complexity_penalty": 4e-08,
+      "k": 8,
+      "latent_shape": [
+        9999,
+        4
+      ],
+      "latent_utilization": 0.07230723072307231,
+      "manifold": "s1_r2",
+      "manifold_dim": 3,
+      "mask_ratio": 0.25,
+      "n_masks": 10,
+      "n_points": 9999,
+      "rank": 6,
+      "reconstruction_error": 0.24096433768256353,
+      "reconstruction_error_ci95": 0.006132102323845213,
+      "reconstruction_error_mean": 0.24410092501601435,
+      "reconstruction_error_std": 0.009893576626817512,
+      "score": 0.24096437768256354,
+      "score_mean": 0.24410096501601433,
+      "score_std": 0.009893576626817502,
+      "smoothness": 1.8389019417705756,
+      "validation_runs": [
+        {
+          "ambient_dim": 4,
+          "complexity_penalty": 4e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            4
+          ],
+          "latent_utilization": 0.07230723072307231,
+          "manifold": "s1_r2",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.24096433768256353,
+          "score": 0.24096437768256354,
+          "smoothness": 1.8389019417705756
+        },
+        {
+          "ambient_dim": 4,
+          "complexity_penalty": 4e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            4
+          ],
+          "latent_utilization": 0.07230723072307231,
+          "manifold": "s1_r2",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.2336859987626472,
+          "score": 0.2336860387626472,
+          "smoothness": 1.8389019417705756
+        },
+        {
+          "ambient_dim": 4,
+          "complexity_penalty": 4e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            4
+          ],
+          "latent_utilization": 0.07230723072307231,
+          "manifold": "s1_r2",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.25029359939515894,
+          "score": 0.2502936393951589,
+          "smoothness": 1.8389019417705756
+        },
+        {
+          "ambient_dim": 4,
+          "complexity_penalty": 4e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            4
+          ],
+          "latent_utilization": 0.07230723072307231,
+          "manifold": "s1_r2",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.2554523087167572,
+          "score": 0.2554523487167572,
+          "smoothness": 1.8389019417705756
+        },
+        {
+          "ambient_dim": 4,
+          "complexity_penalty": 4e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            4
+          ],
+          "latent_utilization": 0.07230723072307231,
+          "manifold": "s1_r2",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.24331370816277847,
+          "score": 0.24331374816277848,
+          "smoothness": 1.8389019417705756
+        },
+        {
+          "ambient_dim": 4,
+          "complexity_penalty": 4e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            4
+          ],
+          "latent_utilization": 0.07230723072307231,
+          "manifold": "s1_r2",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.23469686949052773,
+          "score": 0.23469690949052774,
+          "smoothness": 1.8389019417705756
+        },
+        {
+          "ambient_dim": 4,
+          "complexity_penalty": 4e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            4
+          ],
+          "latent_utilization": 0.07230723072307231,
+          "manifold": "s1_r2",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.23522562759846585,
+          "score": 0.23522566759846586,
+          "smoothness": 1.8389019417705756
+        },
+        {
+          "ambient_dim": 4,
+          "complexity_penalty": 4e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            4
+          ],
+          "latent_utilization": 0.07230723072307231,
+          "manifold": "s1_r2",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.25070229046089815,
+          "score": 0.2507023304608981,
+          "smoothness": 1.8389019417705756
+        },
+        {
+          "ambient_dim": 4,
+          "complexity_penalty": 4e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            4
+          ],
+          "latent_utilization": 0.07230723072307231,
+          "manifold": "s1_r2",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.26327075260364846,
+          "score": 0.26327079260364844,
+          "smoothness": 1.8389019417705756
+        },
+        {
+          "ambient_dim": 4,
+          "complexity_penalty": 4e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            4
+          ],
+          "latent_utilization": 0.07230723072307231,
+          "manifold": "s1_r2",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.23340375728669777,
+          "score": 0.23340379728669777,
+          "smoothness": 1.8389019417705756
+        }
+      ]
+    },
+    {
+      "ambient_dim": 4,
+      "complexity_penalty": 4e-08,
+      "k": 8,
+      "latent_shape": [
+        9999,
+        4
+      ],
+      "latent_utilization": 0.1274127412741274,
+      "manifold": "s2_r",
+      "manifold_dim": 3,
+      "mask_ratio": 0.25,
+      "n_masks": 10,
+      "n_points": 9999,
+      "rank": 7,
+      "reconstruction_error": 0.276590769135674,
+      "reconstruction_error_ci95": 0.007800047091725201,
+      "reconstruction_error_mean": 0.257245928784406,
+      "reconstruction_error_std": 0.012584650340012217,
+      "score": 0.27659080913567397,
+      "score_mean": 0.257245968784406,
+      "score_std": 0.012584650340012205,
+      "smoothness": 1.995938977219082,
+      "validation_runs": [
+        {
+          "ambient_dim": 4,
+          "complexity_penalty": 4e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            4
+          ],
+          "latent_utilization": 0.1274127412741274,
+          "manifold": "s2_r",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.276590769135674,
+          "score": 0.27659080913567397,
+          "smoothness": 1.995938977219082
+        },
+        {
+          "ambient_dim": 4,
+          "complexity_penalty": 4e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            4
+          ],
+          "latent_utilization": 0.1274127412741274,
+          "manifold": "s2_r",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.2614869656496817,
+          "score": 0.2614870056496817,
+          "smoothness": 1.995938977219082
+        },
+        {
+          "ambient_dim": 4,
+          "complexity_penalty": 4e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            4
+          ],
+          "latent_utilization": 0.1274127412741274,
+          "manifold": "s2_r",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.25488670316254625,
+          "score": 0.2548867431625462,
+          "smoothness": 1.995938977219082
+        },
+        {
+          "ambient_dim": 4,
+          "complexity_penalty": 4e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            4
+          ],
+          "latent_utilization": 0.1274127412741274,
+          "manifold": "s2_r",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.2615857852172697,
+          "score": 0.2615858252172697,
+          "smoothness": 1.995938977219082
+        },
+        {
+          "ambient_dim": 4,
+          "complexity_penalty": 4e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            4
+          ],
+          "latent_utilization": 0.1274127412741274,
+          "manifold": "s2_r",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.26122946141075065,
+          "score": 0.26122950141075063,
+          "smoothness": 1.995938977219082
+        },
+        {
+          "ambient_dim": 4,
+          "complexity_penalty": 4e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            4
+          ],
+          "latent_utilization": 0.1274127412741274,
+          "manifold": "s2_r",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.27359181995506004,
+          "score": 0.27359185995506,
+          "smoothness": 1.995938977219082
+        },
+        {
+          "ambient_dim": 4,
+          "complexity_penalty": 4e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            4
+          ],
+          "latent_utilization": 0.1274127412741274,
+          "manifold": "s2_r",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.23776957588583705,
+          "score": 0.23776961588583706,
+          "smoothness": 1.995938977219082
+        },
+        {
+          "ambient_dim": 4,
+          "complexity_penalty": 4e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            4
+          ],
+          "latent_utilization": 0.1274127412741274,
+          "manifold": "s2_r",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.24852309046670149,
+          "score": 0.2485231304667015,
+          "smoothness": 1.995938977219082
+        },
+        {
+          "ambient_dim": 4,
+          "complexity_penalty": 4e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            4
+          ],
+          "latent_utilization": 0.1274127412741274,
+          "manifold": "s2_r",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.26006084415647673,
+          "score": 0.2600608841564767,
+          "smoothness": 1.995938977219082
+        },
+        {
+          "ambient_dim": 4,
+          "complexity_penalty": 4e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            4
+          ],
+          "latent_utilization": 0.1274127412741274,
+          "manifold": "s2_r",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.23673427280406237,
+          "score": 0.23673431280406237,
+          "smoothness": 1.995938977219082
+        }
+      ]
+    },
+    {
+      "ambient_dim": 3,
+      "complexity_penalty": 3.75e-08,
+      "k": 8,
+      "latent_shape": [
+        9999,
+        3
+      ],
+      "latent_utilization": 0.42997685185185186,
+      "manifold": "h2_r",
+      "manifold_dim": 3,
+      "mask_ratio": 0.25,
+      "n_masks": 10,
+      "n_points": 9999,
+      "rank": 8,
+      "reconstruction_error": 0.2814088866923854,
+      "reconstruction_error_ci95": 0.007168718417862636,
+      "reconstruction_error_mean": 0.27621404218713774,
+      "reconstruction_error_std": 0.011566060257573788,
+      "score": 0.2814089241923854,
+      "score_mean": 0.2762140796871377,
+      "score_std": 0.01156606025757379,
+      "smoothness": 1.976703541444305,
+      "validation_runs": [
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 3.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.42997685185185186,
+          "manifold": "h2_r",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.2814088866923854,
+          "score": 0.2814089241923854,
+          "smoothness": 1.976703541444305
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 3.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.42997685185185186,
+          "manifold": "h2_r",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.2905041949066329,
+          "score": 0.29050423240663287,
+          "smoothness": 1.976703541444305
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 3.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.42997685185185186,
+          "manifold": "h2_r",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.2772167820442122,
+          "score": 0.2772168195442122,
+          "smoothness": 1.976703541444305
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 3.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.42997685185185186,
+          "manifold": "h2_r",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.24873317117193755,
+          "score": 0.24873320867193754,
+          "smoothness": 1.976703541444305
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 3.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.42997685185185186,
+          "manifold": "h2_r",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.2824925742729331,
+          "score": 0.2824926117729331,
+          "smoothness": 1.976703541444305
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 3.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.42997685185185186,
+          "manifold": "h2_r",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.27817369581443213,
+          "score": 0.2781737333144321,
+          "smoothness": 1.976703541444305
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 3.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.42997685185185186,
+          "manifold": "h2_r",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.2708406684115787,
+          "score": 0.2708407059115787,
+          "smoothness": 1.976703541444305
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 3.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.42997685185185186,
+          "manifold": "h2_r",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.26417214628906877,
+          "score": 0.26417218378906876,
+          "smoothness": 1.976703541444305
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 3.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.42997685185185186,
+          "manifold": "h2_r",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.2831900338608857,
+          "score": 0.2831900713608857,
+          "smoothness": 1.976703541444305
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 3.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.42997685185185186,
+          "manifold": "h2_r",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.2854082684073109,
+          "score": 0.2854083059073109,
+          "smoothness": 1.976703541444305
+        }
+      ]
+    },
+    {
+      "ambient_dim": 4,
+      "complexity_penalty": 4e-08,
+      "k": 8,
+      "latent_shape": [
+        9999,
+        4
+      ],
+      "latent_utilization": 0.3039303930393039,
+      "manifold": "sphere3",
+      "manifold_dim": 3,
+      "mask_ratio": 0.25,
+      "n_masks": 10,
+      "n_points": 9999,
+      "rank": 9,
+      "reconstruction_error": 0.29410613994891144,
+      "reconstruction_error_ci95": 0.01067102572591699,
+      "reconstruction_error_mean": 0.2907084703789991,
+      "reconstruction_error_std": 0.017216707277627225,
+      "score": 0.2941061799489114,
+      "score_mean": 0.29070851037899903,
+      "score_std": 0.01721670727762722,
+      "smoothness": 2.102176270276873,
+      "validation_runs": [
+        {
+          "ambient_dim": 4,
+          "complexity_penalty": 4e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            4
+          ],
+          "latent_utilization": 0.3039303930393039,
+          "manifold": "sphere3",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.29410613994891144,
+          "score": 0.2941061799489114,
+          "smoothness": 2.102176270276873
+        },
+        {
+          "ambient_dim": 4,
+          "complexity_penalty": 4e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            4
+          ],
+          "latent_utilization": 0.3039303930393039,
+          "manifold": "sphere3",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.29222220194440157,
+          "score": 0.29222224194440155,
+          "smoothness": 2.102176270276873
+        },
+        {
+          "ambient_dim": 4,
+          "complexity_penalty": 4e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            4
+          ],
+          "latent_utilization": 0.3039303930393039,
+          "manifold": "sphere3",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.2653974372849269,
+          "score": 0.26539747728492685,
+          "smoothness": 2.102176270276873
+        },
+        {
+          "ambient_dim": 4,
+          "complexity_penalty": 4e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            4
+          ],
+          "latent_utilization": 0.3039303930393039,
+          "manifold": "sphere3",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.3056331126666532,
+          "score": 0.3056331526666532,
+          "smoothness": 2.102176270276873
+        },
+        {
+          "ambient_dim": 4,
+          "complexity_penalty": 4e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            4
+          ],
+          "latent_utilization": 0.3039303930393039,
+          "manifold": "sphere3",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.3018923315072448,
+          "score": 0.3018923715072448,
+          "smoothness": 2.102176270276873
+        },
+        {
+          "ambient_dim": 4,
+          "complexity_penalty": 4e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            4
+          ],
+          "latent_utilization": 0.3039303930393039,
+          "manifold": "sphere3",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.26563901905181325,
+          "score": 0.26563905905181323,
+          "smoothness": 2.102176270276873
+        },
+        {
+          "ambient_dim": 4,
+          "complexity_penalty": 4e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            4
+          ],
+          "latent_utilization": 0.3039303930393039,
+          "manifold": "sphere3",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.2867089694711512,
+          "score": 0.2867090094711512,
+          "smoothness": 2.102176270276873
+        },
+        {
+          "ambient_dim": 4,
+          "complexity_penalty": 4e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            4
+          ],
+          "latent_utilization": 0.3039303930393039,
+          "manifold": "sphere3",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.32335066548152586,
+          "score": 0.32335070548152584,
+          "smoothness": 2.102176270276873
+        },
+        {
+          "ambient_dim": 4,
+          "complexity_penalty": 4e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            4
+          ],
+          "latent_utilization": 0.3039303930393039,
+          "manifold": "sphere3",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.2758503358948676,
+          "score": 0.2758503758948676,
+          "smoothness": 2.102176270276873
+        },
+        {
+          "ambient_dim": 4,
+          "complexity_penalty": 4e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            4
+          ],
+          "latent_utilization": 0.3039303930393039,
+          "manifold": "sphere3",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.296284490538495,
+          "score": 0.29628453053849496,
+          "smoothness": 2.102176270276873
+        }
+      ]
+    },
+    {
+      "ambient_dim": 5,
+      "complexity_penalty": 4.2500000000000003e-08,
+      "k": 8,
+      "latent_shape": [
+        9999,
+        5
+      ],
+      "latent_utilization": 0.1074107410741074,
+      "manifold": "s2_s1",
+      "manifold_dim": 3,
+      "mask_ratio": 0.25,
+      "n_masks": 10,
+      "n_points": 9999,
+      "rank": 10,
+      "reconstruction_error": 0.3523309463457744,
+      "reconstruction_error_ci95": 0.010326854309150181,
+      "reconstruction_error_mean": 0.3392315557781977,
+      "reconstruction_error_std": 0.016661418715122032,
+      "score": 0.3523309888457744,
+      "score_mean": 0.33923159827819777,
+      "score_std": 0.016661418715122032,
+      "smoothness": 2.421904785309007,
+      "validation_runs": [
+        {
+          "ambient_dim": 5,
+          "complexity_penalty": 4.2500000000000003e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            5
+          ],
+          "latent_utilization": 0.1074107410741074,
+          "manifold": "s2_s1",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.3523309463457744,
+          "score": 0.3523309888457744,
+          "smoothness": 2.421904785309007
+        },
+        {
+          "ambient_dim": 5,
+          "complexity_penalty": 4.2500000000000003e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            5
+          ],
+          "latent_utilization": 0.1074107410741074,
+          "manifold": "s2_s1",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.3560999734708704,
+          "score": 0.35610001597087043,
+          "smoothness": 2.421904785309007
+        },
+        {
+          "ambient_dim": 5,
+          "complexity_penalty": 4.2500000000000003e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            5
+          ],
+          "latent_utilization": 0.1074107410741074,
+          "manifold": "s2_s1",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.3391062538424613,
+          "score": 0.3391062963424613,
+          "smoothness": 2.421904785309007
+        },
+        {
+          "ambient_dim": 5,
+          "complexity_penalty": 4.2500000000000003e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            5
+          ],
+          "latent_utilization": 0.1074107410741074,
+          "manifold": "s2_s1",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.31423508694792474,
+          "score": 0.31423512944792475,
+          "smoothness": 2.421904785309007
+        },
+        {
+          "ambient_dim": 5,
+          "complexity_penalty": 4.2500000000000003e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            5
+          ],
+          "latent_utilization": 0.1074107410741074,
+          "manifold": "s2_s1",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.31693020023796187,
+          "score": 0.3169302427379619,
+          "smoothness": 2.421904785309007
+        },
+        {
+          "ambient_dim": 5,
+          "complexity_penalty": 4.2500000000000003e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            5
+          ],
+          "latent_utilization": 0.1074107410741074,
+          "manifold": "s2_s1",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.32542367909992986,
+          "score": 0.3254237215999299,
+          "smoothness": 2.421904785309007
+        },
+        {
+          "ambient_dim": 5,
+          "complexity_penalty": 4.2500000000000003e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            5
+          ],
+          "latent_utilization": 0.1074107410741074,
+          "manifold": "s2_s1",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.36689577125207584,
+          "score": 0.36689581375207586,
+          "smoothness": 2.421904785309007
+        },
+        {
+          "ambient_dim": 5,
+          "complexity_penalty": 4.2500000000000003e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            5
+          ],
+          "latent_utilization": 0.1074107410741074,
+          "manifold": "s2_s1",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.35232288231172354,
+          "score": 0.35232292481172356,
+          "smoothness": 2.421904785309007
+        },
+        {
+          "ambient_dim": 5,
+          "complexity_penalty": 4.2500000000000003e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            5
+          ],
+          "latent_utilization": 0.1074107410741074,
+          "manifold": "s2_s1",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.33092868853208407,
+          "score": 0.3309287310320841,
+          "smoothness": 2.421904785309007
+        },
+        {
+          "ambient_dim": 5,
+          "complexity_penalty": 4.2500000000000003e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            5
+          ],
+          "latent_utilization": 0.1074107410741074,
+          "manifold": "s2_s1",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.3380420757411711,
+          "score": 0.33804211824117114,
+          "smoothness": 2.421904785309007
+        }
+      ]
+    },
+    {
+      "ambient_dim": 3,
+      "complexity_penalty": 2.75e-08,
+      "k": 8,
+      "latent_shape": [
+        9999,
+        3
+      ],
+      "latent_utilization": 0.18518518518518517,
+      "manifold": "cylinder",
+      "manifold_dim": 2,
+      "mask_ratio": 0.25,
+      "n_masks": 10,
+      "n_points": 9999,
+      "rank": 11,
+      "reconstruction_error": 0.3685945232319136,
+      "reconstruction_error_ci95": 0.01247525071534335,
+      "reconstruction_error_mean": 0.3619353388503063,
+      "reconstruction_error_std": 0.020127656450066263,
+      "score": 0.3685945507319136,
+      "score_mean": 0.3619353663503063,
+      "score_std": 0.020127656450066263,
+      "smoothness": 2.562173507949387,
+      "validation_runs": [
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.18518518518518517,
+          "manifold": "cylinder",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.3685945232319136,
+          "score": 0.3685945507319136,
+          "smoothness": 2.562173507949387
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.18518518518518517,
+          "manifold": "cylinder",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.3294911728743091,
+          "score": 0.3294912003743091,
+          "smoothness": 2.562173507949387
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.18518518518518517,
+          "manifold": "cylinder",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.3674859128166975,
+          "score": 0.3674859403166975,
+          "smoothness": 2.562173507949387
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.18518518518518517,
+          "manifold": "cylinder",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.3303086220682791,
+          "score": 0.3303086495682791,
+          "smoothness": 2.562173507949387
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.18518518518518517,
+          "manifold": "cylinder",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.35300794883022996,
+          "score": 0.35300797633022996,
+          "smoothness": 2.562173507949387
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.18518518518518517,
+          "manifold": "cylinder",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.361493633758513,
+          "score": 0.361493661258513,
+          "smoothness": 2.562173507949387
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.18518518518518517,
+          "manifold": "cylinder",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.39152396397238487,
+          "score": 0.39152399147238487,
+          "smoothness": 2.562173507949387
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.18518518518518517,
+          "manifold": "cylinder",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.36804624924075297,
+          "score": 0.36804627674075296,
+          "smoothness": 2.562173507949387
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.18518518518518517,
+          "manifold": "cylinder",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.39208699072912667,
+          "score": 0.39208701822912667,
+          "smoothness": 2.562173507949387
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.18518518518518517,
+          "manifold": "cylinder",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.35731437098085633,
+          "score": 0.35731439848085633,
+          "smoothness": 2.562173507949387
+        }
+      ]
+    },
+    {
+      "ambient_dim": 3,
+      "complexity_penalty": 2.75e-08,
+      "k": 8,
+      "latent_shape": [
+        9999,
+        3
+      ],
+      "latent_utilization": 0.3350694444444444,
+      "manifold": "sphere2",
+      "manifold_dim": 2,
+      "mask_ratio": 0.25,
+      "n_masks": 10,
+      "n_points": 9999,
+      "rank": 12,
+      "reconstruction_error": 0.4217073094252565,
+      "reconstruction_error_ci95": 0.013993670350270068,
+      "reconstruction_error_mean": 0.3938263456244183,
+      "reconstruction_error_std": 0.022577485271642682,
+      "score": 0.4217073369252565,
+      "score_mean": 0.39382637312441837,
+      "score_std": 0.022577485271642682,
+      "smoothness": 2.7200770203830262,
+      "validation_runs": [
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.3350694444444444,
+          "manifold": "sphere2",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.4217073094252565,
+          "score": 0.4217073369252565,
+          "smoothness": 2.7200770203830262
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.3350694444444444,
+          "manifold": "sphere2",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.3686965632074579,
+          "score": 0.3686965907074579,
+          "smoothness": 2.7200770203830262
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.3350694444444444,
+          "manifold": "sphere2",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.38289509883374323,
+          "score": 0.38289512633374323,
+          "smoothness": 2.7200770203830262
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.3350694444444444,
+          "manifold": "sphere2",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.4085545006533052,
+          "score": 0.4085545281533052,
+          "smoothness": 2.7200770203830262
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.3350694444444444,
+          "manifold": "sphere2",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.37848820405330885,
+          "score": 0.37848823155330885,
+          "smoothness": 2.7200770203830262
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.3350694444444444,
+          "manifold": "sphere2",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.40761002141835595,
+          "score": 0.40761004891835595,
+          "smoothness": 2.7200770203830262
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.3350694444444444,
+          "manifold": "sphere2",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.38686624136021186,
+          "score": 0.38686626886021186,
+          "smoothness": 2.7200770203830262
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.3350694444444444,
+          "manifold": "sphere2",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.37557134424463795,
+          "score": 0.37557137174463795,
+          "smoothness": 2.7200770203830262
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.3350694444444444,
+          "manifold": "sphere2",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.4381479985485116,
+          "score": 0.4381480260485116,
+          "smoothness": 2.7200770203830262
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.3350694444444444,
+          "manifold": "sphere2",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.369726174499394,
+          "score": 0.369726201999394,
+          "smoothness": 2.7200770203830262
+        }
+      ]
+    },
+    {
+      "ambient_dim": 6,
+      "complexity_penalty": 4.5e-08,
+      "k": 8,
+      "latent_shape": [
+        9999,
+        6
+      ],
+      "latent_utilization": 0.17341734173417342,
+      "manifold": "torus3",
+      "manifold_dim": 3,
+      "mask_ratio": 0.25,
+      "n_masks": 10,
+      "n_points": 9999,
+      "rank": 13,
+      "reconstruction_error": 0.4313353143878335,
+      "reconstruction_error_ci95": 0.011836229262733413,
+      "reconstruction_error_mean": 0.4081020076009003,
+      "reconstruction_error_std": 0.019096654784782206,
+      "score": 0.4313353593878335,
+      "score_mean": 0.4081020526009003,
+      "score_std": 0.019096654784782206,
+      "smoothness": 2.8771020981422484,
+      "validation_runs": [
+        {
+          "ambient_dim": 6,
+          "complexity_penalty": 4.5e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            6
+          ],
+          "latent_utilization": 0.17341734173417342,
+          "manifold": "torus3",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.4313353143878335,
+          "score": 0.4313353593878335,
+          "smoothness": 2.8771020981422484
+        },
+        {
+          "ambient_dim": 6,
+          "complexity_penalty": 4.5e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            6
+          ],
+          "latent_utilization": 0.17341734173417342,
+          "manifold": "torus3",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.3922032480865755,
+          "score": 0.3922032930865755,
+          "smoothness": 2.8771020981422484
+        },
+        {
+          "ambient_dim": 6,
+          "complexity_penalty": 4.5e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            6
+          ],
+          "latent_utilization": 0.17341734173417342,
+          "manifold": "torus3",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.406168745074763,
+          "score": 0.40616879007476303,
+          "smoothness": 2.8771020981422484
+        },
+        {
+          "ambient_dim": 6,
+          "complexity_penalty": 4.5e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            6
+          ],
+          "latent_utilization": 0.17341734173417342,
+          "manifold": "torus3",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.43673182542848965,
+          "score": 0.43673187042848965,
+          "smoothness": 2.8771020981422484
+        },
+        {
+          "ambient_dim": 6,
+          "complexity_penalty": 4.5e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            6
+          ],
+          "latent_utilization": 0.17341734173417342,
+          "manifold": "torus3",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.4165337508622839,
+          "score": 0.4165337958622839,
+          "smoothness": 2.8771020981422484
+        },
+        {
+          "ambient_dim": 6,
+          "complexity_penalty": 4.5e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            6
+          ],
+          "latent_utilization": 0.17341734173417342,
+          "manifold": "torus3",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.3881796030962721,
+          "score": 0.3881796480962721,
+          "smoothness": 2.8771020981422484
+        },
+        {
+          "ambient_dim": 6,
+          "complexity_penalty": 4.5e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            6
+          ],
+          "latent_utilization": 0.17341734173417342,
+          "manifold": "torus3",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.39604950867221705,
+          "score": 0.39604955367221706,
+          "smoothness": 2.8771020981422484
+        },
+        {
+          "ambient_dim": 6,
+          "complexity_penalty": 4.5e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            6
+          ],
+          "latent_utilization": 0.17341734173417342,
+          "manifold": "torus3",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.37479464302433063,
+          "score": 0.37479468802433064,
+          "smoothness": 2.8771020981422484
+        },
+        {
+          "ambient_dim": 6,
+          "complexity_penalty": 4.5e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            6
+          ],
+          "latent_utilization": 0.17341734173417342,
+          "manifold": "torus3",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.42440346649352967,
+          "score": 0.4244035114935297,
+          "smoothness": 2.8771020981422484
+        },
+        {
+          "ambient_dim": 6,
+          "complexity_penalty": 4.5e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            6
+          ],
+          "latent_utilization": 0.17341734173417342,
+          "manifold": "torus3",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.4146199708827084,
+          "score": 0.4146200158827084,
+          "smoothness": 2.8771020981422484
+        }
+      ]
+    },
+    {
+      "ambient_dim": 5,
+      "complexity_penalty": 4.2500000000000003e-08,
+      "k": 8,
+      "latent_shape": [
+        9999,
+        5
+      ],
+      "latent_utilization": 0.17341734173417342,
+      "manifold": "t2_r",
+      "manifold_dim": 3,
+      "mask_ratio": 0.25,
+      "n_masks": 10,
+      "n_points": 9999,
+      "rank": 14,
+      "reconstruction_error": 0.3954766231327006,
+      "reconstruction_error_ci95": 0.014151599934362892,
+      "reconstruction_error_mean": 0.4208493390407293,
+      "reconstruction_error_std": 0.022832289963304123,
+      "score": 0.3954766656327006,
+      "score_mean": 0.4208493815407294,
+      "score_std": 0.02283228996330412,
+      "smoothness": 2.8771020981422484,
+      "validation_runs": [
+        {
+          "ambient_dim": 5,
+          "complexity_penalty": 4.2500000000000003e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            5
+          ],
+          "latent_utilization": 0.17341734173417342,
+          "manifold": "t2_r",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.3954766231327006,
+          "score": 0.3954766656327006,
+          "smoothness": 2.8771020981422484
+        },
+        {
+          "ambient_dim": 5,
+          "complexity_penalty": 4.2500000000000003e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            5
+          ],
+          "latent_utilization": 0.17341734173417342,
+          "manifold": "t2_r",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.4257432964025425,
+          "score": 0.4257433389025425,
+          "smoothness": 2.8771020981422484
+        },
+        {
+          "ambient_dim": 5,
+          "complexity_penalty": 4.2500000000000003e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            5
+          ],
+          "latent_utilization": 0.17341734173417342,
+          "manifold": "t2_r",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.4123741364104944,
+          "score": 0.41237417891049444,
+          "smoothness": 2.8771020981422484
+        },
+        {
+          "ambient_dim": 5,
+          "complexity_penalty": 4.2500000000000003e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            5
+          ],
+          "latent_utilization": 0.17341734173417342,
+          "manifold": "t2_r",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.4016892321073714,
+          "score": 0.4016892746073714,
+          "smoothness": 2.8771020981422484
+        },
+        {
+          "ambient_dim": 5,
+          "complexity_penalty": 4.2500000000000003e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            5
+          ],
+          "latent_utilization": 0.17341734173417342,
+          "manifold": "t2_r",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.42836434851186656,
+          "score": 0.4283643910118666,
+          "smoothness": 2.8771020981422484
+        },
+        {
+          "ambient_dim": 5,
+          "complexity_penalty": 4.2500000000000003e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            5
+          ],
+          "latent_utilization": 0.17341734173417342,
+          "manifold": "t2_r",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.4043329246561879,
+          "score": 0.40433296715618794,
+          "smoothness": 2.8771020981422484
+        },
+        {
+          "ambient_dim": 5,
+          "complexity_penalty": 4.2500000000000003e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            5
+          ],
+          "latent_utilization": 0.17341734173417342,
+          "manifold": "t2_r",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.4607993039502252,
+          "score": 0.46079934645022524,
+          "smoothness": 2.8771020981422484
+        },
+        {
+          "ambient_dim": 5,
+          "complexity_penalty": 4.2500000000000003e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            5
+          ],
+          "latent_utilization": 0.17341734173417342,
+          "manifold": "t2_r",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.40221793377441734,
+          "score": 0.40221797627441735,
+          "smoothness": 2.8771020981422484
+        },
+        {
+          "ambient_dim": 5,
+          "complexity_penalty": 4.2500000000000003e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            5
+          ],
+          "latent_utilization": 0.17341734173417342,
+          "manifold": "t2_r",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.4143207145763709,
+          "score": 0.4143207570763709,
+          "smoothness": 2.8771020981422484
+        },
+        {
+          "ambient_dim": 5,
+          "complexity_penalty": 4.2500000000000003e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            5
+          ],
+          "latent_utilization": 0.17341734173417342,
+          "manifold": "t2_r",
+          "manifold_dim": 3,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.4631748768851165,
+          "score": 0.4631749193851165,
+          "smoothness": 2.8771020981422484
+        }
+      ]
+    },
+    {
+      "ambient_dim": 3,
+      "complexity_penalty": 2.75e-08,
+      "k": 8,
+      "latent_shape": [
+        9999,
+        3
+      ],
+      "latent_utilization": 0.21180555555555555,
+      "manifold": "mobius",
+      "manifold_dim": 2,
+      "mask_ratio": 0.25,
+      "n_masks": 10,
+      "n_points": 9999,
+      "rank": 15,
+      "reconstruction_error": 0.47119379576781983,
+      "reconstruction_error_ci95": 0.007544886957033548,
+      "reconstruction_error_mean": 0.45364059113378125,
+      "reconstruction_error_std": 0.012172973200368864,
+      "score": 0.47119382326781983,
+      "score_mean": 0.4536406186337813,
+      "score_std": 0.012172973200368862,
+      "smoothness": 2.9870784485066424,
+      "validation_runs": [
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.21180555555555555,
+          "manifold": "mobius",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.47119379576781983,
+          "score": 0.47119382326781983,
+          "smoothness": 2.9870784485066424
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.21180555555555555,
+          "manifold": "mobius",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.4490282262722092,
+          "score": 0.4490282537722092,
+          "smoothness": 2.9870784485066424
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.21180555555555555,
+          "manifold": "mobius",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.4559476957065338,
+          "score": 0.4559477232065338,
+          "smoothness": 2.9870784485066424
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.21180555555555555,
+          "manifold": "mobius",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.4481155005424876,
+          "score": 0.4481155280424876,
+          "smoothness": 2.9870784485066424
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.21180555555555555,
+          "manifold": "mobius",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.45970608955886944,
+          "score": 0.45970611705886943,
+          "smoothness": 2.9870784485066424
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.21180555555555555,
+          "manifold": "mobius",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.4476597408956221,
+          "score": 0.4476597683956221,
+          "smoothness": 2.9870784485066424
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.21180555555555555,
+          "manifold": "mobius",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.4349296693357171,
+          "score": 0.4349296968357171,
+          "smoothness": 2.9870784485066424
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.21180555555555555,
+          "manifold": "mobius",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.4419538699825964,
+          "score": 0.4419538974825964,
+          "smoothness": 2.9870784485066424
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.21180555555555555,
+          "manifold": "mobius",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.47707641248009225,
+          "score": 0.47707643998009225,
+          "smoothness": 2.9870784485066424
+        },
+        {
+          "ambient_dim": 3,
+          "complexity_penalty": 2.75e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            3
+          ],
+          "latent_utilization": 0.21180555555555555,
+          "manifold": "mobius",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.4507949107958649,
+          "score": 0.4507949382958649,
+          "smoothness": 2.9870784485066424
+        }
+      ]
+    },
+    {
+      "ambient_dim": 2,
+      "complexity_penalty": 2.5e-08,
+      "k": 8,
+      "latent_shape": [
+        9999,
+        2
+      ],
+      "latent_utilization": 0.9166666666666666,
+      "manifold": "hyperbolic",
+      "manifold_dim": 2,
+      "mask_ratio": 0.25,
+      "n_masks": 10,
+      "n_points": 9999,
+      "rank": 16,
+      "reconstruction_error": 0.5349651642952432,
+      "reconstruction_error_ci95": 0.01270123732549908,
+      "reconstruction_error_mean": 0.5568073419054368,
+      "reconstruction_error_std": 0.020492264821899243,
+      "score": 0.5349651892952432,
+      "score_mean": 0.5568073669054369,
+      "score_std": 0.020492264821899243,
+      "smoothness": 3.4434602316596967,
+      "validation_runs": [
+        {
+          "ambient_dim": 2,
+          "complexity_penalty": 2.5e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            2
+          ],
+          "latent_utilization": 0.9166666666666666,
+          "manifold": "hyperbolic",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.5349651642952432,
+          "score": 0.5349651892952432,
+          "smoothness": 3.4434602316596967
+        },
+        {
+          "ambient_dim": 2,
+          "complexity_penalty": 2.5e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            2
+          ],
+          "latent_utilization": 0.9166666666666666,
+          "manifold": "hyperbolic",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.5533142431993611,
+          "score": 0.553314268199361,
+          "smoothness": 3.4434602316596967
+        },
+        {
+          "ambient_dim": 2,
+          "complexity_penalty": 2.5e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            2
+          ],
+          "latent_utilization": 0.9166666666666666,
+          "manifold": "hyperbolic",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.5246942821243271,
+          "score": 0.5246943071243271,
+          "smoothness": 3.4434602316596967
+        },
+        {
+          "ambient_dim": 2,
+          "complexity_penalty": 2.5e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            2
+          ],
+          "latent_utilization": 0.9166666666666666,
+          "manifold": "hyperbolic",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.5654524022677625,
+          "score": 0.5654524272677625,
+          "smoothness": 3.4434602316596967
+        },
+        {
+          "ambient_dim": 2,
+          "complexity_penalty": 2.5e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            2
+          ],
+          "latent_utilization": 0.9166666666666666,
+          "manifold": "hyperbolic",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.5799343589431255,
+          "score": 0.5799343839431255,
+          "smoothness": 3.4434602316596967
+        },
+        {
+          "ambient_dim": 2,
+          "complexity_penalty": 2.5e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            2
+          ],
+          "latent_utilization": 0.9166666666666666,
+          "manifold": "hyperbolic",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.5508047977728661,
+          "score": 0.550804822772866,
+          "smoothness": 3.4434602316596967
+        },
+        {
+          "ambient_dim": 2,
+          "complexity_penalty": 2.5e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            2
+          ],
+          "latent_utilization": 0.9166666666666666,
+          "manifold": "hyperbolic",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.564827461072082,
+          "score": 0.564827486072082,
+          "smoothness": 3.4434602316596967
+        },
+        {
+          "ambient_dim": 2,
+          "complexity_penalty": 2.5e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            2
+          ],
+          "latent_utilization": 0.9166666666666666,
+          "manifold": "hyperbolic",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.5887882249348929,
+          "score": 0.5887882499348929,
+          "smoothness": 3.4434602316596967
+        },
+        {
+          "ambient_dim": 2,
+          "complexity_penalty": 2.5e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            2
+          ],
+          "latent_utilization": 0.9166666666666666,
+          "manifold": "hyperbolic",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.5312986089606968,
+          "score": 0.5312986339606968,
+          "smoothness": 3.4434602316596967
+        },
+        {
+          "ambient_dim": 2,
+          "complexity_penalty": 2.5e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            2
+          ],
+          "latent_utilization": 0.9166666666666666,
+          "manifold": "hyperbolic",
+          "manifold_dim": 2,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.5739938754840114,
+          "score": 0.5739939004840113,
+          "smoothness": 3.4434602316596967
+        }
+      ]
+    },
+    {
+      "ambient_dim": 2,
+      "complexity_penalty": 1.5000000000000002e-08,
+      "k": 8,
+      "latent_shape": [
+        9999,
+        2
+      ],
+      "latent_utilization": 0.3055555555555556,
+      "manifold": "circle",
+      "manifold_dim": 1,
+      "mask_ratio": 0.25,
+      "n_masks": 10,
+      "n_points": 9999,
+      "rank": 17,
+      "reconstruction_error": 0.7358089106722042,
+      "reconstruction_error_ci95": 0.019015013060875826,
+      "reconstruction_error_mean": 0.7087011258547682,
+      "reconstruction_error_std": 0.030678954597049786,
+      "score": 0.7358089256722042,
+      "score_mean": 0.7087011408547682,
+      "score_std": 0.030678954597049786,
+      "smoothness": 4.247030267577647,
+      "validation_runs": [
+        {
+          "ambient_dim": 2,
+          "complexity_penalty": 1.5000000000000002e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            2
+          ],
+          "latent_utilization": 0.3055555555555556,
+          "manifold": "circle",
+          "manifold_dim": 1,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.7358089106722042,
+          "score": 0.7358089256722042,
+          "smoothness": 4.247030267577647
+        },
+        {
+          "ambient_dim": 2,
+          "complexity_penalty": 1.5000000000000002e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            2
+          ],
+          "latent_utilization": 0.3055555555555556,
+          "manifold": "circle",
+          "manifold_dim": 1,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.6528008578576311,
+          "score": 0.6528008728576311,
+          "smoothness": 4.247030267577647
+        },
+        {
+          "ambient_dim": 2,
+          "complexity_penalty": 1.5000000000000002e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            2
+          ],
+          "latent_utilization": 0.3055555555555556,
+          "manifold": "circle",
+          "manifold_dim": 1,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.7328355062299697,
+          "score": 0.7328355212299698,
+          "smoothness": 4.247030267577647
+        },
+        {
+          "ambient_dim": 2,
+          "complexity_penalty": 1.5000000000000002e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            2
+          ],
+          "latent_utilization": 0.3055555555555556,
+          "manifold": "circle",
+          "manifold_dim": 1,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.7177297866322044,
+          "score": 0.7177298016322045,
+          "smoothness": 4.247030267577647
+        },
+        {
+          "ambient_dim": 2,
+          "complexity_penalty": 1.5000000000000002e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            2
+          ],
+          "latent_utilization": 0.3055555555555556,
+          "manifold": "circle",
+          "manifold_dim": 1,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.7428596540225282,
+          "score": 0.7428596690225282,
+          "smoothness": 4.247030267577647
+        },
+        {
+          "ambient_dim": 2,
+          "complexity_penalty": 1.5000000000000002e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            2
+          ],
+          "latent_utilization": 0.3055555555555556,
+          "manifold": "circle",
+          "manifold_dim": 1,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.7086634682991947,
+          "score": 0.7086634832991947,
+          "smoothness": 4.247030267577647
+        },
+        {
+          "ambient_dim": 2,
+          "complexity_penalty": 1.5000000000000002e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            2
+          ],
+          "latent_utilization": 0.3055555555555556,
+          "manifold": "circle",
+          "manifold_dim": 1,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.7346471249693595,
+          "score": 0.7346471399693595,
+          "smoothness": 4.247030267577647
+        },
+        {
+          "ambient_dim": 2,
+          "complexity_penalty": 1.5000000000000002e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            2
+          ],
+          "latent_utilization": 0.3055555555555556,
+          "manifold": "circle",
+          "manifold_dim": 1,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.6578047996238201,
+          "score": 0.6578048146238201,
+          "smoothness": 4.247030267577647
+        },
+        {
+          "ambient_dim": 2,
+          "complexity_penalty": 1.5000000000000002e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            2
+          ],
+          "latent_utilization": 0.3055555555555556,
+          "manifold": "circle",
+          "manifold_dim": 1,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.7154621583103709,
+          "score": 0.7154621733103709,
+          "smoothness": 4.247030267577647
+        },
+        {
+          "ambient_dim": 2,
+          "complexity_penalty": 1.5000000000000002e-08,
+          "k": 8,
+          "latent_shape": [
+            9999,
+            2
+          ],
+          "latent_utilization": 0.3055555555555556,
+          "manifold": "circle",
+          "manifold_dim": 1,
+          "mask_ratio": 0.25,
+          "n_points": 9999,
+          "reconstruction_error": 0.6883989919303994,
+          "score": 0.6883990069303995,
+          "smoothness": 4.247030267577647
+        }
+      ]
+    }
+  ],
+  "feature_mode": "compact",
+  "figures": {
+    "autocorrelation": "reports\\survey_1h_mid\\figures\\autocorrelation.png",
+    "fft_spectrum": "reports\\survey_1h_mid\\figures\\fft_spectrum.png",
+    "latent_projection_cone": "reports\\survey_1h_mid\\figures\\latent_projection_cone.png",
+    "latent_projection_klein_bottle": "reports\\survey_1h_mid\\figures\\latent_projection_klein_bottle.png",
+    "latent_projection_plane3d": "reports\\survey_1h_mid\\figures\\latent_projection_plane3d.png",
+    "latent_projection_plane4d": "reports\\survey_1h_mid\\figures\\latent_projection_plane4d.png",
+    "manifold_ranking": "reports\\survey_1h_mid\\figures\\manifold_ranking.png",
+    "recurrence_plot": "reports\\survey_1h_mid\\figures\\recurrence_plot.png",
+    "time_series_overview": "reports\\survey_1h_mid\\figures\\time_series_overview.png"
+  },
+  "schema_version": "eso.report.v1",
+  "suggested_manifolds": [
+    "h2_r",
+    "hyperbolic",
+    "s1_r2",
+    "s2_r",
+    "t2_r",
+    "cylinder",
+    "s2_s1",
+    "sphere2",
+    "sphere3",
+    "cone",
+    "mobius",
+    "plane3d",
+    "plane4d",
+    "circle",
+    "torus2",
+    "torus3",
+    "klein_bottle"
+  ]
+}

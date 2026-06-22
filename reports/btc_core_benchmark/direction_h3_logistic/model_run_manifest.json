@@ -1,0 +1,60 @@
+{
+  "baselines": {
+    "majority_class_accuracy": 0.5090171468416215
+  },
+  "benchmark_suite": "btc_core",
+  "causal_guardrails": [
+    "Temporal split only; shuffle=False.",
+    "Target is indexed at decision time t and may use future prices only as label.",
+    "Feature builders must use only information available at t."
+  ],
+  "dataset_id": "BTCUSDT_1h",
+  "feature_frame": {
+    "columns": [
+      "timestamp",
+      "log_return",
+      "vol_20",
+      "vwap_dev",
+      "volume_imbalance",
+      "close"
+    ],
+    "rows": 46569,
+    "sha256": "4ba71047850ef393aef8c2c50bc92040e0041c1b3e30c242265422f8663370be"
+  },
+  "feature_importances": {
+    "log_return": -0.0224,
+    "vol_20": 0.0599,
+    "volume_imbalance": -0.075,
+    "vwap_dev": -0.0012
+  },
+  "features": [
+    "vol_20",
+    "log_return",
+    "volume_imbalance",
+    "vwap_dev"
+  ],
+  "metrics": {
+    "accuracy": 0.5228043485151025,
+    "accuracy_vs_baseline": 0.01378720167348102,
+    "baseline_accuracy": 0.5090171468416215,
+    "precision_down": 0.511469704160734,
+    "precision_up": 0.5398792500794407,
+    "recall_down": 0.6261054806016396,
+    "recall_up": 0.4231631382316314
+  },
+  "model_type": "logistic",
+  "primary_metric": "accuracy_vs_baseline",
+  "run_name": "direction_h3_logistic",
+  "schema_version": "eso.model_run.v1",
+  "split": {
+    "shuffle": false,
+    "test_size": 31551,
+    "train_size": 15000
+  },
+  "target": {
+    "horizon": 3,
+    "name": "future_direction_3",
+    "type": "classification"
+  },
+  "task": "direction"
+}

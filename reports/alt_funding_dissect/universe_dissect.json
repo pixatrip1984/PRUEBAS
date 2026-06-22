@@ -1,0 +1,138 @@
+{
+  "asset_count": 10,
+  "assets": [
+    {
+      "artifacts": {
+        "asset_dissect_json": "reports\\alt_funding_dissect\\DRIFTUSDT_4h\\asset_dissect.json",
+        "correlations_csv": "reports\\alt_funding_dissect\\DRIFTUSDT_4h\\feature_target_correlations.csv",
+        "phase_sectors_csv": "reports\\alt_funding_dissect\\DRIFTUSDT_4h\\phase_sectors.csv",
+        "quantiles_csv": "reports\\alt_funding_dissect\\DRIFTUSDT_4h\\quantile_regimes.csv",
+        "targets_csv": "reports\\alt_funding_dissect\\DRIFTUSDT_4h\\targets.csv"
+      },
+      "asset_id": "DRIFTUSDT_4h",
+      "path": "data/DRIFTUSDT_4h.csv",
+      "rows": 2999
+    },
+    {
+      "artifacts": {
+        "asset_dissect_json": "reports\\alt_funding_dissect\\GRASSUSDT_4h\\asset_dissect.json",
+        "correlations_csv": "reports\\alt_funding_dissect\\GRASSUSDT_4h\\feature_target_correlations.csv",
+        "phase_sectors_csv": "reports\\alt_funding_dissect\\GRASSUSDT_4h\\phase_sectors.csv",
+        "quantiles_csv": "reports\\alt_funding_dissect\\GRASSUSDT_4h\\quantile_regimes.csv",
+        "targets_csv": "reports\\alt_funding_dissect\\GRASSUSDT_4h\\targets.csv"
+      },
+      "asset_id": "GRASSUSDT_4h",
+      "path": "data/GRASSUSDT_4h.csv",
+      "rows": 2999
+    },
+    {
+      "artifacts": {
+        "asset_dissect_json": "reports\\alt_funding_dissect\\SIGNUSDT_4h\\asset_dissect.json",
+        "correlations_csv": "reports\\alt_funding_dissect\\SIGNUSDT_4h\\feature_target_correlations.csv",
+        "phase_sectors_csv": "reports\\alt_funding_dissect\\SIGNUSDT_4h\\phase_sectors.csv",
+        "quantiles_csv": "reports\\alt_funding_dissect\\SIGNUSDT_4h\\quantile_regimes.csv",
+        "targets_csv": "reports\\alt_funding_dissect\\SIGNUSDT_4h\\targets.csv"
+      },
+      "asset_id": "SIGNUSDT_4h",
+      "path": "data/SIGNUSDT_4h.csv",
+      "rows": 2292
+    },
+    {
+      "artifacts": {
+        "asset_dissect_json": "reports\\alt_funding_dissect\\NILUSDT_4h\\asset_dissect.json",
+        "correlations_csv": "reports\\alt_funding_dissect\\NILUSDT_4h\\feature_target_correlations.csv",
+        "phase_sectors_csv": "reports\\alt_funding_dissect\\NILUSDT_4h\\phase_sectors.csv",
+        "quantiles_csv": "reports\\alt_funding_dissect\\NILUSDT_4h\\quantile_regimes.csv",
+        "targets_csv": "reports\\alt_funding_dissect\\NILUSDT_4h\\targets.csv"
+      },
+      "asset_id": "NILUSDT_4h",
+      "path": "data/NILUSDT_4h.csv",
+      "rows": 2525
+    },
+    {
+      "artifacts": {
+        "asset_dissect_json": "reports\\alt_funding_dissect\\VVVUSDT_4h\\asset_dissect.json",
+        "correlations_csv": "reports\\alt_funding_dissect\\VVVUSDT_4h\\feature_target_correlations.csv",
+        "phase_sectors_csv": "reports\\alt_funding_dissect\\VVVUSDT_4h\\phase_sectors.csv",
+        "quantiles_csv": "reports\\alt_funding_dissect\\VVVUSDT_4h\\quantile_regimes.csv",
+        "targets_csv": "reports\\alt_funding_dissect\\VVVUSDT_4h\\targets.csv"
+      },
+      "asset_id": "VVVUSDT_4h",
+      "path": "data/VVVUSDT_4h.csv",
+      "rows": 2833
+    },
+    {
+      "artifacts": {
+        "asset_dissect_json": "reports\\alt_funding_dissect\\STGUSDT_4h\\asset_dissect.json",
+        "correlations_csv": "reports\\alt_funding_dissect\\STGUSDT_4h\\feature_target_correlations.csv",
+        "phase_sectors_csv": "reports\\alt_funding_dissect\\STGUSDT_4h\\phase_sectors.csv",
+        "quantiles_csv": "reports\\alt_funding_dissect\\STGUSDT_4h\\quantile_regimes.csv",
+        "targets_csv": "reports\\alt_funding_dissect\\STGUSDT_4h\\targets.csv"
+      },
+      "asset_id": "STGUSDT_4h",
+      "path": "data/STGUSDT_4h.csv",
+      "rows": 2999
+    },
+    {
+      "artifacts": {
+        "asset_dissect_json": "reports\\alt_funding_dissect\\GNOUSDT_4h\\asset_dissect.json",
+        "correlations_csv": "reports\\alt_funding_dissect\\GNOUSDT_4h\\feature_target_correlations.csv",
+        "phase_sectors_csv": "reports\\alt_funding_dissect\\GNOUSDT_4h\\phase_sectors.csv",
+        "quantiles_csv": "reports\\alt_funding_dissect\\GNOUSDT_4h\\quantile_regimes.csv",
+        "targets_csv": "reports\\alt_funding_dissect\\GNOUSDT_4h\\targets.csv"
+      },
+      "asset_id": "GNOUSDT_4h",
+      "path": "data/GNOUSDT_4h.csv",
+      "rows": 2999
+    },
+    {
+      "artifacts": {
+        "asset_dissect_json": "reports\\alt_funding_dissect\\ENSUSDT_4h\\asset_dissect.json",
+        "correlations_csv": "reports\\alt_funding_dissect\\ENSUSDT_4h\\feature_target_correlations.csv",
+        "phase_sectors_csv": "reports\\alt_funding_dissect\\ENSUSDT_4h\\phase_sectors.csv",
+        "quantiles_csv": "reports\\alt_funding_dissect\\ENSUSDT_4h\\quantile_regimes.csv",
+        "targets_csv": "reports\\alt_funding_dissect\\ENSUSDT_4h\\targets.csv"
+      },
+      "asset_id": "ENSUSDT_4h",
+      "path": "data/ENSUSDT_4h.csv",
+      "rows": 2999
+    },
+    {
+      "artifacts": {
+        "asset_dissect_json": "reports\\alt_funding_dissect\\POPCATUSDT_4h\\asset_dissect.json",
+        "correlations_csv": "reports\\alt_funding_dissect\\POPCATUSDT_4h\\feature_target_correlations.csv",
+        "phase_sectors_csv": "reports\\alt_funding_dissect\\POPCATUSDT_4h\\phase_sectors.csv",
+        "quantiles_csv": "reports\\alt_funding_dissect\\POPCATUSDT_4h\\quantile_regimes.csv",
+        "targets_csv": "reports\\alt_funding_dissect\\POPCATUSDT_4h\\targets.csv"
+      },
+      "asset_id": "POPCATUSDT_4h",
+      "path": "data/POPCATUSDT_4h.csv",
+      "rows": 2999
+    },
+    {
+      "artifacts": {
+        "asset_dissect_json": "reports\\alt_funding_dissect\\MORPHOUSDT_4h\\asset_dissect.json",
+        "correlations_csv": "reports\\alt_funding_dissect\\MORPHOUSDT_4h\\feature_target_correlations.csv",
+        "phase_sectors_csv": "reports\\alt_funding_dissect\\MORPHOUSDT_4h\\phase_sectors.csv",
+        "quantiles_csv": "reports\\alt_funding_dissect\\MORPHOUSDT_4h\\quantile_regimes.csv",
+        "targets_csv": "reports\\alt_funding_dissect\\MORPHOUSDT_4h\\targets.csv"
+      },
+      "asset_id": "MORPHOUSDT_4h",
+      "path": "data/MORPHOUSDT_4h.csv",
+      "rows": 2999
+    }
+  ],
+  "error_count": 0,
+  "errors": [],
+  "guardrails": [
+    "Each asset uses the same dissection engine as single-asset dissect.",
+    "Aggregate correlations are exploratory and must be validated by model_eval/benchmark before strategy use."
+  ],
+  "name": "bybit_alt_funding",
+  "output_dir": "reports\\alt_funding_dissect",
+  "schema_version": "eso.universe_dissect.v1",
+  "tables": {
+    "asset_leaders_csv": "reports\\alt_funding_dissect\\asset_leaders.csv",
+    "asset_summary_csv": "reports\\alt_funding_dissect\\asset_summary.csv"
+  }
+}

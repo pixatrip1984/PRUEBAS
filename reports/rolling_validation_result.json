@@ -1,0 +1,8 @@
+{
+  "rolling_ring_cv": 0.5404857865639067,
+  "best_r": -0.021771553288168714,
+  "best_smooth_h": 168,
+  "best_horizon_h": 168,
+  "split_r_reference": 0.3196,
+  "signal_holds": false
+}

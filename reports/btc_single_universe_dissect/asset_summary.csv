@@ -1,0 +1,3 @@
+asset_id,horizon,rows,train_size,test_size,direction_baseline_accuracy,test_direction_baseline_accuracy,future_rv_median,top_rv_feature,top_rv_corr_test,top_lr_feature,top_lr_corr_test,top_direction_feature,top_direction_corr_test
+BTCUSDT_1h,3,19486,15000,4486,0.5112685456132245,0.5112685456132245,0.0029714819315713042,vol_20,0.3017312336103,sin_theta_24h,0.03181092643130835,cos_theta_6h,0.04528791483919343
+BTCUSDT_1h,12,19486,15000,4486,0.5187942898223272,0.5187942898223272,0.003884266768315865,vol_20,0.3820330545883355,sin_theta_24h,0.04417886223457366,sin_theta_72h,-0.034151504384865555
