@@ -457,15 +457,35 @@ d_vol20 vs phase: phase_24h (MAE=0.001691) SUPERA a d_vol20 (0.001699) en MAE co
 partial_r(sin_theta_24h | vol_20, d_vol20) = -0.059 (reducido pero positivo).
 VEREDICTO: refutacion rechazada. Phase encapsula mas que momentum de volatilidad.
 
-### Prioridad media: volatility regime classifier
+### COMPLETADO: vol regime classifier (feat/vol-regime-v1, 2026-05-12)
+Best: RF [phase_24h + ring_r + vol_20] = 62.4% accuracy (baseline 55.3%), +7.1pp.
+Reg->Binary: 63.3% (mejor). Stability: mejora 58.9%->63.8%. Ver reports/vol_regime_v1/.
 
-**Hipotesis:** Clasificar high_vol / low_vol usando sin/cos_theta_24h + ring_radius alcanza
->58% accuracy OOS en predecir si rv_12h > mediana.
+### COMPLETADO: conditional direction (exp/conditional-direction, 2026-05-12)
+SEGUNDO LOOKAHEAD DETECTADO: r=-0.133 en low-vol usaba vol FUTURA como filtro.
+r causal real (usando vol_20 actual) = +0.032 en Q25. Senal condicional DEBIL.
+Accuracy 56-59% en bajo vol = parcialmente sesgo de direccion, no senal pura.
 
-**Rama:** `feat/vol-regime-v1`
+### Estado del instrumento — resumen actualizado al 2026-05-12
+
+| Senal | Tipo | Target | r_OOS/accuracy | Estado |
+|---|---|---|---|---|
+| ring_cv < 0.30 | Diagnostico | — | estructura real | CONFIRMADO |
+| fase->direccion | Prediccion | sign(lr_12h) | r=-0.031 | FAIL |
+| ring_radius->vol | Prediccion | rv_12h | r=-0.275 | CONFIRMADO |
+| fase->vol | Prediccion | rv_12h | r=+0.398, MAE-12.9% | CONFIRMADO |
+| vol_regime | Clasificacion | high/low vol | 62-63% accuracy | CONFIRMADO |
+| dir condicional | Prediccion | sign(lr_12h) en bajo vol | ~59% acc (inestable) | DEBIL |
+
+### Proxima prioridad: consolidar el pipeline de produccion
+
+Tenemos senales de volatilidad confirmadas. El siguiente paso natural:
+1. Construir `VolatilityPipeline` que integre `build_feature_vector` + `VolatilityModel`
+   con interfaz simple para produccion
+2. Conectar ESO topology (manifold regime) a los modelos de senales
+
+**Rama:** `feat/volatility-pipeline`
 
 ### Prioridad media: s1_r2-UMAP + feature theta explicita
-
-**Hipotesis:** Anadir sin/cos_theta como features extra al espacio compacto mejora s1_r2.
 
 **Rama:** `exp/s1r2-with-explicit-cycle`

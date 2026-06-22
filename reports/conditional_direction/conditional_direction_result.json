@@ -1,0 +1,121 @@
+{
+  "experiment": "08_conditional_direction",
+  "data": "data\\BTCUSDT_1h.csv",
+  "umap_train_size": 27000,
+  "ml_train_size": 15000,
+  "horizon_bars": 12,
+  "correlation_profile": {
+    "Q10": {
+      "threshold": 0.002039718992620637,
+      "r": 0.017660142964462274,
+      "n": 1948
+    },
+    "Q15": {
+      "threshold": 0.0023910762810884956,
+      "r": 0.005122036667230672,
+      "n": 2921
+    },
+    "Q20": {
+      "threshold": 0.002674737311197827,
+      "r": 0.016568347610543654,
+      "n": 3895
+    },
+    "Q25": {
+      "threshold": 0.0029466860875464285,
+      "r": 0.03234472448030826,
+      "n": 4869
+    },
+    "Q33": {
+      "threshold": 0.0033311951198033755,
+      "r": 0.03069024417291796,
+      "n": 6427
+    },
+    "Q50": {
+      "threshold": 0.004161714821908786,
+      "r": 0.009488525380999542,
+      "n": 9737
+    },
+    "Q75": {
+      "threshold": 0.005654893353311248,
+      "r": 0.0024892477817582462,
+      "n": 14605
+    },
+    "Q100": {
+      "threshold": 0.022146992946561323,
+      "r": -0.04104950313569127,
+      "n": 19473
+    }
+  },
+  "models": {
+    "vol < Q10 (very low vol)": {
+      "vol_percentile": 10,
+      "vol_threshold": 0.0020237831677222765,
+      "n_test_total": 4474,
+      "n_test_lv": 383,
+      "coverage": 0.08560572194903888,
+      "accuracy": 0.5744125326370757,
+      "baseline": 0.577023498694517,
+      "vs_baseline": -0.0026109660574412663,
+      "pass": true,
+      "verdict": "PASS"
+    },
+    "vol < Q20": {
+      "vol_percentile": 20,
+      "vol_threshold": 0.002642200925766199,
+      "n_test_total": 4474,
+      "n_test_lv": 765,
+      "coverage": 0.1709879302637461,
+      "accuracy": 0.592156862745098,
+      "baseline": 0.5464052287581699,
+      "vs_baseline": 0.045751633986928164,
+      "pass": true,
+      "verdict": "PASS"
+    },
+    "vol < Q25": {
+      "vol_percentile": 25,
+      "vol_threshold": 0.002891474539306755,
+      "n_test_total": 4474,
+      "n_test_lv": 905,
+      "coverage": 0.2022798390701833,
+      "accuracy": 0.5602209944751381,
+      "baseline": 0.5370165745856353,
+      "vs_baseline": 0.023204419889502725,
+      "pass": true,
+      "verdict": "PASS"
+    },
+    "vol < Q33": {
+      "vol_percentile": 33,
+      "vol_threshold": 0.0032557846741387403,
+      "n_test_total": 4474,
+      "n_test_lv": 1149,
+      "coverage": 0.25681716584711667,
+      "accuracy": 0.5422106179286336,
+      "baseline": 0.5300261096605744,
+      "vs_baseline": 0.012184508268059169,
+      "pass": false,
+      "verdict": "MARGINAL"
+    },
+    "vol < Q50 (half data)": {
+      "vol_percentile": 50,
+      "vol_threshold": 0.00407514641625612,
+      "n_test_total": 4474,
+      "n_test_lv": 1907,
+      "coverage": 0.4262405006705409,
+      "accuracy": 0.5217619297325642,
+      "baseline": 0.5007865757734662,
+      "vs_baseline": 0.020975353959097998,
+      "pass": false,
+      "verdict": "MARGINAL"
+    }
+  },
+  "stability": {
+    "first_half": 0.6084070796460177,
+    "second_half": 0.5121412803532008,
+    "stable": false
+  },
+  "conclusion": {
+    "any_model_passes": true,
+    "best_model": "vol < Q20",
+    "best_accuracy": 0.592156862745098
+  }
+}
