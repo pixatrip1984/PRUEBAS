@@ -229,8 +229,11 @@ class CausalCyclePhase:
 
         correlations = {}
         for win in smooth_windows:
-            z_re = pd.Series(np.cos(theta_test)).rolling(win, center=True, min_periods=1).mean().to_numpy()
-            z_im = pd.Series(np.sin(theta_test)).rolling(win, center=True, min_periods=1).mean().to_numpy()
+            # center=False: causal smoothing only — avoids lookahead bias.
+            # center=True (old behavior) contaminated r by win/2 bars; with win=24
+            # and h=12 this made r=0.320 a 100% lookahead artifact.
+            z_re = pd.Series(np.cos(theta_test)).rolling(win, center=False, min_periods=max(1, win // 4)).mean().to_numpy()
+            z_im = pd.Series(np.sin(theta_test)).rolling(win, center=False, min_periods=max(1, win // 4)).mean().to_numpy()
             theta_s = np.angle(z_re + 1j * z_im)
             sin_s = np.sin(theta_s)
             correlations[win] = {}

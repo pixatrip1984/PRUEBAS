@@ -1,0 +1,92 @@
+{
+  "experiment": "05_direction_model_v1",
+  "data": "data\\BTCUSDT_1h.csv",
+  "umap_train_size": 27000,
+  "ml_train_size": 15000,
+  "horizon_bars": 12,
+  "critical_finding": {
+    "lookahead_bug": "fit_and_evaluate used center=True smoothing (win/2 lookahead). Fixed to center=False.",
+    "corrected_r_oos": -0.031,
+    "old_r_oos_was_artifact": "r=0.320 (center=True, win=24, h=12) was 100% lookahead artifact",
+    "causal_correlations_sin_theta_24h": -0.0417,
+    "ring_radius_future_vol_12h": -0.2867,
+    "ring_radius_interpretation": "Large radius = market on ring = low future volatility"
+  },
+  "logistic": {
+    "n_train": 15000,
+    "n_test": 4474,
+    "accuracy": 0.49418864550737596,
+    "baseline_accuracy": 0.5149754135002235,
+    "accuracy_vs_baseline": -0.02078676799284751,
+    "precision_up": 0.48716533259729505,
+    "precision_down": 0.5240893066980024,
+    "recall_up": 0.8133640552995391,
+    "recall_down": 0.1935763888888889,
+    "feature_importances": {
+      "sin_theta_6h": -0.0142,
+      "cos_theta_6h": -0.0535,
+      "sin_theta_24h": -0.1184,
+      "cos_theta_24h": 0.0654,
+      "sin_theta_72h": -0.2573,
+      "cos_theta_72h": -0.3045,
+      "ring_radius": 0.0492,
+      "vol_20": 0.0354,
+      "lr_z20": 0.0147
+    },
+    "verdict": "FAIL"
+  },
+  "logistic_poly": {
+    "accuracy": 0.48971837282074204,
+    "accuracy_vs_baseline": -0.025257040679481424
+  },
+  "rf": {
+    "accuracy": 0.478766204738489,
+    "accuracy_vs_baseline": -0.036209208761734446,
+    "feature_importances": {
+      "sin_theta_6h": 0.0329,
+      "cos_theta_6h": 0.03,
+      "sin_theta_24h": 0.2159,
+      "cos_theta_24h": 0.1869,
+      "sin_theta_72h": 0.1645,
+      "cos_theta_72h": 0.1403,
+      "ring_radius": 0.0582,
+      "vol_20": 0.1457,
+      "lr_z20": 0.0254
+    }
+  },
+  "lgbm": null,
+  "stability": {
+    "first_half_accuracy": 0.494859186410371,
+    "second_half_accuracy": 0.4935181046043809,
+    "stability": "stable"
+  },
+  "ablation": {
+    "cycle_6h": {
+      "accuracy": 0.49932945909700494,
+      "delta_vs_full": 0.0051
+    },
+    "cycle_24h": {
+      "accuracy": 0.4830129637907912,
+      "delta_vs_full": -0.0112
+    },
+    "cycle_72h": {
+      "accuracy": 0.4892713455520787,
+      "delta_vs_full": -0.0049
+    },
+    "ring_radius": {
+      "accuracy": 0.4930710773357175,
+      "delta_vs_full": -0.0011
+    },
+    "financial": {
+      "accuracy": 0.5004470272686634,
+      "delta_vs_full": 0.0063
+    }
+  },
+  "causal_correlations": {
+    "sin_theta_24h": -0.0417,
+    "cos_theta_24h": 0.0339,
+    "sin_theta_6h": -0.0112,
+    "sin_theta_72h": -0.0233,
+    "ring_radius": -0.0119
+  }
+}

@@ -1,0 +1,125 @@
+{
+  "experiment": "07_vol_regime_v1",
+  "data": "data\\BTCUSDT_1h.csv",
+  "umap_train_size": 27000,
+  "ml_train_size": 15000,
+  "horizon_bars": 12,
+  "threshold_median": 0.0038215472114696107,
+  "models": {
+    "LOGISTIC: vol_20 only": {
+      "model_type": "logistic",
+      "feature_cols": [
+        "vol_20"
+      ],
+      "accuracy": 0.6119803308001788,
+      "baseline": 0.5529727313366115,
+      "vs_baseline": 0.05900759946356726,
+      "precision_high": 0.6628420123565755,
+      "recall_high": 0.6071139854486661,
+      "precision_low": 0.5597826086956522,
+      "recall_low": 0.618,
+      "pass": true
+    },
+    "LOGISTIC: phase_24h + vol_20": {
+      "model_type": "logistic",
+      "feature_cols": [
+        "sin_theta_24h",
+        "cos_theta_24h",
+        "vol_20"
+      ],
+      "accuracy": 0.6097451944568618,
+      "baseline": 0.5529727313366115,
+      "vs_baseline": 0.056772463120250305,
+      "precision_high": 0.659369527145359,
+      "recall_high": 0.608730800323363,
+      "precision_low": 0.5579908675799087,
+      "recall_low": 0.611,
+      "pass": true
+    },
+    "LOGISTIC: phase_24h + ring_radius + vol_20": {
+      "model_type": "logistic",
+      "feature_cols": [
+        "sin_theta_24h",
+        "cos_theta_24h",
+        "ring_radius",
+        "vol_20"
+      ],
+      "accuracy": 0.6137684398748323,
+      "baseline": 0.5529727313366115,
+      "vs_baseline": 0.060795708538220805,
+      "precision_high": 0.6677158273381295,
+      "recall_high": 0.6002425222312046,
+      "precision_low": 0.5604444444444444,
+      "recall_low": 0.6305,
+      "pass": true
+    },
+    "LOGISTIC: all phase + vol_20": {
+      "model_type": "logistic",
+      "feature_cols": [
+        "sin_theta_24h",
+        "cos_theta_24h",
+        "sin_theta_72h",
+        "cos_theta_72h",
+        "ring_radius",
+        "vol_20",
+        "lr_z20"
+      ],
+      "accuracy": 0.6231560125167636,
+      "baseline": 0.5529727313366115,
+      "vs_baseline": 0.07018328118015205,
+      "precision_high": 0.6732629727352683,
+      "recall_high": 0.6188358932902183,
+      "precision_low": 0.5713636363636364,
+      "recall_low": 0.6285,
+      "pass": true
+    },
+    "RF:       phase_24h + ring_radius + vol_20": {
+      "model_type": "rf",
+      "feature_cols": [
+        "sin_theta_24h",
+        "cos_theta_24h",
+        "ring_radius",
+        "vol_20"
+      ],
+      "accuracy": 0.6236030397854269,
+      "baseline": 0.5529727313366115,
+      "vs_baseline": 0.07063030844881535,
+      "precision_high": 0.6805301645338209,
+      "recall_high": 0.6018593371059013,
+      "precision_low": 0.5691163604549432,
+      "recall_low": 0.6505,
+      "pass": true
+    },
+    "RF:       all phase + vol_20": {
+      "model_type": "rf",
+      "feature_cols": [
+        "sin_theta_24h",
+        "cos_theta_24h",
+        "sin_theta_72h",
+        "cos_theta_72h",
+        "ring_radius",
+        "vol_20",
+        "lr_z20"
+      ],
+      "accuracy": 0.6086276262852034,
+      "baseline": 0.5529727313366115,
+      "vs_baseline": 0.05565489494859188,
+      "precision_high": 0.6537643555933645,
+      "recall_high": 0.6212611156022635,
+      "precision_low": 0.5586434291097504,
+      "recall_low": 0.593,
+      "pass": true
+    }
+  },
+  "regression_to_binary_accuracy": 0.6327670987930264,
+  "stability": {
+    "first_half": 0.589181940098346,
+    "second_half": 0.6383549396513187,
+    "stable": false
+  },
+  "conclusion": {
+    "best_model": "RF:       phase_24h + ring_radius + vol_20",
+    "best_accuracy": 0.6236030397854269,
+    "beats_58pct_target": true
+  }
+}

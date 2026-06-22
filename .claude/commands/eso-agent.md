@@ -345,33 +345,38 @@ BTC compact features contienen un anillo S¹ no-lineal (UMAP-2D radius CV=0.279)
 Este anillo es invisible a SVD (CV=0.823) pero visible bajo UMAP.
 El S¹ NO está en ningún par 2D aislado — es una propiedad emergente de los 4 features coordinados.
 
-**El instrumento validado:**
+**El instrumento — estado actual:**
 ```python
-from eso.signals.causal_cycle import CausalCyclePhase
 from eso.signals.feature_vector import build_feature_vector
-
-# OOS: entrena en 2021-2024, prueba en 2024-2026
 fv = build_feature_vector(df, train_size=27000)
-# fv contiene: sin_theta_6h, cos_theta_6h, sin_theta_24h, cos_theta_24h,
-#              sin_theta_72h, cos_theta_72h, ring_radius, vol_20, lr_z20
-
-# Producción: UMAP rolling, refit cada 2000 bars
-from eso.signals.feature_vector import CausalFeatureBuilder
-builder = CausalFeatureBuilder(init_train=10000, refit_every=2000)
-fv = builder.fit_predict(df)
+# fv: sin_theta_6h/24h/72h, cos_theta_6h/24h/72h, ring_radius, vol_20, lr_z20
 ```
 
-**Resultados de validación causal:**
-- Train: 27,000 bars (2021-01 → 2024-01)
-- Test: 19,558 bars (2024-01 → 2026-04) — UMAP nunca vio este período
+**CORRECCION CRITICA (2026-05-12): lookahead bug en fit_and_evaluate**
+`fit_and_evaluate` usaba `center=True` en smoothing = lookahead de win/2 barras.
+Con win=24, h=12: lookahead = horizonte = 100% artefacto. FIJADO a `center=False`.
 
-| Smooth | Horizonte | r_OOS | Transductivo |
-|--------|-----------|-------|--------------|
-| 24h    | +12h      | **0.320** | 0.291 |
-| 72h    | +48h      | 0.233 | 0.237 |
-| 168h   | +72h      | 0.244 | 0.201 |
+| Metodologia | r | Conclusion |
+|---|---|---|
+| `center=True` (OLD, contaminado) | **0.320** | Artefacto de lookahead |
+| `center=False` (FIXED, causal) | **-0.031** | Sin senal de direccion |
 
-r_OOS > r_transductivo: el ciclo se fortalece en 2024-2026 (mayor actividad algorítmica).
+**El anillo S1 ES real** (ring_cv=0.279) pero su fase NO predice retornos causalmente.
+
+**Senal genuina: FASE DEL CICLO predice volatilidad futura (causal, validado)**
+- Experiment 06 (feat/volatility-signal-v1): PASS — todos los modelos superan GARCH-0
+- Mejor modelo: Ridge [sin/cos_24h + ring_radius + vol_20], MAE -12.9% vs GARCH-0, r=+0.398
+- ring_radius: partial_r = -0.052 vs rv_12h (controlando vol_20)
+- sin_theta_24h: partial_r = -0.152 ← PRINCIPAL contribucion independiente
+- cos_theta_24h: partial_r = +0.125
+- sin_theta_72h: partial_r = -0.143, cos_theta_72h: +0.128
+
+Interpretacion: la FASE del ciclo (donde esta el mercado en el anillo) predice
+volatilidad mejor que ring_radius. Mercados en ciertas fases tienden a volatilidad baja.
+
+**Direction model (feat/direction-model-v1): FAIL**
+- Logistic/RF/poly: accuracy ~49% < baseline 51.5%
+- Consistente con r_causal = -0.031 (no senal de direccion)
 
 **Estructura de períodos (multi-escala):**
 - 12h — ritmo AM/PM (intraday, potencia dominante)
@@ -435,32 +440,32 @@ print(fv[['sin_theta_24h','cos_theta_24h','ring_radius','vol_20']].describe())
 
 ## 10. Próximos experimentos
 
-### Prioridad alta: validar señal en datos 3m
+### COMPLETADO: direction model v1 (feat/direction-model-v1, 2026-05-12)
+Resultado: FAIL. Bug lookahead en fit_and_evaluate: center=True = artefacto.
+r_causal = -0.031 (no senal de direccion). ring_radius SI predice vol (r=-0.287).
 
-**Hipótesis:** El mismo ciclo S¹ existe en features 3m. Si r_OOS >= 0.15, el instrumento funciona multi-timeframe.
+### COMPLETADO: validacion en datos sub-hora (exp/causal-signal-3m, 2026-05-12)
+Umbral de resolucion S1: >=15min. 1-min: r=0.055 (weak). Ver reports/causal_1m/.
 
-**Rama:** `exp/causal-signal-3m`
+### COMPLETADO: volatility model v1 (feat/volatility-signal-v1, 2026-05-12)
+Resultado: PASS. Todas las configs superan GARCH-0. Best: Ridge [sin/cos_24h + ring_r + vol_20].
+r_OOS=+0.398, MAE -12.9% vs GARCH-0. Phase features (partial_r ±0.13-0.15) > ring_radius (-0.052).
+Ver reports/volatility_signal_v1/.
 
-**Pasos:**
-1. `python -m eso.cli explore data/btc_3m/splits/train.parquet --klines-format --feature-mode compact --projection-method umap`
-2. `CausalCyclePhase(train_size=40000).fit_and_evaluate(df_3m, horizon_h=60)` — horizonte ~3h equivalente
-3. Comparar r_OOS con el 1h (0.320)
+### COMPLETADO: refutacion fase->vol (exp/phase-vol-mechanism, 2026-05-12)
+d_vol20 vs phase: phase_24h (MAE=0.001691) SUPERA a d_vol20 (0.001699) en MAE comparison.
+partial_r(sin_theta_24h | vol_20, d_vol20) = -0.059 (reducido pero positivo).
+VEREDICTO: refutacion rechazada. Phase encapsula mas que momentum de volatilidad.
 
-### Prioridad alta: primer modelo predictivo con las features
+### Prioridad media: volatility regime classifier
 
-**Hipótesis:** Un modelo simple (logistic regression o lightGBM) sobre `[sin_θ_24h, cos_θ_24h, ring_radius, vol_20, lr_z20]` logra accuracy direccional > 53% en OOS.
+**Hipotesis:** Clasificar high_vol / low_vol usando sin/cos_theta_24h + ring_radius alcanza
+>58% accuracy OOS en predecir si rv_12h > mediana.
 
-**Rama:** `feat/direction-model-v1`
+**Rama:** `feat/vol-regime-v1`
 
-**Pasos:**
-1. Usar `build_feature_vector(df, train_size=27000)` como dataset
-2. Target: `sign(log_return(t+12))` — dirección a +12h
-3. Entrenar sobre primeras 15k OOS rows, evaluar sobre últimas 4k
-4. Baseline: predecir siempre la dirección más frecuente
-5. No predecir magnitud, solo dirección
+### Prioridad media: s1_r2-UMAP + feature theta explicita
 
-### Prioridad media: s1_r2-UMAP + feature θ explícita → ¿supera 1.0x?
-
-**Hipótesis:** Añadir sin(θ_24h) y cos(θ_24h) como features adicionales al espacio compacto y re-evaluar s1_r2 bajo UMAP. Si ahora el círculo puede usarlas, debería acercarse a 1.0x.
+**Hipotesis:** Anadir sin/cos_theta como features extra al espacio compacto mejora s1_r2.
 
 **Rama:** `exp/s1r2-with-explicit-cycle`
