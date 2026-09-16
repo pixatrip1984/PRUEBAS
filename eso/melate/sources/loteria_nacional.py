@@ -10,7 +10,13 @@ import requests
 
 from ..schema import canonicalize_draws, validate_draws
 
-OFFICIAL_HISTORY_URL = "https://www.loterianacional.gob.mx/Documentos/Historicos/Melate.csv"
+# Datos Abiertos currently links the CSV from the comercializadores host.
+# Keep the www host as a fallback because Loteria Nacional has used both.
+OFFICIAL_HISTORY_URL = "https://comercializadores.loterianacional.gob.mx/Documentos/Historicos/Melate.csv"
+OFFICIAL_HISTORY_URLS = (
+    OFFICIAL_HISTORY_URL,
+    "https://www.loterianacional.gob.mx/Documentos/Historicos/Melate.csv",
+)
 DEFAULT_UA = "Mozilla/5.0 (compatible; ESO-MelateResearch/1.0; +research)"
 
 
@@ -50,12 +56,27 @@ def fetch_official_history(
     session: requests.Session | None = None,
 ) -> pd.DataFrame:
     s = session or requests.Session()
-    r = s.get(OFFICIAL_HISTORY_URL, timeout=timeout, headers={"User-Agent": DEFAULT_UA})
-    r.raise_for_status()
-    raw = r.content
-    if raw_dir is not None:
-        raw_dir = Path(raw_dir)
-        raw_dir.mkdir(parents=True, exist_ok=True)
-        stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-        (raw_dir / f"melate_official_{stamp}_{_sha256(raw)[:12]}.csv").write_bytes(raw)
-    return parse_official_csv_bytes(raw)
+    errors: list[str] = []
+
+    for url in OFFICIAL_HISTORY_URLS:
+        try:
+            r = s.get(url, timeout=timeout, headers={"User-Agent": DEFAULT_UA})
+            r.raise_for_status()
+            raw = r.content
+
+            # Reject HTML error/challenge pages that happen to return HTTP 200.
+            head = raw[:256].lstrip().lower()
+            if not raw or head.startswith(b"<!doctype html") or head.startswith(b"<html"):
+                raise ValueError("response is HTML, not the historical CSV")
+
+            if raw_dir is not None:
+                rd = Path(raw_dir)
+                rd.mkdir(parents=True, exist_ok=True)
+                stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+                (rd / f"melate_official_{stamp}_{_sha256(raw)[:12]}.csv").write_bytes(raw)
+
+            return parse_official_csv_bytes(raw, source_url=url)
+        except Exception as exc:
+            errors.append(f"{url}: {exc}")
+
+    raise RuntimeError("failed to download official Melate history; " + " | ".join(errors))
