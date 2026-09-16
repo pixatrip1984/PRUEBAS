@@ -1,0 +1,92 @@
+name: Melate historical ingestion
+
+on:
+  workflow_dispatch:
+    inputs:
+      from_contest:
+        description: First Melate contest to collect
+        required: false
+        default: "2800"
+      to_contest:
+        description: Last Melate contest to collect
+        required: false
+        default: "4265"
+  push:
+    branches:
+      - lab-unified
+    paths:
+      - ".github/workflows/melate-ingest.yml"
+      - "eso/melate/**"
+      - "scripts/build_melate_dataset.py"
+
+concurrency:
+  group: melate-historical-ingestion
+  cancel-in-progress: false
+
+jobs:
+  ingest:
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[melate-ingest]')
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      PYTHONUNBUFFERED: "1"
+      FROM_CONTEST: ${{ github.event.inputs.from_contest || '2800' }}
+      TO_CONTEST: ${{ github.event.inputs.to_contest || '4265' }}
+
+    steps:
+      - name: Checkout lab
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install minimal ingestion dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pandas requests pyarrow lxml pytest
+
+      - name: Run Melate unit tests
+        run: |
+          pytest -q tests/test_melate_schema.py tests/test_melate_reconcile.py tests/test_melate_e_parser.py
+
+      - name: Collect historical prize tables
+        run: |
+          python -u scripts/build_melate_dataset.py \
+            --from-contest "$FROM_CONTEST" \
+            --to-contest "$TO_CONTEST" \
+            --delay 0.45 \
+            --output data/melate/canonical \
+            --raw data/melate/raw
+
+      - name: Print coverage checkpoint
+        if: always()
+        run: |
+          if [ -f data/melate/canonical/manifest.json ]; then
+            cat data/melate/canonical/manifest.json
+          fi
+          if [ -f data/melate/canonical/coverage.csv ]; then
+            cat data/melate/canonical/coverage.csv
+          fi
+          if [ -f data/melate/raw/fetch_errors.csv ]; then
+            echo "fetch errors:"
+            python - <<'PY'
+          import pandas as pd
+          p = 'data/melate/raw/fetch_errors.csv'
+          df = pd.read_csv(p)
+          print(len(df))
+          print(df.head(20).to_string(index=False))
+          PY
+          fi
+
+      - name: Upload canonical dataset and provenance
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: melate-ingestion-${{ env.FROM_CONTEST }}-${{ env.TO_CONTEST }}
+          path: |
+            data/melate/canonical
+            data/melate/raw
+          if-no-files-found: warn
+          retention-days: 14
