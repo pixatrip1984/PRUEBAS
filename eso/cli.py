@@ -289,6 +289,71 @@ def cmd_explore(args) -> int:
     return 0
 
 
+def cmd_radiograph(args) -> int:
+    raw = read_table(args.path)
+    raw = _maybe_klines(raw, getattr(args, "klines_format", False))
+    raw = _slice_rows(raw, getattr(args, "skip_rows", None), args.max_rows)
+    structural_raw = raw.copy()
+
+    model_df, cols = _apply_feature_mode(
+        raw,
+        getattr(args, "feature_mode", None),
+        _columns(args.columns),
+    )
+    loaded = load_dataset(
+        model_df,
+        columns=cols,
+        normalize_method=args.normalize,
+    )
+
+    exogenous = None
+    if args.exogenous:
+        exogenous = read_table(args.exogenous)
+        exogenous = _slice_rows(
+            exogenous,
+            getattr(args, "skip_rows", None),
+            args.max_rows,
+        )
+
+    dataset_id = args.dataset_id or Path(args.path).stem
+    explorer = ESOExplorer(
+        use_soft_selector=bool(args.use_soft_selector),
+        lab_db_path=args.lab_db,
+    )
+    report = explorer.explore_and_radiograph(
+        loaded.data,
+        dataset_id=dataset_id,
+        raw_df=structural_raw,
+        exogenous_df=exogenous,
+        scale_s=args.scale,
+        manifolds=args.manifolds,
+        k=args.k,
+        mask_ratio=args.mask_ratio,
+        n_masks=args.n_masks,
+        seed=args.seed,
+        save=not args.no_registry,
+        validate=True,
+    )
+
+    out_dir = Path(args.output)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    json_path = out_dir / "radiography.json"
+    md_path = out_dir / "radiography.md"
+    json_path.write_text(
+        json.dumps(report["radiography"], indent=2, sort_keys=True, allow_nan=False),
+        encoding="utf-8",
+    )
+    md_path.write_text(report["radiography_markdown"], encoding="utf-8")
+
+    for statement in report["radiography"].get("formal_statements_es", []):
+        print(statement)
+    print(json.dumps({
+        "radiography_json": str(json_path),
+        "radiography_markdown": str(md_path),
+    }, indent=2, sort_keys=True))
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="python -m eso.cli", description="ESO agent-ready explorer")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -346,6 +411,30 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--registry", default="experiments/eso_registry.csv")
     p.add_argument("--no-registry", action="store_true")
     p.set_defaults(func=cmd_explore)
+
+    p = sub.add_parser("radiograph", help="Run ESO exploration and write a formal Mathematical Radiography")
+    p.add_argument("path")
+    p.add_argument("--dataset-id")
+    p.add_argument("--columns", nargs="+")
+    p.add_argument("--normalize", default="robust", choices=["none", "robust", "standard", "minmax"])
+    p.add_argument("--skip-rows", type=int, help="Skip first N rows before analysis")
+    p.add_argument("--max-rows", type=int)
+    p.add_argument("--klines-format", action="store_true",
+                   help="Normalise Binance Klines column names before feature engineering")
+    p.add_argument("--feature-mode", default="raw", choices=_FEATURE_MODES,
+                   help="Transform input to financial features before radiography")
+    p.add_argument("--manifolds", nargs="+", default=["circle", "sphere2", "torus2", "cylinder"])
+    p.add_argument("--k", type=int, default=6)
+    p.add_argument("--mask-ratio", type=float, default=0.25)
+    p.add_argument("--n-masks", type=int, default=3)
+    p.add_argument("--seed", type=int, default=123)
+    p.add_argument("--scale", default="4h")
+    p.add_argument("--exogenous", help="Optional CSV/parquet with exogenous indicators")
+    p.add_argument("--use-soft-selector", action="store_true")
+    p.add_argument("--lab-db", help="Optional SQLite RelationalLabStore path")
+    p.add_argument("--output", default="reports/radiography")
+    p.add_argument("--no-registry", action="store_true")
+    p.set_defaults(func=cmd_radiograph)
 
     p = sub.add_parser("backtest", help="Cost-aware backtest of a causal phase strategy")
     p.add_argument("path")
